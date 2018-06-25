@@ -13,7 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Extra.IPB", "..\B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.BRC.Api", "..\BioEngine.BRC.API\src\BioEngine.BRC.API\BioEngine.BRC.Api.csproj", "{076A1B3B-46BF-4A95-94BF-3D618FAD1573}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.BRC.Admin", "..\BioEngine.BRC.Admin\BioEngine.BRC.Admin.csproj", "{74D7F51C-4CEA-4245-A399-4096CFA30133}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution files", "Solution files", "{F7B97D8F-229F-4F48-BFD3-CD110CEAC362}"
+ProjectSection(SolutionItems) = preProject
+	docker-compose.yml = docker-compose.yml
+EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

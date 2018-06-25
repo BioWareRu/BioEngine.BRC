@@ -1,0 +1,27 @@
+version: "2"
+services:
+  postgres:
+    image: postgres:10.4
+    ports:
+      - 5432:5432
+    volumes:
+      - /var/lib/data/brc/postgres/10.4:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=brc
+      - POSTGRES_PASSWORD=123
+    restart: always
+  minio:
+    image: minio/minio
+    command: server /data
+    ports:
+      - 9876:9000
+    volumes:
+      - ./../minio/files:/data
+      - ./../minio/config:/root/.minio
+    environment:
+      - MINIO_ACCESS_KEY=2zdj83LPN4pTCREJ
+      - MINIO_SECRET_KEY=rQPjWQqtFqJbH3furiNc2i9vrpBYJint
+    restart: always
+      
+
+  
