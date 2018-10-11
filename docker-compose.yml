@@ -22,6 +22,22 @@ services:
       - MINIO_ACCESS_KEY=2zdj83LPN4pTCREJ
       - MINIO_SECRET_KEY=rQPjWQqtFqJbH3furiNc2i9vrpBYJint
     restart: always
+  ckfinder:
+    image: sonicgd/ckfinder-s3
+    ports:
+      - 8081:80
+    environment:
+      - CKFINDER_AUTH_URL=http://10.0.75.1:5000/v1/me
+      - CKFINDER_LICENSE_KEY=2244JVU8S9A13S2MZ3NJCLGZ17DC4
+      - CKFINDER_S3_BASE_URL=http://localhost:9876/brc/images
+      - CKFINDER_S3_ROOT=images
+      - CKFINDER_S3_VISIBILITY=public
+      - CKFINDER_S3_BUCKET=brc
+      - CKFINDER_S3_REGION=us-east-1
+      - CKFINDER_S3_ACCESS_KEY=2zdj83LPN4pTCREJ
+      - CKFINDER_S3_SECRET_KEY=rQPjWQqtFqJbH3furiNc2i9vrpBYJint
+      - CKFINDER_S3_ENDPOINT=http://minio:9000
+    restart: always
       
 
   
