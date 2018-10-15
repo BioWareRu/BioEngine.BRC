@@ -5,4 +5,5 @@
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=PC/@EntryIndexedValue">PC</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=PS/@EntryIndexedValue">PS</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=PS/@EntryIndexedValue">iOS</s:String>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=GRAYLOG/@EntryIndexedValue">True</s:Boolean>
 	</wpf:ResourceDictionary>
