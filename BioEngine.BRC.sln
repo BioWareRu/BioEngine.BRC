@@ -19,6 +19,7 @@ ProjectSection(SolutionItems) = preProject
 	..\BioEngine.Core\azure-pipelines.yml = ..\BioEngine.Core\azure-pipelines.yml
 	..\BioEngine.BRC.API\azure-pipelines.yml = ..\BioEngine.BRC.API\azure-pipelines.yml
 	..\BioEngine.Extra.IPB\azure-pipelines.yml = ..\BioEngine.Extra.IPB\azure-pipelines.yml
+	..\BioEngine.BRC.BioWare\azure-pipelines.yml = ..\BioEngine.BRC.BioWare\azure-pipelines.yml
 EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Extra.Twitter", "..\BioEngine.Extra.Twitter\src\BioEngine.Extra.Twitter\BioEngine.Extra.Twitter.csproj", "{7424EC8A-DCEE-4C46-B1D0-97769DAC5719}"
