@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
@@ -33,6 +33,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Site", "..\BioEngine.Core.Site\src\BioEngine.Core.Site\BioEngine.Core.Site.csproj", "{D86B7C17-3C79-40E6-96F3-0CE7843E2CEF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.BRC.BioWare", "..\BioEngine.BRC.BioWare\src\BioEngine.BRC.BioWare\BioEngine.BRC.BioWare.csproj", "{E61DCC27-5CC5-471A-B0DA-3396E5F6ED48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.BRC.Importer", "..\BioEngine.BRC.Importer\src\BioEngine.BRC.Importer\BioEngine.BRC.Importer.csproj", "{0CB48F2D-420D-436E-8DF1-691DE0E8C8BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -191,5 +193,17 @@ Global
 		{E61DCC27-5CC5-471A-B0DA-3396E5F6ED48}.Release|x64.Build.0 = Release|Any CPU
 		{E61DCC27-5CC5-471A-B0DA-3396E5F6ED48}.Release|x86.ActiveCfg = Release|Any CPU
 		{E61DCC27-5CC5-471A-B0DA-3396E5F6ED48}.Release|x86.Build.0 = Release|Any CPU
+		{0CB48F2D-420D-436E-8DF1-691DE0E8C8BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CB48F2D-420D-436E-8DF1-691DE0E8C8BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CB48F2D-420D-436E-8DF1-691DE0E8C8BE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0CB48F2D-420D-436E-8DF1-691DE0E8C8BE}.Debug|x64.Build.0 = Debug|Any CPU
+		{0CB48F2D-420D-436E-8DF1-691DE0E8C8BE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0CB48F2D-420D-436E-8DF1-691DE0E8C8BE}.Debug|x86.Build.0 = Debug|Any CPU
+		{0CB48F2D-420D-436E-8DF1-691DE0E8C8BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CB48F2D-420D-436E-8DF1-691DE0E8C8BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CB48F2D-420D-436E-8DF1-691DE0E8C8BE}.Release|x64.ActiveCfg = Release|Any CPU
+		{0CB48F2D-420D-436E-8DF1-691DE0E8C8BE}.Release|x64.Build.0 = Release|Any CPU
+		{0CB48F2D-420D-436E-8DF1-691DE0E8C8BE}.Release|x86.ActiveCfg = Release|Any CPU
+		{0CB48F2D-420D-436E-8DF1-691DE0E8C8BE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
