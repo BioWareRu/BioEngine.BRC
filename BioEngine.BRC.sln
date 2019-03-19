@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
@@ -20,6 +20,12 @@ ProjectSection(SolutionItems) = preProject
 	..\BioEngine.BRC.API\azure-pipelines.yml = ..\BioEngine.BRC.API\azure-pipelines.yml
 	..\BioEngine.Extra.IPB\azure-pipelines.yml = ..\BioEngine.Extra.IPB\azure-pipelines.yml
 	..\BioEngine.BRC.BioWare\azure-pipelines.yml = ..\BioEngine.BRC.BioWare\azure-pipelines.yml
+	..\BioEngine.BRC.Domain\azure-pipelines.yml = ..\BioEngine.BRC.Domain\azure-pipelines.yml
+	..\BioEngine.Core.Api\azure-pipelines.yml = ..\BioEngine.Core.Api\azure-pipelines.yml
+	..\BioEngine.Core.Infra\azure-pipelines.yml = ..\BioEngine.Core.Infra\azure-pipelines.yml
+	..\BioEngine.Core.Site\azure-pipelines.yml = ..\BioEngine.Core.Site\azure-pipelines.yml
+	..\BioEngine.Extra.Facebook\azure-pipelines.yml = ..\BioEngine.Extra.Facebook\azure-pipelines.yml
+	..\BioEngine.Extra.Twitter\azure-pipelines.yml = ..\BioEngine.Extra.Twitter\azure-pipelines.yml
 EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Extra.Twitter", "..\BioEngine.Extra.Twitter\src\BioEngine.Extra.Twitter\BioEngine.Extra.Twitter.csproj", "{7424EC8A-DCEE-4C46-B1D0-97769DAC5719}"
