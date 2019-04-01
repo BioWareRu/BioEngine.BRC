@@ -1,22 +1,47 @@
 version: '2'
 services:
-  postgres:
-    image: postgres:10.4
-    ports:
-      - 5432:5432
-    volumes:
-      - /var/lib/data/brc/postgres/10.4:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=brc
-      - POSTGRES_PASSWORD=123
-  minio:
-    image: minio/minio
-    command: server /data
-    ports:
-      - 9876:9000
-    volumes:
-      - ./../minio/files:/data
-      - ./../minio/config:/root/.minio
-    environment:
-      - MINIO_ACCESS_KEY=2zdj83LPN4pTCREJ
-      - MINIO_SECRET_KEY=rQPjWQqtFqJbH3furiNc2i9vrpBYJint
+    postgres:
+        image: postgres:10.4
+        ports:
+            - 5432:5432
+        volumes:
+            - /var/lib/data/brc/postgres/10.4:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_USER=brc
+            - POSTGRES_PASSWORD=123
+    minio:
+        image: minio/minio
+        command: server /data
+        ports:
+            - 9876:9000
+        volumes:
+            - ./../minio/files:/data
+            - ./../minio/config:/root/.minio
+        environment:
+            - MINIO_ACCESS_KEY=2zdj83LPN4pTCREJ
+            - MINIO_SECRET_KEY=rQPjWQqtFqJbH3furiNc2i9vrpBYJint
+    elasticsearch:
+        image: amazon/opendistro-for-elasticsearch:0.7.0
+        environment:
+            - http.host=0.0.0.0
+            - bootstrap.memory_lock=true # along with the memlock settings below, disables swapping
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
+            - http.port=9200 
+            - http.cors.enabled=true 
+            - http.cors.allow-origin=http://localhost:1358,http://127.0.0.1:1358 
+            - http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization 
+            - http.cors.allow-credentials=true
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - ./../es:/usr/share/elasticsearch/data
+            - ./../hunspell:/usr/share/elasticsearch/config/hunspell
+        ports:
+            - 9200:9200
+            - 9600:9600 # required for Performance Analyzer
+    dejavu:
+        image: appbaseio/dejavu
+        ports:
+          - 1358:1358
