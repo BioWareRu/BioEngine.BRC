@@ -43,6 +43,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.BRC.BioWare", "..
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.BRC.Importer", "..\BioEngine.BRC.Importer\src\BioEngine.BRC.Importer\BioEngine.BRC.Importer.csproj", "{0CB48F2D-420D-436E-8DF1-691DE0E8C8BE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Extra.Ads", "..\BioEngine.Extra.Ads\src\BioEngine.Extra.Ads\BioEngine.Extra.Ads.csproj", "{ADA1D521-C08F-4D54-930E-A0BAB00A71C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -197,6 +199,18 @@ Global
 		{0CB48F2D-420D-436E-8DF1-691DE0E8C8BE}.Release|x64.Build.0 = Release|Any CPU
 		{0CB48F2D-420D-436E-8DF1-691DE0E8C8BE}.Release|x86.ActiveCfg = Release|Any CPU
 		{0CB48F2D-420D-436E-8DF1-691DE0E8C8BE}.Release|x86.Build.0 = Release|Any CPU
+		{ADA1D521-C08F-4D54-930E-A0BAB00A71C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADA1D521-C08F-4D54-930E-A0BAB00A71C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADA1D521-C08F-4D54-930E-A0BAB00A71C9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ADA1D521-C08F-4D54-930E-A0BAB00A71C9}.Debug|x64.Build.0 = Debug|Any CPU
+		{ADA1D521-C08F-4D54-930E-A0BAB00A71C9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ADA1D521-C08F-4D54-930E-A0BAB00A71C9}.Debug|x86.Build.0 = Debug|Any CPU
+		{ADA1D521-C08F-4D54-930E-A0BAB00A71C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADA1D521-C08F-4D54-930E-A0BAB00A71C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADA1D521-C08F-4D54-930E-A0BAB00A71C9}.Release|x64.ActiveCfg = Release|Any CPU
+		{ADA1D521-C08F-4D54-930E-A0BAB00A71C9}.Release|x64.Build.0 = Release|Any CPU
+		{ADA1D521-C08F-4D54-930E-A0BAB00A71C9}.Release|x86.ActiveCfg = Release|Any CPU
+		{ADA1D521-C08F-4D54-930E-A0BAB00A71C9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
