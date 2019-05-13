@@ -27,6 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution files", "Solution 
 		..\BioEngine.Extra.Facebook\azure-pipelines.yml = ..\BioEngine.Extra.Facebook\azure-pipelines.yml
 		..\BioEngine.Extra.Twitter\azure-pipelines.yml = ..\BioEngine.Extra.Twitter\azure-pipelines.yml
 		docker-compose.yml = docker-compose.yml
+		..\BioEngine.Extra.Ads\azure-pipelines.yml = ..\BioEngine.Extra.Ads\azure-pipelines.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.Extra.Twitter", "..\BioEngine.Extra.Twitter\src\BioEngine.Extra.Twitter\BioEngine.Extra.Twitter.csproj", "{7424EC8A-DCEE-4C46-B1D0-97769DAC5719}"
