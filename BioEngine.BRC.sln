@@ -28,6 +28,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution files", "Solution 
 		..\BioEngine.Extra.Twitter\azure-pipelines.yml = ..\BioEngine.Extra.Twitter\azure-pipelines.yml
 		docker-compose.yml = docker-compose.yml
 		..\BioEngine.Extra.Ads\azure-pipelines.yml = ..\BioEngine.Extra.Ads\azure-pipelines.yml
+		..\BioEngine.BRC.Games\azure-pipelines.yml = ..\BioEngine.BRC.Games\azure-pipelines.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.Extra.Twitter", "..\BioEngine.Extra.Twitter\src\BioEngine.Extra.Twitter\BioEngine.Extra.Twitter.csproj", "{7424EC8A-DCEE-4C46-B1D0-97769DAC5719}"
@@ -57,6 +58,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Storage", "..\BioEngine.Core\src\BioEngine.Core.Storage\BioEngine.Core.Storage.csproj", "{3D33A134-DEF0-476F-A05B-021F41E37095}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Web", "..\BioEngine.Core\src\BioEngine.Core.Web\BioEngine.Core.Web.csproj", "{8427FC0E-2E0C-4211-A089-7CDF55F8C3DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.BRC.Games", "..\BioEngine.BRC.Games\src\BioEngine.BRC.Games\BioEngine.BRC.Games.csproj", "{C5106D93-3B60-4BCB-9FE4-8E1A5C27144C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -296,6 +299,18 @@ Global
 		{8427FC0E-2E0C-4211-A089-7CDF55F8C3DB}.Release|x64.Build.0 = Release|Any CPU
 		{8427FC0E-2E0C-4211-A089-7CDF55F8C3DB}.Release|x86.ActiveCfg = Release|Any CPU
 		{8427FC0E-2E0C-4211-A089-7CDF55F8C3DB}.Release|x86.Build.0 = Release|Any CPU
+		{C5106D93-3B60-4BCB-9FE4-8E1A5C27144C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5106D93-3B60-4BCB-9FE4-8E1A5C27144C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5106D93-3B60-4BCB-9FE4-8E1A5C27144C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C5106D93-3B60-4BCB-9FE4-8E1A5C27144C}.Debug|x64.Build.0 = Debug|Any CPU
+		{C5106D93-3B60-4BCB-9FE4-8E1A5C27144C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C5106D93-3B60-4BCB-9FE4-8E1A5C27144C}.Debug|x86.Build.0 = Debug|Any CPU
+		{C5106D93-3B60-4BCB-9FE4-8E1A5C27144C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5106D93-3B60-4BCB-9FE4-8E1A5C27144C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5106D93-3B60-4BCB-9FE4-8E1A5C27144C}.Release|x64.ActiveCfg = Release|Any CPU
+		{C5106D93-3B60-4BCB-9FE4-8E1A5C27144C}.Release|x64.Build.0 = Release|Any CPU
+		{C5106D93-3B60-4BCB-9FE4-8E1A5C27144C}.Release|x86.ActiveCfg = Release|Any CPU
+		{C5106D93-3B60-4BCB-9FE4-8E1A5C27144C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
