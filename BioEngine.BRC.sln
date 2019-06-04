@@ -68,6 +68,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.BRC.Migrations", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.BRC.Site", "..\BioEngine.BRC.Common\src\BioEngine.BRC.Site\BioEngine.BRC.Site.csproj", "{74CF1046-5BBC-46A2-BABA-61E79249CDB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Pages", "..\BioEngine.Core\src\BioEngine.Core.Pages\BioEngine.Core.Pages.csproj", "{E6F8F53C-A676-4AA3-B910-C5164CB87371}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Posts", "..\BioEngine.Core\src\BioEngine.Core.Posts\BioEngine.Core.Posts.csproj", "{F29785FC-16DC-4790-BAC5-1A1B7AE089D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -354,6 +358,30 @@ Global
 		{74CF1046-5BBC-46A2-BABA-61E79249CDB5}.Release|x64.Build.0 = Release|Any CPU
 		{74CF1046-5BBC-46A2-BABA-61E79249CDB5}.Release|x86.ActiveCfg = Release|Any CPU
 		{74CF1046-5BBC-46A2-BABA-61E79249CDB5}.Release|x86.Build.0 = Release|Any CPU
+		{E6F8F53C-A676-4AA3-B910-C5164CB87371}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6F8F53C-A676-4AA3-B910-C5164CB87371}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6F8F53C-A676-4AA3-B910-C5164CB87371}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E6F8F53C-A676-4AA3-B910-C5164CB87371}.Debug|x64.Build.0 = Debug|Any CPU
+		{E6F8F53C-A676-4AA3-B910-C5164CB87371}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E6F8F53C-A676-4AA3-B910-C5164CB87371}.Debug|x86.Build.0 = Debug|Any CPU
+		{E6F8F53C-A676-4AA3-B910-C5164CB87371}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6F8F53C-A676-4AA3-B910-C5164CB87371}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6F8F53C-A676-4AA3-B910-C5164CB87371}.Release|x64.ActiveCfg = Release|Any CPU
+		{E6F8F53C-A676-4AA3-B910-C5164CB87371}.Release|x64.Build.0 = Release|Any CPU
+		{E6F8F53C-A676-4AA3-B910-C5164CB87371}.Release|x86.ActiveCfg = Release|Any CPU
+		{E6F8F53C-A676-4AA3-B910-C5164CB87371}.Release|x86.Build.0 = Release|Any CPU
+		{F29785FC-16DC-4790-BAC5-1A1B7AE089D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F29785FC-16DC-4790-BAC5-1A1B7AE089D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F29785FC-16DC-4790-BAC5-1A1B7AE089D9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F29785FC-16DC-4790-BAC5-1A1B7AE089D9}.Debug|x64.Build.0 = Debug|Any CPU
+		{F29785FC-16DC-4790-BAC5-1A1B7AE089D9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F29785FC-16DC-4790-BAC5-1A1B7AE089D9}.Debug|x86.Build.0 = Debug|Any CPU
+		{F29785FC-16DC-4790-BAC5-1A1B7AE089D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F29785FC-16DC-4790-BAC5-1A1B7AE089D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F29785FC-16DC-4790-BAC5-1A1B7AE089D9}.Release|x64.ActiveCfg = Release|Any CPU
+		{F29785FC-16DC-4790-BAC5-1A1B7AE089D9}.Release|x64.Build.0 = Release|Any CPU
+		{F29785FC-16DC-4790-BAC5-1A1B7AE089D9}.Release|x86.ActiveCfg = Release|Any CPU
+		{F29785FC-16DC-4790-BAC5-1A1B7AE089D9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
