@@ -28,8 +28,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution files", "Solution 
 		..\BioEngine.BRC.Games\azure-pipelines.yml = ..\BioEngine.BRC.Games\azure-pipelines.yml
 		..\BioEngine.BRC.Common\azure-pipelines.yml = ..\BioEngine.BRC.Common\azure-pipelines.yml
 		..\BioEngine.BRC.Importer\azure-pipelines.yml = ..\BioEngine.BRC.Importer\azure-pipelines.yml
-		..\BioEngine.Core.Pages\azure-pipelines.yml = ..\BioEngine.Core.Pages\azure-pipelines.yml
-		..\BioEngine.Core.Posts\azure-pipelines.yml = ..\BioEngine.Core.Posts\azure-pipelines.yml
+		..\BioEngine.Pages\azure-pipelines.yml = ..\BioEngine.Pages\azure-pipelines.yml
+		..\BioEngine.Posts\azure-pipelines.yml = ..\BioEngine.Posts\azure-pipelines.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.Extra.Twitter", "..\BioEngine.Extra.Twitter\src\BioEngine.Extra.Twitter\BioEngine.Extra.Twitter.csproj", "{7424EC8A-DCEE-4C46-B1D0-97769DAC5719}"
@@ -70,9 +70,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.BRC.Migrations", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.BRC.Site", "..\BioEngine.BRC.Common\src\BioEngine.BRC.Site\BioEngine.BRC.Site.csproj", "{74CF1046-5BBC-46A2-BABA-61E79249CDB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Posts", "..\BioEngine.Core.Posts\src\BioEngine.Core.Posts\BioEngine.Core.Posts.csproj", "{13C6FFD9-85CB-4E74-863B-236BB31EC232}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Posts", "..\BioEngine.Posts\src\BioEngine.Posts\BioEngine.Posts.csproj", "{13C6FFD9-85CB-4E74-863B-236BB31EC232}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Pages", "..\BioEngine.Core.Pages\src\BioEngine.Core.Pages\BioEngine.Core.Pages.csproj", "{D0F4A23C-AD56-4658-B004-2B027524BF59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Pages", "..\BioEngine.Pages\src\BioEngine.Pages\BioEngine.Pages.csproj", "{D0F4A23C-AD56-4658-B004-2B027524BF59}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Social", "..\BioEngine.Core\src\BioEngine.Core.Social\BioEngine.Core.Social.csproj", "{491DF8EB-4CC5-48E2-8B0C-CCE06500559D}"
 EndProject
