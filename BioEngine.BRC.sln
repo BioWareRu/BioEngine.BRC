@@ -3,62 +3,62 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.Core", "..\BioEngine.Core\src\BioEngine.Core\BioEngine.Core.csproj", "{44D74BDF-1623-43C4-9388-EA42F17371C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.Core", "..\..\BioEngine\BioEngine.Core\src\BioEngine.Core\BioEngine.Core.csproj", "{44D74BDF-1623-43C4-9388-EA42F17371C8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.Core.API", "..\BioEngine.Core.API\src\BioEngine.Core.API\BioEngine.Core.API.csproj", "{A096BA1E-3FCA-4860-8050-4D96D90FC49F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.Core.API", "..\..\BioEngine\BioEngine.Core.API\src\BioEngine.Core.API\BioEngine.Core.API.csproj", "{A096BA1E-3FCA-4860-8050-4D96D90FC49F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.Extra.IPB", "..\BioEngine.Extra.IPB\src\BioEngine.Extra.IPB\BioEngine.Extra.IPB.csproj", "{E4442443-C7B1-4501-8835-439A604E7306}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.Extra.IPB", "..\..\BioEngine\BioEngine.Extra.IPB\src\BioEngine.Extra.IPB\BioEngine.Extra.IPB.csproj", "{E4442443-C7B1-4501-8835-439A604E7306}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.BRC.Api", "..\BioEngine.BRC.API\src\BioEngine.BRC.API\BioEngine.BRC.Api.csproj", "{076A1B3B-46BF-4A95-94BF-3D618FAD1573}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution files", "Solution files", "{F7B97D8F-229F-4F48-BFD3-CD110CEAC362}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		..\BioEngine.Core\azure-pipelines.yml = ..\BioEngine.Core\azure-pipelines.yml
+		..\BioEngine.Core\azure-pipelines.yml = ..\..\BioEngine\BioEngine.Core\azure-pipelines.yml
 		..\BioEngine.BRC.API\azure-pipelines.yml = ..\BioEngine.BRC.API\azure-pipelines.yml
-		..\BioEngine.Extra.IPB\azure-pipelines.yml = ..\BioEngine.Extra.IPB\azure-pipelines.yml
+		..\BioEngine.Extra.IPB\azure-pipelines.yml = ..\..\BioEngine\BioEngine.Extra.IPB\azure-pipelines.yml
 		..\BioEngine.BRC.BioWare\azure-pipelines.yml = ..\BioEngine.BRC.BioWare\azure-pipelines.yml
-		..\BioEngine.Core.Api\azure-pipelines.yml = ..\BioEngine.Core.Api\azure-pipelines.yml
-		..\BioEngine.Core.Infra\azure-pipelines.yml = ..\BioEngine.Core.Infra\azure-pipelines.yml
-		..\BioEngine.Core.Site\azure-pipelines.yml = ..\BioEngine.Core.Site\azure-pipelines.yml
-		..\BioEngine.Extra.Facebook\azure-pipelines.yml = ..\BioEngine.Extra.Facebook\azure-pipelines.yml
-		..\BioEngine.Extra.Twitter\azure-pipelines.yml = ..\BioEngine.Extra.Twitter\azure-pipelines.yml
+		..\BioEngine.Core.Api\azure-pipelines.yml = ..\..\BioEngine\BioEngine.Core.Api\azure-pipelines.yml
+		..\BioEngine.Core.Infra\azure-pipelines.yml = ..\..\BioEngine\BioEngine.Core.Infra\azure-pipelines.yml
+		..\BioEngine.Core.Site\azure-pipelines.yml = ..\..\BioEngine\BioEngine.Core.Site\azure-pipelines.yml
+		..\BioEngine.Extra.Facebook\azure-pipelines.yml = ..\..\BioEngine\BioEngine.Extra.Facebook\azure-pipelines.yml
+		..\BioEngine.Extra.Twitter\azure-pipelines.yml = ..\..\BioEngine\BioEngine.Extra.Twitter\azure-pipelines.yml
 		docker-compose.yml = docker-compose.yml
-		..\BioEngine.Extra.Ads\azure-pipelines.yml = ..\BioEngine.Extra.Ads\azure-pipelines.yml
+		..\BioEngine.Extra.Ads\azure-pipelines.yml = ..\..\BioEngine\BioEngine.Extra.Ads\azure-pipelines.yml
 		..\BioEngine.BRC.Games\azure-pipelines.yml = ..\BioEngine.BRC.Games\azure-pipelines.yml
 		..\BioEngine.BRC.Common\azure-pipelines.yml = ..\BioEngine.BRC.Common\azure-pipelines.yml
 		..\BioEngine.BRC.Importer\azure-pipelines.yml = ..\BioEngine.BRC.Importer\azure-pipelines.yml
-		..\BioEngine.Pages\azure-pipelines.yml = ..\BioEngine.Pages\azure-pipelines.yml
-		..\BioEngine.Posts\azure-pipelines.yml = ..\BioEngine.Posts\azure-pipelines.yml
+		..\BioEngine.Pages\azure-pipelines.yml = ..\..\BioEngine\BioEngine.Pages\azure-pipelines.yml
+		..\BioEngine.Posts\azure-pipelines.yml = ..\..\BioEngine\BioEngine.Posts\azure-pipelines.yml
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.Extra.Twitter", "..\BioEngine.Extra.Twitter\src\BioEngine.Extra.Twitter\BioEngine.Extra.Twitter.csproj", "{7424EC8A-DCEE-4C46-B1D0-97769DAC5719}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.Extra.Twitter", "..\..\BioEngine\BioEngine.Extra.Twitter\src\BioEngine.Extra.Twitter\BioEngine.Extra.Twitter.csproj", "{7424EC8A-DCEE-4C46-B1D0-97769DAC5719}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.Extra.Facebook", "..\BioEngine.Extra.Facebook\src\BioEngine.Extra.Facebook\BioEngine.Extra.Facebook.csproj", "{E1202462-91F2-4A65-963F-BDD48B46AC44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.Extra.Facebook", "..\..\BioEngine\BioEngine.Extra.Facebook\src\BioEngine.Extra.Facebook\BioEngine.Extra.Facebook.csproj", "{E1202462-91F2-4A65-963F-BDD48B46AC44}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.Core.Tests", "..\BioEngine.Core\tests\BioEngine.Core.Tests\BioEngine.Core.Tests.csproj", "{A14CCF99-5F48-4E20-9BC2-BE9EE91C663E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.Core.Tests", "..\..\BioEngine\BioEngine.Core\tests\BioEngine.Core.Tests\BioEngine.Core.Tests.csproj", "{A14CCF99-5F48-4E20-9BC2-BE9EE91C663E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.Core.Logging", "..\BioEngine.Core.Infra\src\BioEngine.Core.Logging\BioEngine.Core.Logging.csproj", "{5C3AA5E3-C8B3-40E2-A905-A4391F2C95D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.Core.Logging", "..\..\BioEngine\BioEngine.Core.Infra\src\BioEngine.Core.Logging\BioEngine.Core.Logging.csproj", "{5C3AA5E3-C8B3-40E2-A905-A4391F2C95D1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.Core.Site", "..\BioEngine.Core.Site\src\BioEngine.Core.Site\BioEngine.Core.Site.csproj", "{D86B7C17-3C79-40E6-96F3-0CE7843E2CEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.Core.Site", "..\..\BioEngine\BioEngine.Core.Site\src\BioEngine.Core.Site\BioEngine.Core.Site.csproj", "{D86B7C17-3C79-40E6-96F3-0CE7843E2CEF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.BRC.BioWare", "..\BioEngine.BRC.BioWare\src\BioEngine.BRC.BioWare\BioEngine.BRC.BioWare.csproj", "{E61DCC27-5CC5-471A-B0DA-3396E5F6ED48}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioEngine.BRC.Importer", "..\BioEngine.BRC.Importer\src\BioEngine.BRC.Importer\BioEngine.BRC.Importer.csproj", "{0CB48F2D-420D-436E-8DF1-691DE0E8C8BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Extra.Ads", "..\BioEngine.Extra.Ads\src\BioEngine.Extra.Ads\BioEngine.Extra.Ads.csproj", "{ADA1D521-C08F-4D54-930E-A0BAB00A71C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Extra.Ads", "..\..\BioEngine\BioEngine.Extra.Ads\src\BioEngine.Extra.Ads\BioEngine.Extra.Ads.csproj", "{ADA1D521-C08F-4D54-930E-A0BAB00A71C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Logging.Graylog", "..\BioEngine.Core.Infra\src\BioEngine.Core.Logging.Graylog\BioEngine.Core.Logging.Graylog.csproj", "{9BFB2B47-2F4E-4B46-8FE4-0A83F95059C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Logging.Graylog", "..\..\BioEngine\BioEngine.Core.Infra\src\BioEngine.Core.Logging.Graylog\BioEngine.Core.Logging.Graylog.csproj", "{9BFB2B47-2F4E-4B46-8FE4-0A83F95059C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Logging.Loki", "..\BioEngine.Core.Infra\src\BioEngine.Core.Logging.Loki\BioEngine.Core.Logging.Loki.csproj", "{A6CC7B7E-4A82-4377-BE0F-4F22AEAB2FFB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Logging.Loki", "..\..\BioEngine\BioEngine.Core.Infra\src\BioEngine.Core.Logging.Loki\BioEngine.Core.Logging.Loki.csproj", "{A6CC7B7E-4A82-4377-BE0F-4F22AEAB2FFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Search", "..\BioEngine.Core\src\BioEngine.Core.Search\BioEngine.Core.Search.csproj", "{2B2909A5-A800-4CF1-8AF6-EDD44B53013A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Search", "..\..\BioEngine\BioEngine.Core\src\BioEngine.Core.Search\BioEngine.Core.Search.csproj", "{2B2909A5-A800-4CF1-8AF6-EDD44B53013A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Seo", "..\BioEngine.Core\src\BioEngine.Core.Seo\BioEngine.Core.Seo.csproj", "{8619615B-769A-45A4-91D9-314476605392}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Seo", "..\..\BioEngine\BioEngine.Core\src\BioEngine.Core.Seo\BioEngine.Core.Seo.csproj", "{8619615B-769A-45A4-91D9-314476605392}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Storage", "..\BioEngine.Core\src\BioEngine.Core.Storage\BioEngine.Core.Storage.csproj", "{3D33A134-DEF0-476F-A05B-021F41E37095}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Storage", "..\..\BioEngine\BioEngine.Core\src\BioEngine.Core.Storage\BioEngine.Core.Storage.csproj", "{3D33A134-DEF0-476F-A05B-021F41E37095}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Web", "..\BioEngine.Core\src\BioEngine.Core.Web\BioEngine.Core.Web.csproj", "{8427FC0E-2E0C-4211-A089-7CDF55F8C3DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Web", "..\..\BioEngine\BioEngine.Core\src\BioEngine.Core.Web\BioEngine.Core.Web.csproj", "{8427FC0E-2E0C-4211-A089-7CDF55F8C3DB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.BRC.Games", "..\BioEngine.BRC.Games\src\BioEngine.BRC.Games\BioEngine.BRC.Games.csproj", "{C5106D93-3B60-4BCB-9FE4-8E1A5C27144C}"
 EndProject
@@ -70,13 +70,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.BRC.Migrations", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.BRC.Site", "..\BioEngine.BRC.Common\src\BioEngine.BRC.Site\BioEngine.BRC.Site.csproj", "{74CF1046-5BBC-46A2-BABA-61E79249CDB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Posts", "..\BioEngine.Posts\src\BioEngine.Posts\BioEngine.Posts.csproj", "{13C6FFD9-85CB-4E74-863B-236BB31EC232}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Posts", "..\..\BioEngine\BioEngine.Posts\src\BioEngine.Posts\BioEngine.Posts.csproj", "{13C6FFD9-85CB-4E74-863B-236BB31EC232}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Pages", "..\BioEngine.Pages\src\BioEngine.Pages\BioEngine.Pages.csproj", "{D0F4A23C-AD56-4658-B004-2B027524BF59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Pages", "..\..\BioEngine\BioEngine.Pages\src\BioEngine.Pages\BioEngine.Pages.csproj", "{D0F4A23C-AD56-4658-B004-2B027524BF59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Social", "..\BioEngine.Core\src\BioEngine.Core.Social\BioEngine.Core.Social.csproj", "{491DF8EB-4CC5-48E2-8B0C-CCE06500559D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Social", "..\..\BioEngine\BioEngine.Core\src\BioEngine.Core.Social\BioEngine.Core.Social.csproj", "{491DF8EB-4CC5-48E2-8B0C-CCE06500559D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Comments", "..\BioEngine.Core\src\BioEngine.Core.Comments\BioEngine.Core.Comments.csproj", "{1D2C1BC2-9916-43D5-83AA-3B15E51AFABE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.Core.Comments", "..\..\BioEngine\BioEngine.Core\src\BioEngine.Core.Comments\BioEngine.Core.Comments.csproj", "{1D2C1BC2-9916-43D5-83AA-3B15E51AFABE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
