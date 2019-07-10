@@ -21,7 +21,7 @@ services:
             - MINIO_ACCESS_KEY=2zdj83LPN4pTCREJ
             - MINIO_SECRET_KEY=rQPjWQqtFqJbH3furiNc2i9vrpBYJint
     elasticsearch:
-        image: amazon/opendistro-for-elasticsearch:0.8.0
+        image: amazon/opendistro-for-elasticsearch:0.9.0
         environment:
             - http.host=0.0.0.0
             - bootstrap.memory_lock=true # along with the memlock settings below, disables swapping
