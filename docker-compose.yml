@@ -5,7 +5,7 @@ services:
         ports:
             - 5432:5432
         volumes:
-            - /var/lib/data/brc/postgres/11.2:/var/lib/postgresql/data
+            - /var/data/brc/postgres/11.2:/var/lib/postgresql/data
         environment:
             - POSTGRES_USER=brc
             - POSTGRES_PASSWORD=123
@@ -15,8 +15,8 @@ services:
         ports:
             - 9876:9000
         volumes:
-            - ./../minio/files:/data
-            - ./../minio/config:/root/.minio
+            - /var/data/brc/minio/files:/data
+            - /var/data/brc/minio/config:/root/.minio
         environment:
             - MINIO_ACCESS_KEY=2zdj83LPN4pTCREJ
             - MINIO_SECRET_KEY=rQPjWQqtFqJbH3furiNc2i9vrpBYJint
@@ -35,8 +35,12 @@ services:
             memlock:
                 soft: -1
                 hard: -1
+            nproc: 65535
+            nofile:
+                soft: 20000
+                hard: 120000
         volumes:
-            - ./../es:/usr/share/elasticsearch/data
+            - /var/data/brc/es:/usr/share/elasticsearch/data
             - ./../hunspell:/usr/share/elasticsearch/config/hunspell
         ports:
             - 9200:9200
