@@ -53,6 +53,10 @@ ProjectSection(SolutionItems) = preProject
 	..\PatreonService\azure-pipelines.yml = ..\PatreonService\azure-pipelines.yml
 EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Admin", "Admin", "{65B416FA-86C6-4631-BEA7-CD5B06BBED0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioEngine.BRC.Admin", "..\BioEngine.BRC.Admin\src\BioEngine.BRC.Admin\BioEngine.BRC.Admin.csproj", "{19987992-1BA2-434B-9142-A179BEEAD7FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -147,6 +151,18 @@ Global
 		{957D79BA-AB7A-42C5-9845-5E34458D147C}.Release|x64.Build.0 = Release|Any CPU
 		{957D79BA-AB7A-42C5-9845-5E34458D147C}.Release|x86.ActiveCfg = Release|Any CPU
 		{957D79BA-AB7A-42C5-9845-5E34458D147C}.Release|x86.Build.0 = Release|Any CPU
+		{19987992-1BA2-434B-9142-A179BEEAD7FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19987992-1BA2-434B-9142-A179BEEAD7FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19987992-1BA2-434B-9142-A179BEEAD7FF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{19987992-1BA2-434B-9142-A179BEEAD7FF}.Debug|x64.Build.0 = Debug|Any CPU
+		{19987992-1BA2-434B-9142-A179BEEAD7FF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{19987992-1BA2-434B-9142-A179BEEAD7FF}.Debug|x86.Build.0 = Debug|Any CPU
+		{19987992-1BA2-434B-9142-A179BEEAD7FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19987992-1BA2-434B-9142-A179BEEAD7FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19987992-1BA2-434B-9142-A179BEEAD7FF}.Release|x64.ActiveCfg = Release|Any CPU
+		{19987992-1BA2-434B-9142-A179BEEAD7FF}.Release|x64.Build.0 = Release|Any CPU
+		{19987992-1BA2-434B-9142-A179BEEAD7FF}.Release|x86.ActiveCfg = Release|Any CPU
+		{19987992-1BA2-434B-9142-A179BEEAD7FF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -168,5 +184,7 @@ Global
 		{9B0642BB-D640-46A6-8300-4FD202CC5B47} = {A9E8D6B3-483E-4F36-9045-8132EFC1AD93}
 		{8234C551-31DA-4803-86B9-4EC82D76C9E6} = {74B9E6D9-D59E-4D29-8387-6CECADE15C7C}
 		{957D79BA-AB7A-42C5-9845-5E34458D147C} = {8234C551-31DA-4803-86B9-4EC82D76C9E6}
+		{65B416FA-86C6-4631-BEA7-CD5B06BBED0A} = {74B9E6D9-D59E-4D29-8387-6CECADE15C7C}
+		{19987992-1BA2-434B-9142-A179BEEAD7FF} = {65B416FA-86C6-4631-BEA7-CD5B06BBED0A}
 	EndGlobalSection
 EndGlobal
