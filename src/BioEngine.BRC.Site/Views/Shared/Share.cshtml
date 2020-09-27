@@ -1,0 +1,20 @@
+@model BioEngine.BRC.Site.ViewModels.ShareViewModel
+
+<a class="btn-sm btn-blue waves-effect waves-light" href="https://www.facebook.com/sharer/sharer.php?u=@Model.Url" title="Опубликовать ссылку в Facebook" onclick="window.open(this.href, 'Опубликовать ссылку в Facebook', 'width=640,height=436,toolbar=0,status=0'); return false">
+    <i class="fab fa-facebook-f fa-fw fa-inverse"></i>
+</a>
+
+<a class="btn-sm btn-blue waves-effect waves-light" href="https://twitter.com/intent/tweet?text=@Model.Title+@Model.Url" title="Опубликовать ссылку в Twitter" onclick="window.open(this.href, 'Опубликовать ссылку в Twitter', 'width=800,height=300,resizable=yes,toolbar=0,status=0'); return false">
+    <i class="fab fa-twitter fa-fw  fa-inverse"></i>
+</a>
+
+<a class="btn-sm btn-blue waves-effect waves-light" href="https://vk.com/share.php?url=@Model.Url" title="Опубликовать ссылку во ВКонтакте" onclick="window.open(this.href, 'Опубликовать ссылку во ВКонтакте', 'width=800,height=300,toolbar=0,status=0'); return false">
+    <i class="fab fa-vk fa-fw  fa-inverse"></i>
+</a>
+
+<a class="btn-sm btn-blue waves-effect waves-light" href="https://t.me/share/url?url=@Model.Url&title=@Model.Title" title="Поделиться ссылкой в Telegram" onclick="window.open(this.href, 'Поделиться ссылкой в Telegram', 'width=800,height=300,toolbar=0,status=0'); return false">
+    <i class="fab fa-telegram fa-fw  fa-inverse"></i>
+</a>
+<a class="btn-sm btn-blue waves-effect waves-light" href="https://getpocket.com/edit?url=@Model.Url&title=@Model.Title" title="Добавить ссылку в Pocket" target="_blank" rel=" noopener">
+    <i class="fab fa-get-pocket fa-fw  fa-inverse"></i>
+</a>

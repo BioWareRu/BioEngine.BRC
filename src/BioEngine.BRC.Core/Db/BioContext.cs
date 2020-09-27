@@ -1,7 +1,6 @@
 ﻿using BioEngine.BRC.Core.Entities;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
-using Sitko.Core.Db.Postgres;
 
 namespace BioEngine.BRC.Core.Db
 {
@@ -32,10 +31,6 @@ namespace BioEngine.BRC.Core.Db
             modelBuilder.Entity<Section>().HasIndex(s => s.IsPublished);
             modelBuilder.Entity<Section>().HasIndex(s => s.Type);
             modelBuilder.Entity<Section>().HasIndex(s => s.Url);
-            modelBuilder.Entity<Page>().HasIndex(p => p.IsPublished);
-            modelBuilder.Entity<Page>().HasIndex(p => p.Url).IsUnique();
-
-            modelBuilder.RegisterJsonConversion<PostTemplate, PostTemplateData>(t => t.Data, nameof(PostTemplate.Data));
         }
     }
 }

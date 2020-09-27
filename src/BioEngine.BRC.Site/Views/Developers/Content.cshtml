@@ -1,0 +1,35 @@
+@using BioEngine.BRC.Core
+@using BioEngine.BRC.Core.Routing
+@using Microsoft.AspNetCore.Routing
+@using Sitko.Core.Storage
+@model BioEngine.BRC.Web.Model.SectionContentListViewModel<BioEngine.BRC.Core.Entities.Developer, BioEngine.BRC.Posts.Entities.Post>
+@inject LinkGenerator LinkGenerator
+@inject IStorage<BRCStorageConfig> Storage
+@{
+    Layout = "~/Views/_Main.cshtml";
+}
+<div class="card mb-4">
+    @if (Model.Section.Data.HeaderPicture != null)
+    {
+        <img class="card-img-top" src="@Storage.PublicUri(Model.Section.Data.HeaderPicture)" alt="@Model.Section.Title"/>
+    }
+    <section class="card-body">
+        <header>
+            <h1 class="card-title">
+                @Model.Section.Title
+            </h1>
+        </header>
+    </section>
+</div>
+
+<section class="navbar navbar-dark p-2 mb-4">
+    <ul class="nav nav-pills darken-2">
+        <li class="nav-item">
+            <a class="nav-link" href="@LinkGenerator.GeneratePublicUrl(Model.Section)">О компании</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="@LinkGenerator.GenerateUrl(BrcDomainRoutes.DeveloperPosts, new {url = Model.Section.Url})">Публикации</a>
+        </li>
+    </ul>
+</section>
+<partial name="PostsList" model="@Model"/>

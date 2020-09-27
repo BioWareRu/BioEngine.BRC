@@ -1,0 +1,26 @@
+@model BioEngine.BRC.Core.Web.Models.BlockViewModel<BioEngine.BRC.Core.Entities.Blocks.TwitchBlock, BioEngine.BRC.Core.Entities.Blocks.TwitchBlockData>
+
+@{
+    string url;
+    if (!string.IsNullOrEmpty(Model.Block.Data.VideoId))
+    {
+        url = $"https://player.twitch.tv/?video=v{Model.Block.Data.VideoId}&autoplay=false";
+    }
+    else
+    {
+        url = !string.IsNullOrEmpty(Model.Block.Data.ChannelId) ?
+            $"https://player.twitch.tv/?channel={Model.Block.Data.ChannelId}&muted=true" :
+            $"https://player.twitch.tv/?collection={Model.Block.Data.CollectionId}";
+    }
+}
+<div class="embed-container">
+    @* ReSharper disable once Html.Obsolete *@
+    <iframe
+        class="lazyload"
+        allowfullscreen="allowfullscreen"
+        width="100%"
+        data-src="@url"
+        frameborder="0"
+        scrolling="no">
+    </iframe>
+</div>

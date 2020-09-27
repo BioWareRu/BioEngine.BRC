@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using BioEngine.BRC.Core.Properties;
 using BioEngine.BRC.Core.Users;
 using BioEngine.BRC.IPB.Api;
-using BioEngine.BRC.IPB.Models;
+using BioEngine.BRC.IPB.Entities;
 using JetBrains.Annotations;
 
 namespace BioEngine.BRC.IPB.Properties

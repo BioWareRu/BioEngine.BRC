@@ -1,0 +1,20 @@
+@using BioEngine.BRC.Core.Routing
+@using Microsoft.AspNetCore.Routing
+@model BioEngine.BRC.Core.Web.Models.BlockViewModel<BioEngine.BRC.Core.Entities.Blocks.CutBlock, BioEngine.BRC.Core.Entities.Blocks.CutBlockData>
+@inject LinkGenerator LinkGenerator
+<a href="@LinkGenerator.GeneratePublicUrl(Model.ContentEntity)" class="btn btn-primary btn-md waves-effect waves-light">
+    @{
+        if (string.IsNullOrEmpty(Model.Block.Data.ButtonText))
+        {
+            <text>
+                "Читать дальше"
+            </text>
+        }
+        else
+        {
+            <text>
+                @Model.Block.Data.ButtonText
+            </text>
+        }
+    }
+</a>

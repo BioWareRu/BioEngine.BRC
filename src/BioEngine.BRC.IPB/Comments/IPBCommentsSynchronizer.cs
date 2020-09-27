@@ -7,7 +7,6 @@ using BioEngine.BRC.Core.Properties;
 using BioEngine.BRC.Core.Repository;
 using BioEngine.BRC.IPB.Api;
 using BioEngine.BRC.IPB.Entities;
-using BioEngine.BRC.IPB.Models;
 using BioEngine.BRC.IPB.Properties;
 using BioEngine.BRC.IPB.Publishing;
 using Microsoft.EntityFrameworkCore;
@@ -56,7 +55,7 @@ namespace BioEngine.BRC.IPB.Comments
 
             var client = _ipbApiClientFactory.GetReadOnlyClient();
 
-            var posts = new List<Post>();
+            var posts = new List<ForumPost>();
 
             try
             {
@@ -95,7 +94,7 @@ namespace BioEngine.BRC.IPB.Comments
         {
             var records = await _dbContext.Set<IPBPublishRecord>().ToArrayAsync();
             var client = _ipbApiClientFactory.GetReadOnlyClient();
-            var posts = new List<Post>();
+            var posts = new List<ForumPost>();
             var topicsPosts = new Dictionary<int, List<int>>();
             foreach (var record in records)
             {
@@ -146,7 +145,7 @@ namespace BioEngine.BRC.IPB.Comments
             await _dbContext.SaveChangesAsync();
         }
 
-        private async Task ProcessPostsAsync(Post[] posts, IPBPublishRecord[] records)
+        private async Task ProcessPostsAsync(ForumPost[] posts, IPBPublishRecord[] records)
         {
             var postIds = posts.Select(p => p.Id).ToArray();
             var existingPosts = await _dbContext.Set<IPBComment>().Where(p => postIds.Contains(p.PostId)).ToListAsync();

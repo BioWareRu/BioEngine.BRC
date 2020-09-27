@@ -1,0 +1,35 @@
+@using BioEngine.BRC.Core
+@using BioEngine.BRC.Core.Extensions
+@using Sitko.Core.Storage
+@model BioEngine.BRC.Core.Web.Models.BlockViewModel<BioEngine.BRC.Core.Entities.Blocks.QuoteBlock, BioEngine.BRC.Core.Entities.Blocks.QuoteBlockData>
+@inject IStorage<BRCStorageConfig> Storage
+<blockquote class="blockquote">
+    <div>
+        @Html.Raw(Model.Block.Data.Text)
+    </div>
+    <footer class="author">
+        <cite>
+            @if (!string.IsNullOrEmpty(Model.Block.Data.Link))
+            {
+                if (!string.IsNullOrEmpty(Model.Block.Data.Author))
+                {
+                    <a href="@Model.Block.Data.Link">&mdash; @Model.Block.Data.Author</a>
+                }
+                else
+                {
+                    <a href="@Model.Block.Data.Link">Источник</a>
+                }
+            }
+            else if (!string.IsNullOrEmpty(Model.Block.Data.Author))
+            {
+                <text>&mdash; @Model.Block.Data.Author</text>
+            }
+        </cite>
+    </footer>
+</blockquote>
+@if (Model.Block.Data.Picture != null)
+{
+    <div class="picture">
+        <img src="@Storage.SmallThumbnailUri(Model.Block.Data.Picture)" alt="@Model.Block.Data.Picture.FileName"/>
+    </div>
+}

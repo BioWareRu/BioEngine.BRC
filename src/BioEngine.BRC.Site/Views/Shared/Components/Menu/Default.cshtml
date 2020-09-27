@@ -1,0 +1,10 @@
+@using BioEngine.BRC.Site.ViewComponents
+@model BioEngine.BRC.Core.Entities.Menu
+@if (Model != null)
+{
+    <partial name="Menu" model="@(new MenuLevel {Items = Model.Items, Level = 0})"/>
+}
+else
+{
+    <div>MENU</div>
+}

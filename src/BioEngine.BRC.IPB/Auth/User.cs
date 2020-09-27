@@ -2,7 +2,7 @@
 using System.Linq;
 using BioEngine.BRC.Core.Entities;
 using BioEngine.BRC.Core.Users;
-using BioEngine.BRC.IPB.Models;
+using BioEngine.BRC.IPB.Entities;
 
 namespace BioEngine.BRC.IPB.Auth
 {

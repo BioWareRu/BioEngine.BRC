@@ -146,7 +146,7 @@ namespace BioEngine.BRC.Core.Properties
 
         [
             PublicAPI]
-        public async Task<TProperties> GetAsync<TProperties>(IBioEntity entity, Guid? siteId = null)
+        public async Task<TProperties?> GetAsync<TProperties>(IBioEntity entity, Guid? siteId = null)
             where TProperties : PropertiesSet, new()
         {
             var schema = Schema.FirstOrDefault(s => s.Value.Type == typeof(TProperties));
@@ -281,7 +281,7 @@ namespace BioEngine.BRC.Core.Properties
                     }
 
                     var propertiesRecords = await _dbContext.Properties.Where(s =>
-                        s.EntityType == entityType && ids.Contains(s.EntityId)).ToListAsync();
+                        s.EntityId != null && s.EntityType == entityType && ids.Contains(s.EntityId.Value)).ToListAsync();
 
                     foreach (var entity in group)
                     {

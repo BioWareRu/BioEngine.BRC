@@ -11,9 +11,5 @@
     <PackageReference Include="Sitko.Core.Repository.EntityFrameworkCore" Version="4.0.0-beta.2" />
     <PackageReference Include="Sitko.Core.Search.ElasticSearch" Version="4.0.0-beta.2" />
     <PackageReference Include="Sitko.Core.Storage.S3" Version="4.0.0-beta.2" />
-    <PackageReference Include="cloudscribe.Syndication.Web" Version="3.1.0" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.24" />
-    <PackageReference Include="cloudscribe.Web.SiteMap" Version="4.1.0" />
-    <PackageReference Include="TweetinviAPI" Version="4.0.3" />
   </ItemGroup>
 </Project>

@@ -11,7 +11,8 @@ namespace BioEngine.BRC.IPB
     public static class BRCApplicationExtensions
     {
         public static BRCApplication
-            AddIpbUsers<TUsersModule, TConfig, TCurrentUserProvider>(this BRCApplication application, bool isAdmin = false)
+            AddIpbUsers<TUsersModule, TConfig, TCurrentUserProvider>(this BRCApplication application,
+                bool isAdmin = false)
             where TUsersModule : IPBUsersModule<TConfig, TCurrentUserProvider>
             where TConfig : IPBUsersModuleConfig, new()
             where TCurrentUserProvider : class, ICurrentUserProvider
@@ -35,40 +36,6 @@ namespace BioEngine.BRC.IPB
                     }
                 }
 
-                var adminPolicy = new AuthorizationPolicyBuilder().RequireClaim(ClaimTypes.Role, "admin").Build();
-                var siteTeamPolicy = new AuthorizationPolicyBuilder()
-                    .RequireClaim(ClaimTypes.GroupSid, siteTeamGroupId.ToString(), adminGroupId.ToString())
-                    .Build();
-                var policies = new Dictionary<string, AuthorizationPolicy>
-                {
-                    {BioPolicies.Admin, adminPolicy},
-                    {BrcPolicies.SiteTeam, siteTeamPolicy},
-                    // sections
-                    {BioPolicies.Sections, siteTeamPolicy},
-                    {BioPolicies.SectionsAdd, adminPolicy},
-                    {BioPolicies.SectionsEdit, adminPolicy},
-                    {BioPolicies.SectionsPublish, adminPolicy},
-                    {BioPolicies.SectionsDelete, adminPolicy},
-                    // posts
-                    {PostsPolicies.Posts, siteTeamPolicy},
-                    {PostsPolicies.PostsAdd, siteTeamPolicy},
-                    {PostsPolicies.PostsEdit, siteTeamPolicy},
-                    {PostsPolicies.PostsDelete, siteTeamPolicy},
-                    {PostsPolicies.PostsPublish, siteTeamPolicy},
-                    // pages
-                    {PagesPolicies.Pages, adminPolicy},
-                    {PagesPolicies.PagesAdd, adminPolicy},
-                    {PagesPolicies.PagesEdit, adminPolicy},
-                    {PagesPolicies.PagesDelete, adminPolicy},
-                    {PagesPolicies.PagesPublish, adminPolicy},
-                    // ads
-                    {AdsPolicies.Ads, adminPolicy},
-                    {AdsPolicies.AdsAdd, adminPolicy},
-                    {AdsPolicies.AdsEdit, adminPolicy},
-                    {AdsPolicies.AdsDelete, adminPolicy},
-                    {AdsPolicies.AdsPublish, adminPolicy}
-                };
-
                 moduleConfig.DevMode = devMode;
                 moduleConfig.AdminGroupId = adminGroupId;
                 moduleConfig.AdditionalGroupIds = additionalGroupIds.Distinct().ToArray();
@@ -87,11 +54,6 @@ namespace BioEngine.BRC.IPB
                 moduleConfig.AuthorizationEndpoint = configuration["BE_IPB_AUTHORIZATION_ENDPOINT"];
                 moduleConfig.TokenEndpoint = configuration["BE_IPB_TOKEN_ENDPOINT"];
                 moduleConfig.DataProtectionPath = configuration["BE_IPB_DATA_PROTECTION_PATH"];
-
-                foreach (var policy in policies)
-                {
-                    moduleConfig.Policies.Add(policy.Key, policy.Value);
-                }
             });
 
             return application;

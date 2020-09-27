@@ -1,16 +1,21 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Reflection;
 using System.Security.Claims;
 using BioEngine.BRC.Core.Db;
+using BioEngine.BRC.Core.Entities;
+using BioEngine.BRC.Core.Entities.Blocks;
 using BioEngine.BRC.Core.Policies;
+using BioEngine.BRC.Core.Properties;
+using BioEngine.BRC.Core.Search;
 using BioEngine.BRC.Core.Users;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Sitko.Core.App;
 using Sitko.Core.Db.Postgres;
 using Sitko.Core.ElasticStack;
 using Sitko.Core.Repository.EntityFrameworkCore;
+using Sitko.Core.Search;
 using Sitko.Core.Search.ElasticSearch;
 using Sitko.Core.Storage;
 using Sitko.Core.Storage.S3;
@@ -19,8 +24,55 @@ namespace BioEngine.BRC.Core
 {
     public abstract class BRCApplication : Application<BRCApplication>
     {
+        public static readonly string AdminRoleName = "admin";
+
+        public static readonly AuthorizationPolicy AdminPolicy = new AuthorizationPolicyBuilder()
+            .RequireClaim(ClaimTypes.Role, AdminRoleName)
+            .Build();
+
+        public static readonly string SiteTeamRoleName = "siteTeam";
+
+        public static readonly AuthorizationPolicy SiteTeamPolicy = new AuthorizationPolicyBuilder()
+            .RequireClaim(ClaimTypes.Role, SiteTeamRoleName)
+            .Build();
+
         protected BRCApplication(string[] args) : base(args)
         {
+            ConfigureServices(services =>
+            {
+                services.AddScoped<PropertiesProvider>();
+                services.RegisterSearchProvider<DevelopersSearchProvider, Developer, Guid>();
+                services.RegisterSearchProvider<GamesSearchProvider, Game, Guid>();
+                services.RegisterSearchProvider<TopicsSearchProvider, Topic, Guid>();
+
+                var registrar = BRCEntitiesRegistrar.Instance(services);
+                registrar.RegisterSection<Developer, DeveloperData>();
+                registrar.RegisterSection<Game, GameData>();
+                registrar.RegisterSection<Topic, TopicData>();
+
+                registrar.RegisterContentBlock<CutBlock, CutBlockData>();
+                registrar.RegisterContentBlock<FileBlock, FileBlockData>();
+                registrar.RegisterContentBlock<GalleryBlock, GalleryBlockData>();
+                registrar.RegisterContentBlock<IframeBlock, IframeBlockData>();
+                registrar.RegisterContentBlock<PictureBlock, PictureBlockData>();
+                registrar.RegisterContentBlock<QuoteBlock, QuoteBlockData>();
+                registrar.RegisterContentBlock<TextBlock, TextBlockData>();
+                registrar.RegisterContentBlock<TwitterBlock, TwitterBlockData>();
+                registrar.RegisterContentBlock<YoutubeBlock, YoutubeBlockData>();
+                registrar.RegisterContentBlock<TwitchBlock, TwitchBlockData>();
+
+                services.AddAuthorization(options =>
+                {
+                    options.AddPolicy(BioPolicies.Admin, AdminPolicy);
+                    options.AddPolicy(BrcPolicies.SiteTeam, SiteTeamPolicy);
+                    // sections
+                    options.AddPolicy(BioPolicies.Sections, SiteTeamPolicy);
+                    options.AddPolicy(BioPolicies.SectionsAdd, AdminPolicy);
+                    options.AddPolicy(BioPolicies.SectionsEdit, AdminPolicy);
+                    options.AddPolicy(BioPolicies.SectionsPublish, AdminPolicy);
+                    options.AddPolicy(BioPolicies.SectionsDelete, AdminPolicy);
+                });
+            });
         }
 
         protected override bool LoggingEnableConsole
@@ -48,7 +100,7 @@ namespace BioEngine.BRC.Core
         }
 
 
-        public BRCApplication AddPostgresDb(bool enablePooling = true)
+        public BRCApplication AddPostgresDb(bool enablePooling = true, Assembly? migrationsAssembly = null)
         {
             return AddModule<PostgresModule<BioContext>, PostgresDatabaseModuleConfig<BioContext>>(
                     (configuration, env, moduleConfig) =>
@@ -58,7 +110,7 @@ namespace BioEngine.BRC.Core
                         moduleConfig.Database = configuration["BE_POSTGRES_DATABASE"];
                         moduleConfig.Username = configuration["BE_POSTGRES_USERNAME"];
                         moduleConfig.Password = configuration["BE_POSTGRES_PASSWORD"];
-                        moduleConfig.MigrationsAssembly = typeof(BioContext).Assembly;
+                        moduleConfig.MigrationsAssembly = migrationsAssembly;
                         moduleConfig.EnableNpgsqlPooling = env.IsDevelopment();
                     }
                 )

@@ -6,6 +6,7 @@ using BioEngine.BRC.Core.Entities.Abstractions;
 using BioEngine.BRC.Core.Validation;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Sitko.Core.Repository;
@@ -141,11 +142,13 @@ namespace BioEngine.BRC.Core.Entities
             });
         }
 
-        public void RegisterEntity<TEntity>() where TEntity : class, IEntity
+        public void RegisterEntity<TEntity>(Action<EntityTypeBuilder<TEntity>>? configure = null)
+            where TEntity : class, IEntity
         {
             _modelBuilderConfigurators.Add(modelBuilder =>
             {
                 modelBuilder.Entity<TEntity>();
+                configure?.Invoke(modelBuilder.Entity<TEntity>());
                 var key = EntityExtensions.GetKey<TEntity>();
                 if (!_entities.ContainsKey(key))
                 {
@@ -156,7 +159,13 @@ namespace BioEngine.BRC.Core.Entities
 
         private readonly List<Action<ModelBuilder>> _modelBuilderConfigurators = new List<Action<ModelBuilder>>();
 
-        public void RegisterSiteEntity<TSiteEntity>()
+        public BRCEntitiesRegistrar ConfigureModelBuilder(Action<ModelBuilder> configure)
+        {
+            _modelBuilderConfigurators.Add(configure);
+            return this;
+        }
+
+        public void RegisterSiteEntity<TSiteEntity>(Action<EntityTypeBuilder<TSiteEntity>>? configure = null)
             where TSiteEntity : class, ISiteEntity
         {
             _serviceCollection.AddScoped<IValidator, SiteEntityValidator<TSiteEntity>>();
@@ -164,6 +173,7 @@ namespace BioEngine.BRC.Core.Entities
             _modelBuilderConfigurators.Add(modelBuilder =>
             {
                 modelBuilder.Entity<TSiteEntity>().HasIndex(e => e.SiteIds);
+                configure?.Invoke(modelBuilder.Entity<TSiteEntity>());
                 if (_requireArrayConversion)
                 {
                     RegisterSiteEntityConversions<TSiteEntity>(modelBuilder);

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BioEngine.BRC.Posts\BioEngine.BRC.Posts.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.Web\BioEngine.BRC.Web.csproj" />
+  </ItemGroup>
+
+</Project>

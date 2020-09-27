@@ -3,7 +3,9 @@ using BioEngine.BRC.Core.Entities;
 using BioEngine.BRC.Core.Properties;
 using BioEngine.BRC.IPB.Api;
 using BioEngine.BRC.IPB.Comments;
+using BioEngine.BRC.IPB.Entities;
 using BioEngine.BRC.IPB.Properties;
+using BioEngine.BRC.IPB.Publishing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,6 +32,10 @@ namespace BioEngine.BRC.IPB
         {
             PropertiesProvider.RegisterBioEngineProperties<IPBSitePropertiesSet, Site>("ipbsite");
 
+            var registrar = BRCEntitiesRegistrar.Instance(services);
+            registrar.RegisterEntity<IPBPublishRecord>();
+            registrar.RegisterEntity<IPBComment>();
+            
             services.AddSingleton(typeof(IPBModuleConfig), Config);
             services.AddSingleton(Config);
             services.AddSingleton<IPBApiClientFactory>();

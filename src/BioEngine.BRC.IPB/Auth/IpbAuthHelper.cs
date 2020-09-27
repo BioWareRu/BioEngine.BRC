@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
+using BioEngine.BRC.Core;
 using BioEngine.BRC.IPB.Api;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OAuth;
@@ -37,7 +38,8 @@ namespace BioEngine.BRC.IPB.Auth
                         OnCreatingTicket = async context =>
                         {
                             var factory = context.HttpContext.RequestServices.GetRequiredService<IPBApiClientFactory>();
-                            var ipbOptions = context.HttpContext.RequestServices.GetRequiredService<IPBUsersModuleConfig>();
+                            var ipbOptions = context.HttpContext.RequestServices
+                                .GetRequiredService<IPBUsersModuleConfig>();
                             var ipbApiClient = factory.GetClient(context.AccessToken);
                             var user = await ipbApiClient.GetUserAsync();
 
@@ -77,7 +79,12 @@ namespace BioEngine.BRC.IPB.Auth
             {
                 if (groups.Contains(options.AdminGroupId))
                 {
-                    identity.AddClaim(new Claim(ClaimTypes.Role, "admin"));
+                    identity.AddClaim(new Claim(ClaimTypes.Role, BRCApplication.AdminRoleName));
+                }
+
+                if (groups.Intersect(options.AdditionalGroupIds).Any() || groups.Contains(options.AdminGroupId))
+                {
+                    identity.AddClaim(new Claim(ClaimTypes.Role, BRCApplication.SiteTeamRoleName));
                 }
             }
         }

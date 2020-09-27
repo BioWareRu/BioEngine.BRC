@@ -27,7 +27,9 @@ namespace BioEngine.BRC.Core.Entities
             Expression<Func<T, bool>>? ex = null;
             foreach (var tag in tags)
             {
-                ex = ex == null ? post => post.TagIds.Contains(tag.Id) : ex.And(post => post.TagIds.Contains(tag.Id));
+                ex = ex == null
+                    ? contentItem => contentItem.TagIds.Contains(tag.Id)
+                    : ex.And(contentItem => contentItem.TagIds.Contains(tag.Id));
             }
 
             if (ex != null)

@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using BioEngine.BRC.IPB.Auth;
-using BioEngine.BRC.IPB.Models;
+using BioEngine.BRC.IPB.Entities;
 using Flurl.Http;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
@@ -156,12 +156,12 @@ namespace BioEngine.BRC.IPB.Api
             return GetAsync<User>($"core/members/{id}");
         }
 
-        public Task<Topic> GetTopicAsync(int topicId)
+        public Task<ForumTopic> GetTopicAsync(int topicId)
         {
-            return GetAsync<Topic>($"forums/topics/{topicId.ToString()}");
+            return GetAsync<ForumTopic>($"forums/topics/{topicId.ToString()}");
         }
 
-        public Task<Response<Post>> GetForumsPostsAsync(int[] forumIds, string? orderBy = null,
+        public Task<Response<ForumPost>> GetForumsPostsAsync(int[] forumIds, string? orderBy = null,
             bool orderDescending = false, int page = 1, int perPage = 100)
         {
             if (forumIds == null || forumIds.Length == 0)
@@ -182,12 +182,12 @@ namespace BioEngine.BRC.IPB.Api
 
             url += $"&forums={string.Join(',', forumIds)}";
 
-            return GetAsync<Response<Post>>(url);
+            return GetAsync<Response<ForumPost>>(url);
         }
 
-        public Task<Response<Post>> GetTopicPostsAsync(int topicId, int page = 1, int perPage = 25)
+        public Task<Response<ForumPost>> GetTopicPostsAsync(int topicId, int page = 1, int perPage = 25)
         {
-            return GetAsync<Response<Post>>(
+            return GetAsync<Response<ForumPost>>(
                 $"forums/topics/{topicId.ToString()}/posts?page={page.ToString()}&perPage={perPage.ToString()}");
         }
     }

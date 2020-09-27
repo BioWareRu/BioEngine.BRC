@@ -3,7 +3,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using BioEngine.BRC.Core.Users;
-using BioEngine.BRC.IPB.Models;
+using BioEngine.BRC.IPB.Entities;
 using Microsoft.AspNetCore.Http;
 
 namespace BioEngine.BRC.IPB.Auth

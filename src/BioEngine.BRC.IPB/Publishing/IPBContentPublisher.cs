@@ -4,11 +4,9 @@ using BioEngine.BRC.Core.Db;
 using BioEngine.BRC.Core.Entities;
 using BioEngine.BRC.Core.Entities.Abstractions;
 using BioEngine.BRC.Core.Publishing;
-using BioEngine.BRC.Core.Web;
 using BioEngine.BRC.IPB.Api;
-using BioEngine.BRC.IPB.Models;
+using BioEngine.BRC.IPB.Entities;
 using Microsoft.Extensions.Logging;
-using Topic = BioEngine.BRC.IPB.Models.Topic;
 
 namespace BioEngine.BRC.IPB.Publishing
 {
@@ -35,7 +33,7 @@ namespace BioEngine.BRC.IPB.Publishing
         protected override async Task<bool> DoDeleteAsync(IPBPublishRecord record, IPBPublishConfig config)
         {
             var apiClient = _apiClientFactory.GetPublishClient();
-            var result = await apiClient.PostAsync<TopicCreateModel, Topic>(
+            var result = await apiClient.PostAsync<TopicCreateModel, ForumTopic>(
                 $"forums/topics/{record.TopicId.ToString()}",
                 new TopicCreateModel {Hidden = 1});
             return result.Hidden;
@@ -63,7 +61,7 @@ namespace BioEngine.BRC.IPB.Publishing
             };
             if (record.TopicId == 0)
             {
-                var createdTopic = await apiClient.PostAsync<TopicCreateModel, Topic>("forums/topics", topic);
+                var createdTopic = await apiClient.PostAsync<TopicCreateModel, ForumTopic>("forums/topics", topic);
                 if (createdTopic.FirstPost != null)
                 {
                     record.TopicId = createdTopic.Id;
@@ -72,7 +70,7 @@ namespace BioEngine.BRC.IPB.Publishing
             }
             else
             {
-                await apiClient.PostAsync<TopicCreateModel, Topic>($"forums/topics/{record.TopicId.ToString()}", topic);
+                await apiClient.PostAsync<TopicCreateModel, ForumTopic>($"forums/topics/{record.TopicId.ToString()}", topic);
             }
 
             return record;

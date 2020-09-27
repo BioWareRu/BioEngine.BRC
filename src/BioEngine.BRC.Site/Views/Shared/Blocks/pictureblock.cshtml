@@ -1,0 +1,18 @@
+@using BioEngine.BRC.Core
+@using BioEngine.BRC.Core.Extensions
+@using Sitko.Core.Storage
+@model BioEngine.BRC.Core.Web.Models.BlockViewModel<BioEngine.BRC.Core.Entities.Blocks.PictureBlock, BioEngine.BRC.Core.Entities.Blocks.PictureBlockData>
+@inject IStorage<BRCStorageConfig> Storage
+@{
+    var image = Model.Block.Data.Picture;
+    var url = !string.IsNullOrEmpty(Model.Block.Data.Url) ? Model.Block.Data.Url : Storage.PublicUri(image).ToString();
+    var imgUrl = Storage.LargeThumbnailUri(image);
+}
+<div class="row">
+    <div class="col-md-12 mb-3">
+        <a href="@url" target="_blank">
+            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="@imgUrl" class="img-fluid z-depth-1 lazyload"
+                 alt="@image.FileName"/>
+        </a>
+    </div>
+</div>

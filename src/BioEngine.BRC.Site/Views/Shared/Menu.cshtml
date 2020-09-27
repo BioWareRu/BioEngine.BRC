@@ -1,0 +1,50 @@
+@using BioEngine.BRC.Site.ViewComponents
+@model BioEngine.BRC.Site.ViewComponents.MenuLevel
+
+@{
+    string ulClass;
+    string liClass;
+    string aClass;
+    if (Model.Level > 0)
+    {
+        ulClass = "dropdown-menu";
+        liClass = "";
+        aClass = "";
+    }
+    else
+    {
+        ulClass = "navbar-nav mr-auto darken";
+        liClass = "nav-item";
+        aClass = "nav-link waves-effect";
+    }
+}
+<ul class="@ulClass">
+    @foreach (var menuItem in Model.Items)
+    {
+        var url = string.IsNullOrEmpty(menuItem.Url) ? "#" : menuItem.Url;
+        string liSubClass = liClass;
+        string linkClass = aClass;
+        if (menuItem.Items.Any())
+        {
+            linkClass = aClass + " dropdown-toggle";
+            liSubClass = Model.Level > 0 ? liClass + "  dropdown-submenu" : liClass + "  dropdown";
+            url = "#";
+        }
+        <li class="@liSubClass">
+
+            @if (menuItem.Items.Any())
+            {
+                <a href="@url" class="@linkClass" data-toggle="dropdown">
+                    @menuItem.Label
+                </a>
+                <partial name="Menu" model="@(new MenuLevel {Items = menuItem.Items, Level = Model.Level + 1})"/>
+            }
+            else
+            {
+                <a href="@url" class="@linkClass">
+                    @menuItem.Label
+                </a>
+            }
+        </li>
+    }
+</ul>
