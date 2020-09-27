@@ -1,0 +1,44 @@
+{
+  "name": "bioengine.brc.admin",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev-cke": "webpack --config Web/ckeditor/webpack.config.js --mode=development",
+    "cke": "webpack --config Web/ckeditor/webpack.config.js --mode=production",
+    "dev": "webpack --config Web/scripts/webpack.config.js --mode=development",
+    "watch": "webpack --config Web/scripts/webpack.config.js --mode=development --watch",
+    "prod": "webpack --config Web/scripts/webpack.config.js --mode=production"
+  },
+  "author": "George Drak",
+  "license": "MIT",
+  "devDependencies": {
+    "@ckeditor/ckeditor5-autoformat": "^21.0.0",
+    "@ckeditor/ckeditor5-basic-styles": "^21.0.0",
+    "@ckeditor/ckeditor5-core": "^21.0.0",
+    "@ckeditor/ckeditor5-dev-utils": "^23.1.1",
+    "@ckeditor/ckeditor5-dev-webpack-plugin": "^23.1.1",
+    "@ckeditor/ckeditor5-editor-balloon": "^21.0.0",
+    "@ckeditor/ckeditor5-essentials": "^21.0.0",
+    "@ckeditor/ckeditor5-heading": "^21.0.0",
+    "@ckeditor/ckeditor5-indent": "^21.0.0",
+    "@ckeditor/ckeditor5-link": "^21.0.0",
+    "@ckeditor/ckeditor5-list": "^21.0.0",
+    "@ckeditor/ckeditor5-paragraph": "^21.0.0",
+    "@ckeditor/ckeditor5-theme-lark": "^21.0.0",
+    "css-loader": "^4.2.1",
+    "csso-webpack-plugin": "^2.0.0-beta.1",
+    "file-loader": "^6.0.0",
+    "mini-css-extract-plugin": "^0.9.0",
+    "node-sass": "^4.14.1",
+    "postcss-loader": "^3.0.0",
+    "raw-loader": "^4.0.1",
+    "sass-loader": "^9.0.3",
+    "style-loader": "^1.2.1",
+    "terser-webpack-plugin": "^4.1.0",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  },
+  "dependencies": {
+    "@shopify/draggable": "^1.0.0-beta.11"
+  }
+}

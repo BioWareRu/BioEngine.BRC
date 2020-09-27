@@ -1,0 +1,21 @@
+﻿@using Sitko.Core.Storage
+@using BioEngine.BRC.Core
+@using BioEngine.BRC.Core.Entities.Blocks
+@inject IStorage<BRCStorageConfig> Storage
+
+<div>
+    <img src="@Storage.PublicUri(Block.Data.Picture)"/>
+    <RadzenIcon Icon="delete" @onclick="DeleteImg"/>
+</div>
+
+@code
+{
+    [Parameter]
+    public PictureBlock Block { get; set; }
+
+
+    private void DeleteImg()
+    {
+        Block.Data = new PictureBlockData();
+    }
+}

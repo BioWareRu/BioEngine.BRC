@@ -1,0 +1,44 @@
+﻿@inherits Microsoft.AspNetCore.Components.Forms.InputBase<string>
+@inject IJSRuntime JsRuntime
+
+<div @attributes="AdditionalAttributes" id="@EditorId" class="@CssClass"></div>
+
+@code {
+    private string EditorId { get; } = $"cke_{Guid.NewGuid()}";
+
+    protected override bool TryParseValueFromString(string value, out string result,
+        out string validationErrorMessage)
+    {
+        result = value;
+        validationErrorMessage = "";
+        return true;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            await initialiseEditor();
+        }
+    }
+
+    public ValueTask<string> initialiseEditor()
+    {
+        var arg = new {selector = $"{EditorId}", instance = DotNetObjectReference.Create(this), content = Value};
+        return JsRuntime.InvokeAsync<string>(
+            "BlazorCKE.init",
+            arg);
+    }
+
+    [JSInvokable]
+    public async Task<bool> updateText(string editorText)
+    {
+        Value = editorText;
+        await ValueChanged.InvokeAsync(Value);
+        EditContext?.NotifyFieldChanged(FieldIdentifier);
+        return true;
+    }
+
+
+}

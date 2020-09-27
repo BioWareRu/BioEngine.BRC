@@ -1,0 +1,10 @@
+﻿@using BioEngine.BRC.Core.Entities.Blocks
+
+<CKEEditor @bind-Value="Block.Data.Text"></CKEEditor>
+
+@code {
+
+    [Parameter]
+    public TextBlock Block { get; set; }
+
+}

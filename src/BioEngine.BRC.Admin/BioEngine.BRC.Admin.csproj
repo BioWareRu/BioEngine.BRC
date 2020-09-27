@@ -1,12 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>bw</UserSecretsId>
     <Nullable>enable</Nullable>
+    <BlazorLinkOnBuild Condition="'$(Configuration)'!='Release'">false</BlazorLinkOnBuild>
   </PropertyGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\BioEngine.BRC.Core\BioEngine.BRC.Core.csproj" />
+    <PackageReference Include="Radzen.Blazor" Version="2.11.13" />
   </ItemGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\BioEngine.BRC.Ads.Admin\BioEngine.BRC.Ads.Admin.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.Core\BioEngine.BRC.Core.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.Facebook\BioEngine.BRC.Facebook.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.IPB.Admin\BioEngine.BRC.IPB.Admin.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.Pages.Admin\BioEngine.BRC.Pages.Admin.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.Posts.Admin\BioEngine.BRC.Posts.Admin.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.Seo\BioEngine.BRC.Seo.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.Twitter\BioEngine.BRC.Twitter.csproj" />
+  </ItemGroup>
 </Project>

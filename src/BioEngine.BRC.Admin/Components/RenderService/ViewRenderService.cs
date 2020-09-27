@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BioEngine.BRC.Core.Web.RenderService
+namespace BioEngine.BRC.Admin.Components.RenderService
 {
     [UsedImplicitly]
     public class ViewRenderService : IViewRenderService

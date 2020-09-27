@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace BioEngine.BRC.Core.Web.RenderService
+namespace BioEngine.BRC.Admin.Components.RenderService
 {
     public interface IViewRenderService
     {

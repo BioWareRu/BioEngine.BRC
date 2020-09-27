@@ -1,36 +1,65 @@
+using System;
+using BioEngine.BRC.Admin.Components;
+using BioEngine.BRC.Admin.Components.RenderService;
+using BioEngine.BRC.Core;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using BioEngine.BRC.Core.Publishing;
+using BioEngine.BRC.Core.Routing;
+using Microsoft.AspNetCore.Routing;
+using Radzen;
+using Sitko.Core.App.Web;
 
 namespace BioEngine.BRC.Admin
 {
-    public class Startup
+    public class Startup : BaseStartup<BRCApplication>
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
+        public Startup(IConfiguration configuration, IHostEnvironment environment) : base(configuration, environment)
         {
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        protected override void ConfigureAppServices(IServiceCollection services)
         {
-            if (env.IsDevelopment())
+            base.ConfigureAppServices(services);
+            services.AddRazorPages(options =>
             {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseRouting();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                options.Conventions.AuthorizeFolder("/");
             });
+            services.AddServerSideBlazor().AddCircuitOptions(options =>
+            {
+                options.DetailedErrors = Environment.IsDevelopment();
+            });
+            services.AddScoped<IContentRender, ContentRender>();
+            services.AddScoped<BRCPostsPublisher>();
+            services.Configure<BrcAdminOptions>(options =>
+            {
+                options.DefaultMainSiteId = Guid.Parse(Configuration["BE_DEFAULT_MAIN_SITE_ID"]);
+            });
+            services.AddScoped<IViewRenderService, ViewRenderService>();
+            services.AddScoped<DialogService>();
+            services.AddScoped<NotificationService>();
         }
+
+        protected override void ConfigureAfterRoutingMiddleware(IApplicationBuilder app)
+        {
+            base.ConfigureAfterRoutingMiddleware(app);
+            app.UseAuthentication();
+            app.UseAuthorization();
+        }
+
+        protected override void ConfigureEndpoints(IApplicationBuilder app, IEndpointRouteBuilder endpoints)
+        {
+            base.ConfigureEndpoints(app, endpoints);
+            endpoints.AddBrcRoutes();
+            endpoints.MapBlazorHub();
+            endpoints.MapFallbackToPage("/_Host");
+        }
+    }
+
+    public class BrcAdminOptions
+    {
+        public Guid DefaultMainSiteId { get; set; }
     }
 }

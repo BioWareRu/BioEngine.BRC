@@ -1,4 +1,5 @@
 using System.Globalization;
+using BioEngine.BRC.Core;
 using BioEngine.BRC.Core.Routing;
 using BioEngine.BRC.Web;
 using Microsoft.AspNetCore.Builder;
@@ -12,10 +13,9 @@ using Sitko.Core.App.Web;
 
 namespace BioEngine.BRC.Site
 {
-    public abstract class BrcSiteStartup<TApplication> : BRCStartup<TApplication>
-        where TApplication : WebApplication<TApplication>
+    public abstract class BRCSiteStartup : BaseStartup<BRCApplication>
     {
-        protected BrcSiteStartup(IConfiguration configuration, IHostEnvironment environment) : base(configuration,
+        protected BRCSiteStartup(IConfiguration configuration, IHostEnvironment environment) : base(configuration,
             environment)
         {
         }
@@ -48,11 +48,11 @@ namespace BioEngine.BRC.Site
         protected override void ConfigureBeforeRoutingMiddleware(IApplicationBuilder app)
         {
             base.ConfigureBeforeRoutingMiddleware(app);
-            
+
             app.UseStatusCodePagesWithReExecute("/error/{0}");
 
             app.UseMiddleware<CurrentSiteMiddleware>();
-            
+
             var supportedCultures = new[] {new CultureInfo("ru-RU"), new CultureInfo("ru")};
 
             app.UseRequestLocalization(new RequestLocalizationOptions

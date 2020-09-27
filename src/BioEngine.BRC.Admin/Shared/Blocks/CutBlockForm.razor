@@ -1,0 +1,11 @@
+﻿@using Sitko.Core.Storage
+@using BioEngine.BRC.Core
+@using BioEngine.BRC.Core.Entities.Blocks
+
+<RadzenTextBox @bind-Value="Block.Data.ButtonText" Placeholder="Текст кнопки" Style="width: 100%"/>
+
+@code
+{
+    [Parameter]
+    public CutBlock Block { get; set; }
+}

@@ -1,0 +1,15 @@
+﻿@using BioEngine.BRC.Core.Entities.Blocks
+<div>
+    <CKEEditor @bind-Value="Block.Data.Text"></CKEEditor>
+</div>
+<hr/>
+<div>
+    <RadzenTextBox @bind-Value="Block.Data.Author" Placeholder="Автор" Style="width: 100%"/>
+    <RadzenTextBox @bind-Value="Block.Data.Link" Placeholder="Ссылка" Style="width: 100%"/>
+</div>
+
+@code
+{
+    [Parameter]
+    public QuoteBlock Block { get; set; }
+}

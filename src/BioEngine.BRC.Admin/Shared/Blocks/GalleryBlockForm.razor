@@ -1,0 +1,36 @@
+﻿@using Sitko.Core.Storage
+@using StorageItem = BioEngine.BRC.Core.Entities.StorageItem
+@using System.IO
+@using BioEngine.BRC.Core
+@using BioEngine.BRC.Core.Entities.Blocks
+@inject IStorage<BRCStorageConfig> Storage
+
+<InputFile accept="image/*" multiple OnChange="HandleSelection"/>
+@if (Block.Data.Pictures.Length > 0)
+{
+    foreach (var picture in Block.Data.Pictures)
+    {
+        <img src="@Storage.PublicUri(picture)" alt="@picture.FileName"/>
+    }
+}
+
+@code
+{
+    [Parameter]
+    public GalleryBlock Block { get; set; }
+
+    private int Progress { get; set; }
+    private string Info { get; set; }
+
+    async Task HandleSelection(InputFileChangeEventArgs args)
+    {
+        var pictures = new List<StorageItem>();
+        foreach (var file in args.GetMultipleFiles())
+        {
+            await using var stream = new MemoryStream();
+            await file.OpenReadStream().CopyToAsync(stream);
+            pictures.Add(StorageItem.FromCore(await Storage.SaveFileAsync(stream, file.Name, "posts")));
+        }
+        Block.Data.Pictures = pictures.ToArray();
+    }
+}

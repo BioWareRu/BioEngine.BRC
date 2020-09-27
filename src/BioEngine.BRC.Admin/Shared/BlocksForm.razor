@@ -1,0 +1,60 @@
+﻿@using BioEngine.BRC.Core.Entities.Abstractions
+@using BioEngine.BRC.Core.Entities
+@using System.Collections.ObjectModel
+@inject IJSRuntime JsRuntime
+
+<div id="blocks-@Item.Id">
+    @foreach (var block in Blocks)
+    {
+        <BlockForm Block="block"></BlockForm>
+    }
+</div>
+
+@code {
+
+    [Parameter]
+    public IContentItem Item { get; set; }
+
+    private ObservableCollection<ContentBlock> Blocks;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Blocks = new ObservableCollection<ContentBlock>(Item.Blocks.OrderBy(b => b.Position));
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (firstRender)
+        {
+            InitSortable();
+        }
+    }
+
+    void InitSortable()
+    {
+        var arg = new
+        {
+            id = $"blocks-{Item.Id}",
+            element = ".rz-card",
+            handle = "[dragHandle]",
+            instance = DotNetObjectReference.Create(this)
+        };
+        JsRuntime.InvokeAsync<string>(
+            "BlazorSortable",
+            arg);
+    }
+
+    [JSInvokable]
+    public async Task<bool> UpdateIndexAsync(int newIndex, int oldIndex)
+    {
+        Blocks.Move(oldIndex, newIndex);
+        foreach (var block in Blocks)
+        {
+            block.Position = Blocks.IndexOf(block);
+        }
+        return true;
+    }
+
+}

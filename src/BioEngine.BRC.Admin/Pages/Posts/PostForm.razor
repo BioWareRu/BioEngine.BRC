@@ -1,0 +1,144 @@
+﻿@using BioEngine.BRC.Core.Repository
+@using BioEngine.BRC.Core.Entities
+@using BioEngine.BRC.Core.Users
+@using BioEngine.BRC.Posts.Entities
+@using BioEngine.BRC.Posts.Repository
+@inject PostsRepository PostsRepository
+@inject SectionsRepository SectionsRepository
+@inject TagsRepository TagsRepository
+@inject NotificationService NotificationService
+@inject NavigationManager NavigationManager
+@inject ICurrentUserProvider CurrentUserProvider
+
+<style>
+    form .row {
+        margin-bottom: 16px;
+    }
+</style>
+
+@if (Post != null)
+{
+    <h3>@Post.Title</h3>
+<RadzenTemplateForm Data="@Post" Submit="@(async (Post args) => { await SubmitAsync(args); })">
+    <RadzenFieldset Text="Настройки">
+        <div class="row">
+            <div class="col-md-2 align-items-center d-flex">
+                <RadzenLabel Text="Заголовок"/>
+            </div>
+            <div class="col-md-4">
+                <RadzenTextBox @bind-Value="Post.Title" Name="Title" style="width: 100%;"/>
+                <RadzenRequiredValidator Text="Title is required" Component="Title"/>
+            </div>
+            <div class="col-md-2 align-items-center d-flex">
+                <RadzenLabel Text="Адрес"/>
+            </div>
+            <div class="col-md-4">
+                <RadzenTextBox @bind-Value="Post.Url" Name="Url" style="width: 100%;"/>
+                <RadzenRequiredValidator Text="Url is required" Component="Url"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 align-items-center d-flex">
+                <RadzenLabel Text="Разделы"/>
+            </div>
+            <div class="col-md-4">
+                <RadzenDropDown
+                    AllowClear="true"
+                    Name="SectionIds"
+                    AllowFiltering="true"
+                    FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                    @bind-Value="_sectionIds"
+                    Change="@(args => { Post.SectionIds = args is IEnumerable<Guid> guids ? guids.ToArray() : new Guid[0]; StateHasChanged(); })"
+                    Multiple="true"
+                    Placeholder="Выберите раздел..."
+                    Data="@Sections"
+                    TextProperty="Title"
+                    ValueProperty="Id" Style="width: 100%;"/>
+                <RadzenRequiredValidator Text="SectionIds is required" Component="SectionIds"/>
+            </div>
+            <div class="col-md-2 align-items-center d-flex">
+                <RadzenLabel Text="Теги"/>
+            </div>
+            <div class="col-md-4">
+                <RadzenDropDown
+                    AllowClear="true"
+                    Name="TagIds"
+                    AllowFiltering="true"
+                    FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                    @bind-Value="_tagIds"
+                    Change="@(args => { Post.TagIds = args is IEnumerable<Guid> guids ? guids.ToArray() : new Guid[0]; StateHasChanged(); })"
+                    Multiple="true"
+                    Placeholder="Выберите теги..."
+                    Data="@Tags"
+                    TextProperty="Title"
+                    ValueProperty="Id" Style="width: 100%;"/>
+            </div>
+        </div>
+    </RadzenFieldset>
+    <RadzenFieldset Text="Блоки">
+        <BlocksForm Item="Post"></BlocksForm>
+    </RadzenFieldset>
+    <div class="row justify-content-left">
+        <div class="col-md-12 d-flex align-items-end justify-content-left" style="margin-top: 16px;">
+            <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Сохранить"/>
+        </div>
+    </div>
+</RadzenTemplateForm>
+}
+
+@code {
+
+    [Parameter]
+    public Guid? PostId { get; set; }
+
+    private Post? Post { get; set; }
+    private IEnumerable<Section> Sections { get; set; } = new Section[0];
+    private IEnumerable<Tag> Tags { get; set; } = new Tag[0];
+    private IEnumerable<Guid> _sectionIds = new Guid[0];
+    private IEnumerable<Guid> _tagIds = new Guid[0];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        if (PostId != null)
+        {
+            Post = await PostsRepository.GetByIdWithBlocksAsync(PostId.Value);
+        }
+        else
+        {
+            Post = await PostsRepository.NewAsync();
+            Post.AuthorId = CurrentUserProvider.CurrentUser!.Id;
+        }
+        if (Post != null)
+        {
+            Sections = (await SectionsRepository.GetAllAsync()).items;
+            Tags = (await TagsRepository.GetAllAsync()).items;
+            _sectionIds = Post.SectionIds;
+            _tagIds = Post.TagIds;
+        }
+    }
+
+    async Task SubmitAsync(Post post)
+    {
+        var result = PostId == null ? await PostsRepository.AddWithBlocksAsync(post) : await PostsRepository.UpdateWithBlocksAsync(post);
+        if (result.IsSuccess)
+        {
+            NotificationService.Notify(NotificationSeverity.Success, "Сохранено");
+            if (PostId == null)
+            {
+                NavigationManager.NavigateTo($"/Posts/{result.Entity.Id}");
+            }
+        }
+        else
+        {
+            NotificationService.Notify(NotificationSeverity.Error, result.ErrorsString);
+        }
+        StateHasChanged();
+    }
+
+    void Cancel()
+    {
+    //
+    }
+
+}

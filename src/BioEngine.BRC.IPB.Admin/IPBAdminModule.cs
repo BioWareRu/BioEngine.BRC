@@ -9,9 +9,9 @@ using Sitko.Core.App;
 
 namespace BioEngine.BRC.IPB.Admin
 {
-    public class IPBApiModule : IPBModule<IPBAdminModuleConfig>
+    public class IPBAdminModule : IPBModule<IPBAdminModuleConfig>
     {
-        public IPBApiModule(IPBAdminModuleConfig config, Application application) : base(config, application)
+        public IPBAdminModule(IPBAdminModuleConfig config, Application application) : base(config, application)
         {
         }
 

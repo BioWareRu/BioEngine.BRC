@@ -1,0 +1,93 @@
+﻿@using BioEngine.BRC.Core.Users
+@using Microsoft.AspNetCore.Http
+@inherits LayoutComponentBase
+@inject ICurrentUserProvider CurrentUserProvider
+@inject IHttpContextAccessor HttpContextAccessor
+<RadzenDialog/>
+<RadzenNotification/>
+
+<RadzenHeader>
+    <ChildContent>
+        <div class="row justify-content-start align-items-center">
+            <div class="col-6 d-flex align-items-center">
+                <RadzenSidebarToggle Click="@(args => { sidebarExpanded = !sidebarExpanded; bodyExpanded = !bodyExpanded; })">
+                </RadzenSidebarToggle>
+                <RadzenLabel Text="BRCGames">
+                </RadzenLabel>
+            </div>
+            <div class="col-6 d-flex align-items-center justify-content-end">
+                @if (CurrentUserProvider.CurrentUser != null)
+                {
+                    <RadzenProfileMenu>
+                        <Template>
+                            <img src="@CurrentUserProvider.CurrentUser.PhotoUrl" width="25" height="25" class="rounded-circle" alt="@CurrentUserProvider.CurrentUser.Name"/>
+                        </Template>
+                        <ChildContent>
+                            <RadzenProfileMenuItem Text="Профиль" Path="@CurrentUserProvider.CurrentUser.ProfileUrl" Icon="account_circle"></RadzenProfileMenuItem>
+                        </ChildContent>
+                    </RadzenProfileMenu>
+                }
+            </div>
+        </div>
+    </ChildContent>
+</RadzenHeader>
+<div style="width:100%">
+    <RadzenBody @ref="@body0" @bind-Expanded="@bodyExpanded">
+        <ChildContent>
+            <RadzenContentContainer Name="main">
+                @Body
+            </RadzenContentContainer>
+        </ChildContent>
+    </RadzenBody>
+</div>
+<RadzenSidebar @ref="@sidebar0" @bind-Expanded="@sidebarExpanded">
+    <ChildContent>
+        <RadzenPanelMenu>
+            <RadzenPanelMenuItem Text="Посты" Icon="text_snippet">
+                <RadzenPanelMenuItem Text="Список" Path="/Posts/Index" Icon="list"></RadzenPanelMenuItem>
+                <RadzenPanelMenuItem Text="Добавить" Path="/Posts/Add" Icon="post_add"></RadzenPanelMenuItem>
+            </RadzenPanelMenuItem>
+        </RadzenPanelMenu>
+    </ChildContent>
+</RadzenSidebar>
+<RadzenFooter>
+    <ChildContent>
+        @{
+            var text = $"BRC Games © {DateTimeOffset.UtcNow.Year}";
+        }
+        <RadzenLabel Text="@text">
+        </RadzenLabel>
+    </ChildContent>
+</RadzenFooter>
+
+@code {
+    RadzenSidebar sidebar0;
+    RadzenBody body0;
+    bool sidebarExpanded = true;
+    bool bodyExpanded = false;
+
+    protected override void OnInitialized()
+    {
+        if (HttpContextAccessor != null && HttpContextAccessor.HttpContext != null &&
+            HttpContextAccessor.HttpContext.Request != null && HttpContextAccessor.HttpContext.Request.Headers.ContainsKey("User-Agent"))
+        {
+            var userAgent = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].FirstOrDefault();
+            if (!string.IsNullOrEmpty(userAgent))
+            {
+                if (userAgent.Contains("iPhone") || userAgent.Contains("Android") || userAgent.Contains("Googlebot"))
+                {
+                    sidebarExpanded = false;
+                    bodyExpanded = true;
+                }
+            }
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+        }
+    }
+
+}

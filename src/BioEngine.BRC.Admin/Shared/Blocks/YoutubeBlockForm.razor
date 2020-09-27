@@ -1,0 +1,50 @@
+﻿@using BioEngine.BRC.Core.Entities.Blocks
+<div>
+    <RadzenTextBox @bind-Value="YoutubeLink" Change="@(link => GetYoutubeId(link))" Placeholder="Ссылка" Style="width: 100%"/>
+</div>
+@if (!string.IsNullOrEmpty(YoutubeLink))
+{
+    <div style="text-align: center">
+        <iframe frameborder="0"
+                allowfullscreen=""
+                width="560" height="315"
+                src="@YoutubeLink">
+        </iframe>
+    </div>
+}
+
+@code
+{
+    [Parameter]
+    public YoutubeBlock Block { get; set; }
+
+    [Parameter]
+    public string YoutubeLink { get; set; } = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (!string.IsNullOrEmpty(Block.Data.YoutubeId))
+        {
+            YoutubeLink = GetUrl();
+        }
+    }
+
+    private void GetYoutubeId(string link)
+    {
+        YoutubeLink = link;
+        if (!string.IsNullOrEmpty(YoutubeLink) && (YoutubeLink.Contains("http://") || YoutubeLink.Contains("https://")))
+        {
+            var uri = new Uri(YoutubeLink);
+
+            var queryParams = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
+
+            Block.Data.YoutubeId = queryParams.ContainsKey("v") ? queryParams["v"][0] : uri.Segments.Last();
+        }
+    }
+
+    private string GetUrl()
+    {
+        return "https://www.youtube.com/embed/" + Block.Data.YoutubeId;
+    }
+}

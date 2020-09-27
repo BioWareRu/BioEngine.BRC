@@ -11,7 +11,7 @@ using BioEngine.BRC.Core.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Sitko.Core.App;
+using Sitko.Core.App.Web;
 using Sitko.Core.Db.Postgres;
 using Sitko.Core.ElasticStack;
 using Sitko.Core.Repository.EntityFrameworkCore;
@@ -22,7 +22,7 @@ using Sitko.Core.Storage.S3;
 
 namespace BioEngine.BRC.Core
 {
-    public abstract class BRCApplication : Application<BRCApplication>
+    public abstract class BRCApplication : WebApplication<BRCApplication>
     {
         public static readonly string AdminRoleName = "admin";
 
