@@ -8,7 +8,7 @@ on:
 
 jobs:
     build:
-        runs-on: self-hosted
+        runs-on: ubuntu-latest
         container: ghcr.io/sitkoru/actions-container
         steps:
             -   name: Setup dotnet 5.0
