@@ -4,6 +4,7 @@
 
 <div>
     <RadzenTextBox @bind-Value="TweetLink" Change="@(link => GetTweetData(link))" Style="width: 100%"/>
+    <ValidationMessage For="@(() => Block.Data.TweetId)"></ValidationMessage>
 </div>
 
 <div id="twitter-@Block.Id"></div>

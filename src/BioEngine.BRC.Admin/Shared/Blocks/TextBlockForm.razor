@@ -1,6 +1,7 @@
 ﻿@using BioEngine.BRC.Core.Entities.Blocks
 
 <CKEEditor @bind-Value="Block.Data.Text"></CKEEditor>
+<ValidationMessage For="@(() => Block.Data.Text)"></ValidationMessage>
 
 @code {
 

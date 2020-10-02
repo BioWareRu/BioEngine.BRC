@@ -1,6 +1,7 @@
 ﻿@using BioEngine.BRC.Core.Entities.Blocks
 <div>
     <RadzenTextBox @bind-Value="YoutubeLink" Change="@(link => GetYoutubeId(link))" Placeholder="Ссылка" Style="width: 100%"/>
+    <ValidationMessage For="@(() => Block.Data.YoutubeId)"></ValidationMessage>
 </div>
 @if (!string.IsNullOrEmpty(YoutubeLink))
 {

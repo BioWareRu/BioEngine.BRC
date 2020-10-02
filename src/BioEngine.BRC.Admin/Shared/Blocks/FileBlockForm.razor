@@ -5,6 +5,7 @@
 @inject IStorage<BRCStorageConfig> Storage
 
 <InputFile OnChange="HandleSelection"/>
+<ValidationMessage For="@(() => Block.Data.File)"></ValidationMessage>
 
 @code
 {
