@@ -11,8 +11,11 @@ namespace BioEngine.BRC.Core.Users
         {
             var users = userIds
                 .Select(userId =>
-                    new TestUser {Id = userId, Name = $"User{userId.ToString()}", PhotoUrl = "", ProfileUrl = ""})
-                .Cast<IUser>().ToList();
+                    new TestUser
+                    {
+                        Id = userId, Name = $"User{userId.ToString()}", PhotoUrl = "", ProfileUrl = ""
+                    } as IUser)
+                .ToList();
 
             return Task.FromResult(users);
         }
@@ -21,10 +24,10 @@ namespace BioEngine.BRC.Core.Users
     [Entity("testuser")]
     public class TestUser : IUser
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string PhotoUrl { get; set; }
-        public string ProfileUrl { get; set; }
+        public string Id { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public string PhotoUrl { get; set; } = string.Empty;
+        public string ProfileUrl { get; set; } = string.Empty;
 
 
         public object GetId()

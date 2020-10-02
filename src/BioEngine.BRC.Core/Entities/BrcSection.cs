@@ -9,6 +9,6 @@ namespace BioEngine.BRC.Core.Entities
     public abstract class BrcSectionData : ITypedData
     {
         public virtual StorageItem? HeaderPicture { get; set; }
-        public virtual string Hashtag { get; set; }
+        public virtual string? Hashtag { get; set; }
     }
 }

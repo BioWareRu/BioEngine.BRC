@@ -12,7 +12,7 @@ namespace BioEngine.BRC.Core.Entities
 
     public class GameData : BrcSectionData
     {
-        public Platform[] Platforms { get; set; }
+        public Platform[] Platforms { get; set; } = new Platform[0];
     }
 
     public enum Platform

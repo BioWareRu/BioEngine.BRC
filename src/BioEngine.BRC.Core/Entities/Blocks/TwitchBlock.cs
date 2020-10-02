@@ -13,8 +13,8 @@ namespace BioEngine.BRC.Core.Entities.Blocks
 
     public class TwitchBlockData : ContentBlockData
     {
-        public string VideoId { get; set; }
-        public string ChannelId { get; set; }
-        public string CollectionId { get; set; }
+        public string? VideoId { get; set; }
+        public string? ChannelId { get; set; }
+        public string? CollectionId { get; set; }
     }
 }

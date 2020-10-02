@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BioEngine.BRC.Core.Entities
@@ -7,7 +6,7 @@ namespace BioEngine.BRC.Core.Entities
     [Entity("menu")]
     public class Menu : BaseSiteEntity
     {
-        [Required] public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
         [Column(TypeName = "jsonb")]
         public List<MenuItem> Items { get; set; } = new List<MenuItem>();
     }

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Primitives;
 using Sitko.Core.Storage;
 
 namespace BioEngine.BRC.Core.Extensions
@@ -13,7 +11,7 @@ namespace BioEngine.BRC.Core.Extensions
         {
             var uri = storage.PublicUri(storageItem);
             var uriBuilder = new UriBuilder(uri);
-            var query = QueryHelpers.ParseQuery(uri.Query) ?? new Dictionary<string, StringValues>();
+            var query = QueryHelpers.ParseQuery(uri.Query);
             query["width"] = width.ToString();
             query["height"] = height.ToString();
             uriBuilder.Query = query.ToString();

@@ -18,8 +18,8 @@ namespace BioEngine.BRC.Core.Entities
 
     public class Person
     {
-        public string Name { get; set; }
-        public string Position { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Position { get; set; } = string.Empty;
         public DateTimeOffset DateStart { get; set; }
         public DateTimeOffset? DateEnd { get; set; }
     }
