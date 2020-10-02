@@ -13,6 +13,5 @@
     <PackageReference Include="cloudscribe.Syndication.Web" Version="3.1.0" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.24" />
     <PackageReference Include="cloudscribe.Web.SiteMap" Version="4.1.0" />
-    <PackageReference Include="TweetinviAPI" Version="4.0.3" />
   </ItemGroup>
 </Project>
