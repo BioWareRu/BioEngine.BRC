@@ -1,13 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using BioEngine.BRC.Core.Entities.Abstractions;
-
-namespace BioEngine.BRC.Core.Entities
+﻿namespace BioEngine.BRC.Core.Entities
 {
     [Entity("site")]
-    public class Site : BaseEntity, IBioEntity
+    public class Site : BaseEntity
     {
-        [Required] public string Url { get; set; }
+        public string Url { get; set; } = string.Empty;
 
-        [Required] public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
     }
 }

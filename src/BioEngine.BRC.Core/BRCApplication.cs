@@ -140,7 +140,7 @@ namespace BioEngine.BRC.Core
 
                 var serverUriStr = configuration["BE_STORAGE_S3_SERVER_URI"];
                 success = Uri.TryCreate(serverUriStr, UriKind.Absolute, out var serverUri);
-                if (!success)
+                if (!success || serverUri is null)
                 {
                     throw new ArgumentException($"S3 server URI {serverUriStr} is not proper URI");
                 }
@@ -156,9 +156,9 @@ namespace BioEngine.BRC.Core
 
     public class BRCStorageConfig : StorageOptions, IS3StorageOptions
     {
-        public Uri Server { get; set; }
-        public string Bucket { get; set; }
-        public string AccessKey { get; set; }
-        public string SecretKey { get; set; }
+        public Uri Server { get; set; } = new Uri("http://localhost");
+        public string Bucket { get; set; } = "brc";
+        public string AccessKey { get; set; } = string.Empty;
+        public string SecretKey { get; set; } = String.Empty;
     }
 }

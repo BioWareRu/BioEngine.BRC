@@ -10,7 +10,7 @@ namespace BioEngine.BRC.Core.Entities
     public abstract class ContentBlock : BaseEntity, ITypedEntity
     {
         [Required] public Guid ContentId { get; set; }
-        [Required] public string Type { get; set; }
+        [Required] public string Type { get; set; } = string.Empty;
         [Required] public int Position { get; set; }
         [NotMapped] public abstract string? TypeTitle { get; set; }
 

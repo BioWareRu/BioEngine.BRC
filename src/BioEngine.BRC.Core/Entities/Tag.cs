@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using FluentValidation;
 
 namespace BioEngine.BRC.Core.Entities
 {
@@ -7,7 +7,14 @@ namespace BioEngine.BRC.Core.Entities
     [Entity("tag")]
     public class Tag : BaseEntity
     {
-        [Required]
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
+    }
+
+    public class TagValidator : AbstractValidator<Tag>
+    {
+        public TagValidator()
+        {
+            RuleFor(x => x.Title).NotEmpty();
+        }
     }
 }

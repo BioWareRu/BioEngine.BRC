@@ -7,8 +7,8 @@ namespace BioEngine.BRC.Core.Validation
     {
         public EntityValidator()
         {
-            RuleFor(e => e.DateAdded).NotNull();
-            RuleFor(e => e.DateUpdated).NotNull();
+            RuleFor(e => e.DateAdded).NotEmpty();
+            RuleFor(e => e.DateUpdated).NotEmpty();
         }
     }
 }
