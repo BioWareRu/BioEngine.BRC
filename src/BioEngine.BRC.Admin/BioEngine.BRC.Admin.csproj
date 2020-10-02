@@ -6,6 +6,7 @@
     <BlazorLinkOnBuild Condition="'$(Configuration)'!='Release'">false</BlazorLinkOnBuild>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Blazored.FluentValidation" Version="1.3.2" />
     <PackageReference Include="Radzen.Blazor" Version="2.15.7" />
   </ItemGroup>
   <ItemGroup>

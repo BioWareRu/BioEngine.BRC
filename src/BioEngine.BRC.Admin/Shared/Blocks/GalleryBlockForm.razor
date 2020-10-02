@@ -6,6 +6,7 @@
 @inject IStorage<BRCStorageConfig> Storage
 
 <InputFile accept="image/*" multiple OnChange="HandleSelection"/>
+<ValidationMessage For="@(() => Block.Data.Pictures)"></ValidationMessage>
 @if (Block.Data.Pictures.Length > 0)
 {
     foreach (var picture in Block.Data.Pictures)
