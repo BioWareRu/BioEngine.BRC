@@ -6,7 +6,7 @@ on:
 
 jobs:
     deployment:
-        runs-on: self-hosted
+        runs-on: ubuntu-latest
         container: ghcr.io/sitkoru/actions-container
         steps:
             -   uses: actions/checkout@v2
