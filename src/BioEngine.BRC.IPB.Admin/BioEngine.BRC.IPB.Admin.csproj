@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BioEngine.BRC.IPB\BioEngine.BRC.IPB.csproj" />
-    <ProjectReference Include="..\BioEngine.BRC.Publishing\BioEngine.BRC.Publishing.csproj" />
   </ItemGroup>
 
 </Project>

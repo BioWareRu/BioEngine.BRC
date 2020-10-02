@@ -6,7 +6,7 @@
     <BlazorLinkOnBuild Condition="'$(Configuration)'!='Release'">false</BlazorLinkOnBuild>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Radzen.Blazor" Version="2.11.13" />
+    <PackageReference Include="Radzen.Blazor" Version="2.15.7" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BioEngine.BRC.Ads.Admin\BioEngine.BRC.Ads.Admin.csproj" />
