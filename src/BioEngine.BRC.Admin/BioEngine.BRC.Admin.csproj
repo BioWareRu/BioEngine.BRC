@@ -8,6 +8,7 @@
   <ItemGroup>
     <PackageReference Include="Blazored.FluentValidation" Version="1.3.2" />
     <PackageReference Include="Radzen.Blazor" Version="2.16.1" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BioEngine.BRC.Ads.Admin\BioEngine.BRC.Ads.Admin.csproj" />

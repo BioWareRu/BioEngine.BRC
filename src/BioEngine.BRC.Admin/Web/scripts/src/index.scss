@@ -1,4 +1,6 @@
-﻿.card {
+﻿@import "node_modules/bootstrap/scss/bootstrap";
+
+.card {
   &.block-form {
     margin-bottom: 20px;
   }

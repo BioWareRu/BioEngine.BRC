@@ -1,0 +1,23 @@
+@using System.ComponentModel.DataAnnotations
+@inject DialogService DialogService
+
+<RadzenCard Style="padding: 20px;">
+    <div class="form-group row">
+        <div class="col-md-12">
+            <RadzenTextBox @bind-Value="FolderName"></RadzenTextBox>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <RadzenButton Text="Создать" Click="() => DialogService.Close(FolderName)" Style="width: 150px"/>
+            <RadzenButton Text="Отмена" Click="() => DialogService.Close()" ButtonStyle="ButtonStyle.Secondary" Style=" width: 150px"/>
+        </div>
+    </div>
+</RadzenCard>
+
+@code {
+
+    [Required]
+    public string FolderName { get; set; }
+
+}

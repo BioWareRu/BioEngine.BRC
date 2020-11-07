@@ -1,0 +1,167 @@
+@using Sitko.Core.Storage
+@using BioEngine.BRC.Core
+@using System.IO
+@using BioEngine.BRC.Admin.Extensions
+@using BioEngine.BRC.Core.Extensions
+@using StorageExtensions = BioEngine.BRC.Admin.Extensions.StorageExtensions
+@inject IStorage<BRCStorageConfig> Storage
+@inject DialogService DialogService
+@{
+    var parts = StorageExtensions.GetPathParts(CurrentPath);
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            @foreach (var part in parts)
+            {
+                if (part == parts.Last())
+                {
+                    <li class="breadcrumb-item active" aria-current="page">@part.name</li>
+                }
+                else
+                {
+                    <li class="breadcrumb-item">
+                        <a href="#" @onclick="@(() => LoadDataAsync(part.path))" @onclick:preventDefault>@part.name</a>
+                    </li>
+                }
+            }
+
+        </ol>
+    </nav>
+
+
+}
+@if (Items != null)
+{
+    <div class="form-group">
+        <div class="row">
+            <div class="col-4">
+                <div class="custom-file">
+                    <InputFile id="customFile" class="custom-file-input" OnChange="UploadFileAsync" multiple/>
+                    <label class="custom-file-label" for="customFile">Загрузить файлы</label>
+                </div>
+            </div>
+            <div class="col-4">
+                <RadzenButton Text=@("Создать папку") Click="@ShowFolderDialogAsync"/>
+            </div>
+        </div>
+    </div>
+    <RadzenGrid AllowPaging="true" PageSize="50" Count="@Items.Count()" Data="@Items">
+        <Columns>
+            <RadzenGridColumn TItem="IStorageNode" Width="100px" TextAlign="TextAlign.Center">
+                <Template Context="node">
+                    @if (node is StorageFolder folder)
+                    {
+                        <RadzenIcon Icon="folder"></RadzenIcon>                    }
+                    @if (node is StorageItem item)
+                    {
+                        var metadata = item.GetMetadata<StorageItemMetadata>();
+                        if (metadata != null)
+                        {
+                            switch (metadata.Type)
+                            {
+                                case StorageItemType.File:
+                                    <span>файл</span>
+                                    break;
+                                case StorageItemType.Image:
+                                    var title = $"{metadata.ImageMetadata!.Width}x{metadata.ImageMetadata.Height}";
+                                    var url = Storage.PublicUri(item).ToString();
+                                    <a href="@url" target="_blank">
+                                        <RadzenImage Style="width: 80%" title="@title" Path="@Storage.PublicUri(item).ToString()"></RadzenImage>
+                                    </a>
+                                    break;
+                            }
+                        }
+                    }
+                </Template>
+            </RadzenGridColumn>
+            <RadzenGridColumn TItem="IStorageNode" Property="Name" Title="Название">
+                <Template Context="node">
+                    @if (node is StorageFolder folder)
+                    {
+                        <a href="#" @onclick="@(() => NavigateAsync(folder.Name))" @onclick:preventDefault>@folder.Name</a>
+                    }
+                    @if (node is StorageItem item)
+                    {
+                        <RadzenLink Target="_blank" Path="@Storage.PublicUri(item).ToString()" Text="@item.Name"/>                    }
+                </Template>
+            </RadzenGridColumn>
+            <RadzenGridColumn TItem="IStorageNode" Title="Размер">
+                <Template Context="node">
+                    @if (node is StorageItem item)
+                    {
+                        @item.HumanSize
+                    }
+                </Template>
+            </RadzenGridColumn>
+            <RadzenGridColumn TItem="IStorageNode" Title="Дата">
+                <Template Context="node">
+                    @if (node is StorageItem item)
+                    {
+                        @item.LastModified
+                    }
+                </Template>
+            </RadzenGridColumn>
+        </Columns>
+    </RadzenGrid>}
+else
+{
+    <p>Загрузка данных</p>
+}
+
+@code {
+    public IEnumerable<IStorageNode>? Items { get; set; }
+    public string CurrentPath { get; set; }
+
+    [Parameter]
+    public string Prefix { get; set; }
+
+    public async Task LoadDataAsync(string path)
+    {
+        CurrentPath = path;
+        Items = (await Storage.GetDirectoryContentsAsync(GetStoragePath(path))).OrderByDescending(n => n is StorageFolder).ThenBy(n => n.Name);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await LoadDataAsync("/");
+    }
+
+    protected Task NavigateAsync(string path)
+    {
+        return LoadDataAsync(System.IO.Path.Combine(CurrentPath, path));
+    }
+
+    async Task UploadFileAsync(InputFileChangeEventArgs args)
+    {
+        foreach (var file in args.GetMultipleFiles())
+        {
+            await using var stream = new MemoryStream();
+            await file.OpenReadStream(file.Size).CopyToAsync(stream);
+            var path = GetStoragePath(CurrentPath);
+            await Storage.ProcessAndUploadFileAsync(stream, file.Name, path);
+        }
+        await LoadDataAsync(CurrentPath);
+    }
+
+    private string GetStoragePath(string path)
+    {
+        if (path.StartsWith("/"))
+        {
+            path = path.Substring(1);
+        }
+        return System.IO.Path.Combine(Prefix, path);
+    }
+
+    public async Task ShowFolderDialogAsync()
+    {
+        var result = await DialogService.OpenAsync<FolderCreationDialog>("Создание папки");
+        if (result is string folderName && !string.IsNullOrEmpty(folderName))
+        {
+            await NavigateAsync(folderName);
+        }
+    }
+
+}
+
+
