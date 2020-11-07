@@ -1,16 +1,3 @@
 ﻿@page "/Posts/Add"
 
-@inject DialogService DialogService
-
 <PostForm></PostForm>
-
-<RadzenButton Text=@("Show confirm dialog") Click="@(async args => dialogResult = await DialogService.Confirm("Are you sure?", "MyTitle", new ConfirmOptions {OkButtonText = "Yes", CancelButtonText = "No"}))"/>
-
-@if (dialogResult != null)
-{
-    <div>Результат: @dialogResult</div>
-}
-
-@code {
-    private bool? dialogResult = null;
-}
