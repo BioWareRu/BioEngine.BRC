@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Sitko.Core.App;
 using Sitko.Core.App.Web;
 using Sitko.Core.Db.Postgres;
+using Sitko.Core.Repository.EntityFrameworkCore;
 using Sitko.Core.Search;
 
 namespace BioEngine.BRC.Posts
@@ -28,6 +29,9 @@ namespace BioEngine.BRC.Posts
         {
             base.ConfigureServices(services, configuration, environment);
             services.RegisterSearchProvider<PostsSearchProvider, Post, Guid>();
+            services.Scan(s =>
+                s.FromAssemblyOf<Post>().AddClasses(classes => classes.AssignableTo(typeof(EFRepository<,,>)))
+                    .AsSelfWithInterfaces().WithScopedLifetime());
             var registrar = BRCEntitiesRegistrar.Instance(services);
             registrar.RegisterContentItem<Post>();
             registrar.RegisterEntity<PostVersion>();

@@ -4,6 +4,7 @@ using BioEngine.BRC.Facebook;
 using BioEngine.BRC.IPB;
 using BioEngine.BRC.IPB.Admin;
 using BioEngine.BRC.IPB.Auth;
+using BioEngine.BRC.Posts.Admin;
 using BioEngine.BRC.Seo;
 using BioEngine.BRC.Twitter;
 
@@ -17,6 +18,7 @@ namespace BioEngine.BRC.Admin
                 .AddElasticSearch()
                 .AddElasticStack()
                 .AddS3Storage()
+                .AddModule<PostsAdminModule, PostsAdminModuleConfig>()
                 .AddModule<SeoModule>()
                 .AddModule<IPBAdminModule, IPBAdminModuleConfig>((configuration, env, moduleConfig) =>
                 {

@@ -9,9 +9,9 @@ using Sitko.Core.App;
 
 namespace BioEngine.BRC.Posts.Web
 {
-    public class PostsSiteModule : BaseApplicationModule
+    public class PostsSiteModule : PostsModule<PostsSiteModuleConfig>
     {
-        public PostsSiteModule(BaseApplicationModuleConfig config, Application application) : base(config, application)
+        public PostsSiteModule(PostsSiteModuleConfig config, Application application) : base(config, application)
         {
         }
 
@@ -22,5 +22,10 @@ namespace BioEngine.BRC.Posts.Web
             services.AddScoped<ISiteMapNodeService, PostsSiteMapNodeService>();
             services.AddScoped<IRssItemsProvider, PostsRssItemsProvider>();
         }
+    }
+
+    public class PostsSiteModuleConfig : PostsModuleConfig
+    {
+        
     }
 }
