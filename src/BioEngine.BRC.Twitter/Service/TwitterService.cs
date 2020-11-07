@@ -14,7 +14,7 @@ namespace BioEngine.BRC.Twitter.Service
     {
         private readonly ILogger<TwitterService> _logger;
 
-        public TwitterService(TwitterConfig config, ILogger<TwitterService> logger)
+        public TwitterService(ILogger<TwitterService> logger)
         {
             _logger = logger;
         }
