@@ -1,6 +1,7 @@
 using BioEngine.BRC.Core.Entities;
 using BioEngine.BRC.Posts.Entities;
 using BioEngine.BRC.Web.Model;
+using Sitko.Core.Storage;
 
 namespace BioEngine.BRC.Site.ViewModels
 {

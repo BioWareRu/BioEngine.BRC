@@ -17,20 +17,38 @@ namespace BioEngine.BRC.Core.Extensions
             uriBuilder.Query = query.ToString();
             return uriBuilder.Uri;
         }
-        
+
         public static Uri SmallThumbnailUri(this IStorage<BRCStorageConfig> storage, StorageItem storageItem)
         {
             return storage.ThumbnailUri(storageItem, 100, 100);
         }
-        
+
         public static Uri MediumThumbnailUri(this IStorage<BRCStorageConfig> storage, StorageItem storageItem)
         {
             return storage.ThumbnailUri(storageItem, 300, 300);
         }
-        
+
         public static Uri LargeThumbnailUri(this IStorage<BRCStorageConfig> storage, StorageItem storageItem)
         {
             return storage.ThumbnailUri(storageItem, 800, 578);
         }
+    }
+
+    public class StorageItemMetadata
+    {
+        public StorageItemType Type { get; set; } = StorageItemType.File;
+        public StorageItemImageMetadata? ImageMetadata { get; set; }
+    }
+
+    public class StorageItemImageMetadata
+    {
+        public int Width { get; set; }
+        public int Height { get; set; }
+    }
+
+    public enum StorageItemType
+    {
+        File,
+        Image
     }
 }

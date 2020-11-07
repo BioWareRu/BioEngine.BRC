@@ -1,4 +1,6 @@
-﻿namespace BioEngine.BRC.Core.Entities.Blocks
+﻿using Sitko.Core.Storage;
+
+namespace BioEngine.BRC.Core.Entities.Blocks
 {
     [Entity("quoteblock")]
     public class QuoteBlock : ContentBlock<QuoteBlockData>

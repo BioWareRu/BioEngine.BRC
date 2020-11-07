@@ -1,6 +1,7 @@
 ﻿using BioEngine.BRC.Core.Entities;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
+using Sitko.Core.Storage;
 
 namespace BioEngine.BRC.Core.Db
 {
@@ -11,12 +12,11 @@ namespace BioEngine.BRC.Core.Db
         {
         }
 
-        [UsedImplicitly] public DbSet<Site> Sites => Set<Site>();
-        [UsedImplicitly] public DbSet<Tag> Tags => Set<Tag>();
-        [UsedImplicitly] public DbSet<Menu> Menus => Set<Menu>();
-        [UsedImplicitly] public DbSet<Section> Sections => Set<Section>();
-        [UsedImplicitly] public DbSet<ContentBlock> Blocks => Set<ContentBlock>();
-        [UsedImplicitly] public DbSet<StorageItem> StorageItems => Set<StorageItem>();
+        public DbSet<Site> Sites => Set<Site>();
+        public DbSet<Tag> Tags => Set<Tag>();
+        public DbSet<Menu> Menus => Set<Menu>();
+        public DbSet<Section> Sections => Set<Section>();
+        public DbSet<ContentBlock> Blocks => Set<ContentBlock>();
         public DbSet<PropertiesRecord> Properties => Set<PropertiesRecord>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
