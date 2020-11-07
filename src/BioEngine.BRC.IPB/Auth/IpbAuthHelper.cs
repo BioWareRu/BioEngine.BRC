@@ -4,7 +4,6 @@ using System.Linq;
 using System.Security.Claims;
 using BioEngine.BRC.Core;
 using BioEngine.BRC.IPB.Api;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
@@ -18,35 +17,43 @@ namespace BioEngine.BRC.IPB.Auth
         public static void AddIpbOauthAuthentication(this IServiceCollection services,
             IPBUsersModuleConfig configuration, IHostEnvironment environment)
         {
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(o =>
-            {
-                o.LoginPath = new PathString("/login");
-                o.ExpireTimeSpan = TimeSpan.FromDays(30);
-            }).AddOAuth("IPB",
-                options =>
+            var signInScheme = "Cookies";
+            var challengeScheme = "IPB";
+            services.AddAuthentication(options =>
                 {
-                    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.ClientId = configuration.ApiClientId;
-                    options.ClientSecret = configuration.ApiClientSecret;
-                    options.CallbackPath = new PathString(configuration.CallbackPath);
-                    options.AuthorizationEndpoint = configuration.AuthorizationEndpoint;
-                    options.TokenEndpoint = configuration.TokenEndpoint;
-                    options.Scope.Add("profile");
-                    options.SaveTokens = true;
-                    options.Events = new OAuthEvents
+                    options.DefaultScheme = signInScheme;
+                    options.DefaultChallengeScheme = challengeScheme;
+                })
+                .AddCookie(signInScheme, options =>
+                {
+                    options.ExpireTimeSpan = TimeSpan.FromDays(30);
+                    options.SlidingExpiration = true;
+                }).AddOAuth(challengeScheme,
+                    options =>
                     {
-                        OnCreatingTicket = async context =>
+                        options.SignInScheme = signInScheme;
+                        options.ClientId = configuration.ApiClientId;
+                        options.ClientSecret = configuration.ApiClientSecret;
+                        options.CallbackPath = new PathString(configuration.CallbackPath);
+                        options.AuthorizationEndpoint = configuration.AuthorizationEndpoint;
+                        options.TokenEndpoint = configuration.TokenEndpoint;
+                        options.Scope.Add("profile");
+                        options.SaveTokens = true;
+                        options.Events = new OAuthEvents
                         {
-                            var factory = context.HttpContext.RequestServices.GetRequiredService<IPBApiClientFactory>();
-                            var ipbOptions = context.HttpContext.RequestServices
-                                .GetRequiredService<IPBUsersModuleConfig>();
-                            var ipbApiClient = factory.GetClient(context.AccessToken);
-                            var user = await ipbApiClient.GetUserAsync();
+                            OnCreatingTicket = async context =>
+                            {
+                                var factory = context.HttpContext.RequestServices
+                                    .GetRequiredService<IPBApiClientFactory>();
+                                var ipbOptions = context.HttpContext.RequestServices
+                                    .GetRequiredService<IPBUsersModuleConfig>();
+                                var ipbApiClient = factory.GetClient(context.AccessToken);
+                                var user = await ipbApiClient.GetUserAsync();
 
-                            InsertClaims(user, context.Identity, context.Options.ClaimsIssuer, options: ipbOptions);
-                        }
-                    };
-                });
+                                InsertClaims(user, context.Identity, context.Options.ClaimsIssuer, options: ipbOptions);
+                            }
+                        };
+                    });
             if (!string.IsNullOrEmpty(configuration.DataProtectionPath))
             {
                 services.AddDataProtection()
