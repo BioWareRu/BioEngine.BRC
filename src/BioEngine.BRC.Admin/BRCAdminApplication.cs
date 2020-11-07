@@ -14,7 +14,7 @@ namespace BioEngine.BRC.Admin
     {
         public BRCAdminApplication(string[] args) : base(args)
         {
-            AddPostgresDb()
+            AddPostgresDb(true, typeof(BRCAdminApplication).Assembly)
                 .AddElasticSearch()
                 .AddElasticStack()
                 .AddS3Storage()
