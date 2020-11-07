@@ -16,6 +16,6 @@
     {
         await using var stream = new MemoryStream();
         await args.File.OpenReadStream().CopyToAsync(stream);
-        Block.Data.File = Core.Entities.StorageItem.FromCore(await Storage.SaveFileAsync(stream, args.File.Name, "posts"));
+        Block.Data.File = await Storage.SaveFileAsync(stream, args.File.Name, "posts");
     }
 }

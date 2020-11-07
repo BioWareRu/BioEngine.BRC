@@ -1,5 +1,4 @@
 ﻿@using Sitko.Core.Storage
-@using StorageItem = BioEngine.BRC.Core.Entities.StorageItem
 @using System.IO
 @using BioEngine.BRC.Core
 @using BioEngine.BRC.Core.Entities.Blocks
@@ -30,7 +29,7 @@
         {
             await using var stream = new MemoryStream();
             await file.OpenReadStream().CopyToAsync(stream);
-            pictures.Add(StorageItem.FromCore(await Storage.SaveFileAsync(stream, file.Name, "posts")));
+            pictures.Add(await Storage.SaveFileAsync(stream, file.Name, "posts"));
         }
         Block.Data.Pictures = pictures.ToArray();
     }
