@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using BioEngine.BRC.Twitter.Exceptions;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
@@ -12,48 +14,64 @@ namespace BioEngine.BRC.Twitter.Service
     {
         private readonly ILogger<TwitterService> _logger;
 
-        public TwitterService(ILogger<TwitterService> logger)
+        public TwitterService(TwitterConfig config, ILogger<TwitterService> logger)
         {
             _logger = logger;
         }
 
-        private void SetAuth(TwitterConfig configuration)
+        private static TwitterClient GetClient(TwitterConfig config)
         {
-            Auth.SetCredentials(new TwitterCredentials(configuration.ConsumerKey,
-                configuration.ConsumerSecret,
-                configuration.AccessToken, configuration.AccessTokenSecret));
+            return new TwitterClient(new TwitterCredentials(config.ConsumerKey,
+                config.ConsumerSecret,
+                config.AccessToken, config.AccessTokenSecret));
         }
 
-        public long CreateTweet(string text, TwitterConfig configuration)
+        public async Task<long> CreateTweetAsync(string text, TwitterConfig config)
         {
-            SetAuth(configuration);
-            var tweet = Tweet.PublishTweet(text);
-            CheckExceptions();
-            return tweet.Id;
-        }
-
-        public bool DeleteTweet(long tweetId, TwitterConfig configuration)
-        {
-            SetAuth(configuration);
-            var result = Tweet.DestroyTweet(tweetId);
-            CheckExceptions("Невозможно удалить старый твит");
-            return result;
-        }
-
-        private void CheckExceptions(string? message = null)
-        {
-            var exc = ExceptionHandler.GetLastException();
-            if (exc != null)
+            try
             {
-                _logger.LogError(exc.TwitterDescription);
-                _logger.LogError(string.Concat(exc.TwitterExceptionInfos.SelectMany(x => x.Message)));
-                if (exc.TwitterExceptionInfos.Any(x => x.Message == "Status is over 140 characters."))
+                var tweet = await GetClient(config).Tweets.PublishTweetAsync(text);
+                return tweet.Id;
+            }
+            catch (Exception exception)
+            {
+                if (exception is Tweetinvi.Exceptions.TwitterException twitterException)
                 {
-                    throw new TooLongTweetTextException();
+                    ProcessExceptions(twitterException);
                 }
 
-                throw new TwitterException(!string.IsNullOrEmpty(message) ? message : exc.TwitterDescription);
+                throw;
             }
+        }
+
+        public async Task<bool> DeleteTweetAsync(long tweetId, TwitterConfig config)
+        {
+            try
+            {
+                await GetClient(config).Tweets.DestroyTweetAsync(tweetId);
+                return true;
+            }
+            catch (Exception exception)
+            {
+                if (exception is Tweetinvi.Exceptions.TwitterException twitterException)
+                {
+                    ProcessExceptions(twitterException, "Невозможно удалить старый твит");
+                }
+
+                throw;
+            }
+        }
+
+        private void ProcessExceptions(Tweetinvi.Exceptions.TwitterException exception, string? message = null)
+        {
+            _logger.LogError(exception.TwitterDescription);
+            _logger.LogError(string.Concat(exception.TwitterExceptionInfos.SelectMany(x => x.Message)));
+            if (exception.TwitterExceptionInfos.Any(x => x.Message == "Status is over 140 characters."))
+            {
+                throw new TooLongTweetTextException();
+            }
+
+            throw new TwitterException(!string.IsNullOrEmpty(message) ? message : exception.TwitterDescription);
         }
     }
 }

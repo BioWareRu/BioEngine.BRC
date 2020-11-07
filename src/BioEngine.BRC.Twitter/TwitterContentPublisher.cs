@@ -26,13 +26,14 @@ namespace BioEngine.BRC.Twitter
             _linkGenerator = linkGenerator;
         }
 
-        protected override Task<TwitterPublishRecord> DoPublishAsync(TwitterPublishRecord record, IContentItem entity,
+        protected override async Task<TwitterPublishRecord> DoPublishAsync(TwitterPublishRecord record,
+            IContentItem entity,
             Site site,
             TwitterPublishConfig config)
         {
             var text = ConstructText(entity, site, config.Tags);
 
-            var tweetId = _twitterService.CreateTweet(text, config.Config);
+            var tweetId = await _twitterService.CreateTweetAsync(text, config.Config);
             if (tweetId == 0)
             {
                 throw new Exception($"Can't create tweet for item {entity.Title} ({entity.Id.ToString()})");
@@ -40,7 +41,7 @@ namespace BioEngine.BRC.Twitter
 
             record.TweetId = tweetId;
 
-            return Task.FromResult(record);
+            return record;
         }
 
         private string ConstructText(IContentItem content, Site site, IEnumerable<string> configTags)
@@ -59,15 +60,15 @@ namespace BioEngine.BRC.Twitter
             return text;
         }
 
-        protected override Task<bool> DoDeleteAsync(TwitterPublishRecord record, TwitterPublishConfig config)
+        protected override async Task<bool> DoDeleteAsync(TwitterPublishRecord record, TwitterPublishConfig config)
         {
-            var deleted = _twitterService.DeleteTweet(record.TweetId, config.Config);
+            var deleted = await _twitterService.DeleteTweetAsync(record.TweetId, config.Config);
             if (!deleted)
             {
                 throw new Exception("Can't delete news tweet");
             }
 
-            return Task.FromResult(true);
+            return true;
         }
     }
 }
