@@ -11,7 +11,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="cloudscribe.Syndication.Web" Version="3.1.0" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.27" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.28" />
     <PackageReference Include="cloudscribe.Web.SiteMap" Version="4.1.0" />
   </ItemGroup>
 </Project>
