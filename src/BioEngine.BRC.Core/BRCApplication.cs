@@ -11,6 +11,9 @@ using BioEngine.BRC.Core.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
+using Serilog.Events;
+using Sitko.Core.App.Logging;
 using Sitko.Core.App.Web;
 using Sitko.Core.Db.Postgres;
 using Sitko.Core.ElasticStack;
@@ -73,6 +76,14 @@ namespace BioEngine.BRC.Core
                     options.AddPolicy(BioPolicies.SectionsDelete, AdminPolicy);
                 });
             });
+        }
+
+        protected override void ConfigureLogging(LoggerConfiguration loggerConfiguration, LogLevelSwitcher logLevelSwitcher)
+        {
+            base.ConfigureLogging(loggerConfiguration, logLevelSwitcher);
+            ConfigureLogLevel("Microsoft.AspNetCore.Components", LogEventLevel.Warning);
+            ConfigureLogLevel("Microsoft.AspNetCore.SignalR", LogEventLevel.Warning);
+            ConfigureLogLevel("Sitko.Core.Search.ElasticSearch.ElasticSearcher", LogEventLevel.Warning);
         }
 
         protected override bool LoggingEnableConsole
