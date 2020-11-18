@@ -1,0 +1,14 @@
+@inject DialogService DialogService
+
+<RadzenCard>
+    <StorageExplorer Prefix="@Prefix" SelectMode="true" IsMultiple="IsMultiple"></StorageExplorer>
+</RadzenCard>
+
+@code {
+
+    [Parameter]
+    public bool IsMultiple { get; set; }
+
+    [Parameter]
+    public string Prefix { get; set; }
+}

@@ -5,6 +5,8 @@
 @inject IHttpContextAccessor HttpContextAccessor
 <RadzenDialog/>
 <RadzenNotification/>
+<RadzenContextMenu/>
+<RadzenTooltip/>
 
 <RadzenHeader>
     <ChildContent>
@@ -68,8 +70,7 @@
 
     protected override void OnInitialized()
     {
-        if (HttpContextAccessor != null && HttpContextAccessor.HttpContext != null &&
-            HttpContextAccessor.HttpContext.Request != null && HttpContextAccessor.HttpContext.Request.Headers.ContainsKey("User-Agent"))
+        if (HttpContextAccessor?.HttpContext?.Request != null && HttpContextAccessor.HttpContext.Request.Headers.ContainsKey("User-Agent"))
         {
             var userAgent = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].FirstOrDefault();
             if (!string.IsNullOrEmpty(userAgent))
@@ -82,12 +83,4 @@
             }
         }
     }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (!firstRender)
-        {
-        }
-    }
-
 }

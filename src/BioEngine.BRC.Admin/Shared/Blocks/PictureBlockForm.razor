@@ -2,20 +2,46 @@
 @using BioEngine.BRC.Core
 @using BioEngine.BRC.Core.Entities.Blocks
 @inject IStorage<BRCStorageConfig> Storage
+@inject DialogService DialogService
 
-<div>
-    <img src="@Storage.PublicUri(Block.Data.Picture)"/>
-    <RadzenIcon Icon="delete" @onclick="DeleteImg"/>
-</div>
+@if (Block.Data.Picture == null)
+{
+    <RadzenButton Text=@("Выбрать картинку") Click="@ShowStorageDialogAsync"/>
+}
+else
+{
+    <div class="row" style="margin-bottom: 0">
+        <div class="col-11">
+            <RadzenImage Path="@(Storage.PublicUri(Block.Data.Picture).ToString())" Style="max-height: 200px"></RadzenImage>
+        </div>
+        <div class="col-1" style="text-align: right">
+            <RadzenIcon Icon="delete" title="Удалить" @onclick="@(() => Block.Data.Picture = null)"></RadzenIcon>
+        </div>
+    </div>
+    <div class="form-group">
+        <RadzenLabel Text="Ссылка"></RadzenLabel>
+        <RadzenTextBox class="form-control" @bind-value="Block.Data.Url" ></RadzenTextBox>
+    </div>
+}
 
 @code
 {
     [Parameter]
     public PictureBlock Block { get; set; }
 
-
-    private void DeleteImg()
+    public async Task ShowStorageDialogAsync()
     {
-        Block.Data = new PictureBlockData();
+        var result = await DialogService.OpenAsync<StorageExplorerDialog>("Выбор файла", new Dictionary<string, object>
+        {
+            {"Prefix", "storage"},
+            {"IsMultiple", false}
+        }, new DialogOptions
+        {
+            Width = "60%"
+        });
+        if (result is StorageItem item)
+        {
+            Block.Data.Picture = item;
+        }
     }
 }

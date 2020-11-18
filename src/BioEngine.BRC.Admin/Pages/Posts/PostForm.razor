@@ -10,82 +10,78 @@
 @inject NavigationManager NavigationManager
 @inject ICurrentUserProvider CurrentUserProvider
 
-<style>
-    form .row {
-        margin-bottom: 16px;
-    }
-</style>
-
 @if (Post != null)
 {
     <h3>@Post.Title</h3>
-<RadzenTemplateForm Data="@Post" Submit="@(async (Post args) => { await SubmitAsync(args); })">
-    <FluentValidationValidator/>
-    <RadzenFieldset Text="Настройки">
-        <div class="row">
-            <div class="col-md-2 align-items-center d-flex">
-                <RadzenLabel Text="Заголовок"/>
+
+    <RadzenTemplateForm Data="@Post" Submit="@(async (Post args) => { await SubmitAsync(args); })">
+        <BlazorFluentValidator/>
+        <RadzenFieldset Text="Настройки">
+            <div class="row">
+                <div class="col-md-2 align-items-center d-flex">
+                    <RadzenLabel Text="Заголовок"/>
+                </div>
+                <div class="col-md-4">
+                    <RadzenTextBox @bind-Value="Post.Title" Name="Title" style="width: 100%;"/>
+                    <ValidationMessage For="@(() => Post.Title)"></ValidationMessage>
+                </div>
+                <div class="col-md-2 align-items-center d-flex">
+                    <RadzenLabel Text="Адрес"/>
+                </div>
+                <div class="col-md-4">
+                    <RadzenTextBox @bind-Value="Post.Url" Name="Url" style="width: 100%;"/>
+                    <ValidationMessage For="@(() => Post.Url)"></ValidationMessage>
+                </div>
             </div>
-            <div class="col-md-4">
-                <RadzenTextBox @bind-Value="Post.Title" Name="Title" style="width: 100%;"/>
-                <ValidationMessage For="@(() => Post.Title)"></ValidationMessage>
+            <div class="row">
+                <div class="col-md-2 align-items-center d-flex">
+                    <RadzenLabel Text="Разделы"/>
+                </div>
+                <div class="col-md-4">
+                    <RadzenDropDown
+                        AllowClear="true"
+                        Name="SectionIds"
+                        AllowFiltering="true"
+                        FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                        @bind-Value="_sectionIds"
+                        Change="@(args => { Post.SectionIds = args is IEnumerable<Guid> guids ? guids.ToArray() : new Guid[0]; StateHasChanged(); })"
+                        Multiple="true"
+                        Placeholder="Выберите раздел..."
+                        Data="@Sections"
+                        TextProperty="Title"
+                        ValueProperty="Id" Style="width: 100%;"/>
+                    <ValidationMessage For="@(() => Post.SectionIds)"></ValidationMessage>
+                </div>
+                <div class="col-md-2 align-items-center d-flex">
+                    <RadzenLabel Text="Теги"/>
+                </div>
+                <div class="col-md-4">
+                    <RadzenDropDown
+                        AllowClear="true"
+                        Name="TagIds"
+                        AllowFiltering="true"
+                        FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                        @bind-Value="_tagIds"
+                        Change="@(args => { Post.TagIds = args is IEnumerable<Guid> guids ? guids.ToArray() : new Guid[0]; StateHasChanged(); })"
+                        Multiple="true"
+                        Placeholder="Выберите теги..."
+                        Data="@Tags"
+                        TextProperty="Title"
+                        ValueProperty="Id" Style="width: 100%;"/>
+                    <ValidationMessage For="@(() => Post.TagIds)"></ValidationMessage>
+                </div>
             </div>
-            <div class="col-md-2 align-items-center d-flex">
-                <RadzenLabel Text="Адрес"/>
-            </div>
-            <div class="col-md-4">
-                <RadzenTextBox @bind-Value="Post.Url" Name="Url" style="width: 100%;"/>
-                <ValidationMessage For="@(() => Post.Url)"></ValidationMessage>
+        </RadzenFieldset>
+        <RadzenFieldset Text="Блоки">
+            <BlocksForm Item="Post"></BlocksForm>
+            <ValidationMessage For="@(() => Post.Blocks)"></ValidationMessage>
+        </RadzenFieldset>
+        <div class="row justify-content-left">
+            <div class="col-md-12 d-flex align-items-end justify-content-left" style="margin-top: 16px;">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Сохранить</button>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-2 align-items-center d-flex">
-                <RadzenLabel Text="Разделы"/>
-            </div>
-            <div class="col-md-4">
-                <RadzenDropDown
-                    AllowClear="true"
-                    Name="SectionIds"
-                    AllowFiltering="true"
-                    FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                    @bind-Value="_sectionIds"
-                    Change="@(args => { Post.SectionIds = args is IEnumerable<Guid> guids ? guids.ToArray() : new Guid[0]; StateHasChanged(); })"
-                    Multiple="true"
-                    Placeholder="Выберите раздел..."
-                    Data="@Sections"
-                    TextProperty="Title"
-                    ValueProperty="Id" Style="width: 100%;"/>
-                <ValidationMessage For="@(() => Post.SectionIds)"></ValidationMessage>
-            </div>
-            <div class="col-md-2 align-items-center d-flex">
-                <RadzenLabel Text="Теги"/>
-            </div>
-            <div class="col-md-4">
-                <RadzenDropDown
-                    AllowClear="true"
-                    Name="TagIds"
-                    AllowFiltering="true"
-                    FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                    @bind-Value="_tagIds"
-                    Change="@(args => { Post.TagIds = args is IEnumerable<Guid> guids ? guids.ToArray() : new Guid[0]; StateHasChanged(); })"
-                    Multiple="true"
-                    Placeholder="Выберите теги..."
-                    Data="@Tags"
-                    TextProperty="Title"
-                    ValueProperty="Id" Style="width: 100%;"/>
-                <ValidationMessage For="@(() => Post.TagIds)"></ValidationMessage>
-            </div>
-        </div>
-    </RadzenFieldset>
-    <RadzenFieldset Text="Блоки">
-        <BlocksForm Item="Post"></BlocksForm>
-    </RadzenFieldset>
-    <div class="row justify-content-left">
-        <div class="col-md-12 d-flex align-items-end justify-content-left" style="margin-top: 16px;">
-            <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Сохранить"/>
-        </div>
-    </div>
-</RadzenTemplateForm>
+    </RadzenTemplateForm>
 }
 
 @code {

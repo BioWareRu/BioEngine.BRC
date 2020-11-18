@@ -1,13 +1,35 @@
 ﻿@using BioEngine.BRC.Core.Entities.Abstractions
 @using BioEngine.BRC.Core.Entities
 @using System.Collections.ObjectModel
+@using BioEngine.BRC.Core.Entities.Blocks
 @inject IJSRuntime JsRuntime
+@inject ContextMenuService ContextMenuService
+@inject DialogService DialogService
 
 <div id="blocks-@Item.Id">
     @foreach (var block in Blocks)
     {
-        <BlockForm Block="block"></BlockForm>
+        <div style="display: flex; margin-bottom: 20px">
+            <div style="width:30px; text-align: center">
+                <RadzenIcon style="color: #999;" Icon="@block.GetEntityDescriptor().Icon"></RadzenIcon>
+            </div>
+            <div style="flex: 1; padding: 0 10px;">
+                <BlockForm Block="block"></BlockForm>
+            </div>
+            <div style="width:30px; text-align: center; display: flex; flex-flow: column">
+                <RadzenButton Style="margin-bottom: 5px" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Secondary" Disabled="!CanMoveBlockUp(block)" Icon="arrow_drop_up" Click="@(() => MoveBlockUp(block))"></RadzenButton>
+                <RadzenButton Style="margin-bottom: 5px" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Secondary" Icon="delete" Click="@(() => DeleteBlockAsync(block))"></RadzenButton>
+                <RadzenButton Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Secondary" Disabled="!CanMoveBlockDown(block)" Icon="arrow_drop_down" Click="@(() => MoveBlockDown(block))"></RadzenButton>
+            </div>
+        </div>
     }
+    <RadzenSplitButton Click="@(AddBlock)" Text="Добавить блок">
+        <ChildContent>
+            @foreach (var block in BRCEntitiesRegistrar.Instance().Blocks)
+            {
+                <RadzenSplitButtonItem Text="@block.Title" Value="@block.Key" Icon="@block.Icon"/>            }
+        </ChildContent>
+    </RadzenSplitButton>
 </div>
 
 @code {
@@ -23,38 +45,75 @@
         Blocks = new ObservableCollection<ContentBlock>(Item.Blocks.OrderBy(b => b.Position));
     }
 
-    protected override void OnAfterRender(bool firstRender)
+    void AddBlock(RadzenSplitButtonItem item)
     {
-        base.OnAfterRender(firstRender);
-        if (firstRender)
+        var type = EntityExtensions.GetEntityDescriptor<TextBlock>().Key;
+        if (item != null)
         {
-            InitSortable();
+            type = item.Value;
+        }
+        var block = BRCEntitiesRegistrar.Instance().CreateBlock(type);
+        Blocks.Add(block);
+        FillPositions();
+        StateHasChanged();
+    }
+
+    private bool CanMoveBlockUp(ContentBlock block)
+    {
+        return block.Position > 0;
+    }
+
+    private bool CanMoveBlockDown(ContentBlock block)
+    {
+        return block.Position < Blocks.Count - 1;
+    }
+
+    private void MoveBlockUp(ContentBlock block)
+    {
+        if (CanMoveBlockUp(block))
+        {
+            UpdateIndex(block.Position - 1, block.Position);
         }
     }
 
-    void InitSortable()
+    private void MoveBlockDown(ContentBlock block)
     {
-        var arg = new
+        if (CanMoveBlockDown(block))
         {
-            id = $"blocks-{Item.Id}",
-            element = ".rz-card",
-            handle = "[dragHandle]",
-            instance = DotNetObjectReference.Create(this)
-        };
-        JsRuntime.InvokeAsync<string>(
-            "BlazorSortable",
-            arg);
+            UpdateIndex(block.Position + 1, block.Position);
+        }
     }
 
-    [JSInvokable]
-    public async Task<bool> UpdateIndexAsync(int newIndex, int oldIndex)
+    private void UpdateIndex(int newIndex, int oldIndex)
     {
         Blocks.Move(oldIndex, newIndex);
+        FillPositions();
+    }
+
+    private void FillPositions()
+    {
         foreach (var block in Blocks)
         {
             block.Position = Blocks.IndexOf(block);
         }
-        return true;
+        Item.Blocks = Blocks.ToList();
+    }
+
+    private async Task DeleteBlockAsync(ContentBlock block)
+    {
+        if (await DialogService.Confirm("Вы действительно хотите удалить это блок?", "Удаление блока", new ConfirmOptions
+        {
+            OkButtonText = "Удалить",
+            CancelButtonText = "Отмена"
+        }) == true)
+        {
+            Blocks.Remove(block);
+            if (!Blocks.Any())
+            {
+                AddBlock(null);
+            }
+            FillPositions();
+        }
     }
 
 }

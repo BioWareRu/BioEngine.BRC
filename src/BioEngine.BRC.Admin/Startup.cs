@@ -1,6 +1,7 @@
 using System;
 using BioEngine.BRC.Admin.Components;
 using BioEngine.BRC.Admin.Components.RenderService;
+using BioEngine.BRC.Admin.Components.Validation;
 using BioEngine.BRC.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -40,6 +41,9 @@ namespace BioEngine.BRC.Admin
             services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddScoped<DialogService>();
             services.AddScoped<NotificationService>();
+            services.AddScoped<ContextMenuService>();
+            services.AddScoped<TooltipService>();
+            services.AddScoped<FluentValidator>();
         }
 
         protected override void ConfigureAfterRoutingMiddleware(IApplicationBuilder app)

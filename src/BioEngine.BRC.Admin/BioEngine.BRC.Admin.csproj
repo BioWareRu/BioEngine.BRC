@@ -3,11 +3,9 @@
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>bw</UserSecretsId>
     <Nullable>enable</Nullable>
-    <BlazorLinkOnBuild Condition="'$(Configuration)'!='Release'">false</BlazorLinkOnBuild>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Blazored.FluentValidation" Version="1.3.2" />
-    <PackageReference Include="Radzen.Blazor" Version="2.17.0" />
+    <PackageReference Include="Radzen.Blazor" Version="2.17.2" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.2" />
   </ItemGroup>
   <ItemGroup>

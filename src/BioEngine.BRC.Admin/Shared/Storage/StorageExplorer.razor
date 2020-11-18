@@ -45,8 +45,26 @@
             </div>
         </div>
     </div>
-    <RadzenGrid AllowPaging="true" PageSize="50" Count="@Items.Count()" Data="@Items">
+    <RadzenGrid AllowPaging="true" PageSize="10" Count="@Items.Count()" Data="@Items">
         <Columns>
+            @if (SelectMode)
+            {
+                <RadzenGridColumn TItem="IStorageNode" Width="50px" TextAlign="TextAlign.Center">
+                    <Template Context="node">
+                    @if (node is StorageItem item)
+                    {
+                        if (IsMultiple)
+                        {
+                            <input type="checkbox" checked="true"/>
+                        }
+                        else
+                        {
+                            <RadzenButton Icon="done" Size="ButtonSize.Small" Click="@(() => SelectItem(item))"></RadzenButton>
+                        }
+                    }
+                    </Template>
+                </RadzenGridColumn>
+            }
             <RadzenGridColumn TItem="IStorageNode" Width="100px" TextAlign="TextAlign.Center">
                 <Template Context="node">
                     @if (node is StorageFolder folder)
@@ -114,6 +132,10 @@ else
 
     [Parameter]
     public string Prefix { get; set; }
+    [Parameter]
+    public bool SelectMode { get; set; }
+    [Parameter]
+    public bool IsMultiple { get; set; }
 
     public async Task LoadDataAsync(string path)
     {
@@ -162,6 +184,9 @@ else
         }
     }
 
+    private void SelectItem(StorageItem item)
+    {
+        DialogService.Close(item);
+    }
+
 }
-
-

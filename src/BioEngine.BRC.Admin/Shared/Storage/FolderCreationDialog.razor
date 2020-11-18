@@ -2,9 +2,12 @@
 @inject DialogService DialogService
 
 <RadzenCard Style="padding: 20px;">
-    <div class="form-group row">
-        <div class="col-md-12">
-            <RadzenTextBox @bind-Value="FolderName"></RadzenTextBox>
+    <div class="form-group mb-4">
+        <div class="form-row">
+            <div class="col-3">
+                <RadzenLabel Text="Название папки" for="folderName"></RadzenLabel>
+                <RadzenTextBox id="folderName" @bind-Value="FolderName"></RadzenTextBox>
+            </div>
         </div>
     </div>
     <div class="row">

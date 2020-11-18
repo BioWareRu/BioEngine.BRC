@@ -3,8 +3,20 @@
 @using BioEngine.BRC.Core
 @using BioEngine.BRC.Core.Entities.Blocks
 @inject IStorage<BRCStorageConfig> Storage
+@inject DialogService DialogService
 
-<InputFile OnChange="HandleSelection"/>
+@if (Block.Data.File == null)
+{
+    <RadzenButton Text=@("Выбрать файл") Click="@ShowStorageDialogAsync"/>
+}
+else
+{
+    <div class="row" style="margin-bottom: 0">
+        <div class="col-11"><RadzenImage Path="@(Storage.PublicUri(Block.Data.File).ToString())" /></div>
+        <div class="col-1" style="text-align: right"><RadzenIcon Icon="delete" title="Удалить" @onclick="@(() => Block.Data.File = null)"></RadzenIcon></div>
+    </div>
+        
+}
 <ValidationMessage For="@(() => Block.Data.File)"></ValidationMessage>
 
 @code
@@ -12,10 +24,16 @@
     [Parameter]
     public FileBlock Block { get; set; }
 
-    async Task HandleSelection(InputFileChangeEventArgs args)
+    public async Task ShowStorageDialogAsync()
     {
-        await using var stream = new MemoryStream();
-        await args.File.OpenReadStream().CopyToAsync(stream);
-        Block.Data.File = await Storage.SaveFileAsync(stream, args.File.Name, "posts");
+        var result = await DialogService.OpenAsync<StorageExplorerDialog>("Выбор файла", new Dictionary<string, object>
+        {
+            {"Prefix", "storage"},
+            {"IsMultiple", false}
+        });
+        if (result is StorageItem item)
+        {
+            Block.Data.File = item;
+        }
     }
 }
