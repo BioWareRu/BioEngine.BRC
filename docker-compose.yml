@@ -19,7 +19,7 @@ services:
             - minio_config:/root/.minio
         environment:
             - MINIO_ACCESS_KEY=2zdj83LPN4pTCREJ
-                - MINIO_SECRET_KEY=rQPjWQqtFqJbH3furiNc2i9vrpBYJint
+            - MINIO_SECRET_KEY=rQPjWQqtFqJbH3furiNc2i9vrpBYJint
     elasticsearch:
         image: docker.elastic.co/elasticsearch/elasticsearch:7.9.0
         environment:
