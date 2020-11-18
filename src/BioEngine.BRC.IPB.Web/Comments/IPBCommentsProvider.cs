@@ -39,7 +39,7 @@ namespace BioEngine.BRC.IPB.Web.Comments
         [SuppressMessage("ReSharper", "RCS1198")]
         public override async Task<Dictionary<Guid, Uri?>> GetCommentsUrlAsync(IContentItem[] entities, Site site)
         {
-            var types = entities.Select(e => e.GetKey()).Distinct().ToArray();
+            var types = entities.Select(e => e.GetEntityDescriptor().Key).Distinct().ToArray();
             var ids = entities.Select(e => e.Id).ToArray();
 
             var contentSettings = await DbContext.Set<IPBPublishRecord>()
@@ -51,7 +51,7 @@ namespace BioEngine.BRC.IPB.Web.Comments
             {
                 Uri? uri = null;
                 var settings = contentSettings.FirstOrDefault(c =>
-                    c.Type == entity.GetKey() && c.ContentId == entity.Id);
+                    c.Type == entity.GetEntityDescriptor().Key && c.ContentId == entity.Id);
                 if (settings?.TopicId > 0)
                 {
                     uri = new Uri(

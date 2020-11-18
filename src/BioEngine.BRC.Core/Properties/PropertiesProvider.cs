@@ -212,7 +212,10 @@ namespace BioEngine.BRC.Core.Properties
 
             var record = await LoadFromDatabaseAsync(schema, entity, siteId) ?? new PropertiesRecord
             {
-                Key = schema.Key, EntityType = entity.GetKey(), EntityId = entity.Id, SiteId = siteId
+                Key = schema.Key,
+                EntityType = entity.GetEntityDescriptor().Key,
+                EntityId = entity.Id,
+                SiteId = siteId
             };
 
 
@@ -250,7 +253,7 @@ namespace BioEngine.BRC.Core.Properties
                 ? null
                 : await _dbContext.Properties.FirstOrDefaultAsync(s =>
                     s.Key == schema.Key
-                    && s.EntityType == entity.GetKey() && s.EntityId == entity.Id &&
+                    && s.EntityType == entity.GetEntityDescriptor().Key && s.EntityId == entity.Id &&
                     (siteId == null || s.SiteId == siteId.Value));
         }
 
@@ -260,7 +263,7 @@ namespace BioEngine.BRC.Core.Properties
             if (entitiesArray.Any())
             {
                 var sites = await _dbContext.Sites.ToListAsync();
-                var groups = entitiesArray.GroupBy(e => e.GetKey());
+                var groups = entitiesArray.GroupBy(e => e.GetEntityDescriptor().Key);
                 foreach (var group in groups)
                 {
                     var ids = group.Where(e => e.Id != default).Select(e => e.Id);
@@ -281,7 +284,8 @@ namespace BioEngine.BRC.Core.Properties
                     }
 
                     var propertiesRecords = await _dbContext.Properties.Where(s =>
-                        s.EntityId != null && s.EntityType == entityType && ids.Contains(s.EntityId.Value)).ToListAsync();
+                            s.EntityId != null && s.EntityType == entityType && ids.Contains(s.EntityId.Value))
+                        .ToListAsync();
 
                     foreach (var entity in group)
                     {

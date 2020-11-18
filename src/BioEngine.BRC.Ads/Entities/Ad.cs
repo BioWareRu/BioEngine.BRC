@@ -8,7 +8,7 @@ using BioEngine.BRC.Core.Entities.Abstractions;
 namespace BioEngine.BRC.Ads.Entities
 {
     [Table("Ads")]
-    [Entity("ad")]
+    [Entity("ad", "Ad")]
     public class Ad : BaseSiteEntity, IContentEntity
     {
         [NotMapped] public string PublicRouteName { get; set; } = "";

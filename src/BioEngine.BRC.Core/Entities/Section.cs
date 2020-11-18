@@ -23,6 +23,5 @@ namespace BioEngine.BRC.Core.Entities
     public abstract class Section<T> : Section, ITypedEntity<T> where T : ITypedData, new()
     {
         [Column(TypeName = "jsonb")] public virtual T Data { get; set; } = new T();
-        [NotMapped] public abstract string? TypeTitle { get; set; }
     }
 }

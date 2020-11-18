@@ -42,7 +42,7 @@ namespace BioEngine.BRC.Core.Publishing
                     {
                         Id = Guid.NewGuid(),
                         ContentId = entity.Id,
-                        Type = entity.GetKey(),
+                        Type = entity.GetEntityDescriptor().Key,
                         SiteIds = !allSites ? new[] {site.Id} : entity.SiteIds
                     };
                 }
@@ -102,7 +102,7 @@ namespace BioEngine.BRC.Core.Publishing
         {
             return await _dbContext.Set<TPublishRecord>()
                 .FirstOrDefaultAsync(r =>
-                    r.Type == entity.GetKey() && r.ContentId == entity.Id
+                    r.Type == entity.GetEntityDescriptor().Key && r.ContentId == entity.Id
                                               && (allSites || r.SiteIds.Contains(site.Id)));
         }
 
@@ -110,7 +110,7 @@ namespace BioEngine.BRC.Core.Publishing
         {
             return await _dbContext.Set<TPublishRecord>()
                 .Where(r =>
-                    r.Type == entity.GetKey() && r.ContentId == entity.Id)
+                    r.Type == entity.GetEntityDescriptor().Key && r.ContentId == entity.Id)
                 .ToListAsync();
         }
 

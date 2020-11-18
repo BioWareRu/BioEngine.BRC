@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 namespace BioEngine.BRC.Posts.Entities
 {
     [Table("PostVersions")]
-    [Entity("postversion")]
+    [Entity("postversion", "Версия поста")]
     public class PostVersion : BaseEntity
     {
         public Guid ContentId { get; set; }

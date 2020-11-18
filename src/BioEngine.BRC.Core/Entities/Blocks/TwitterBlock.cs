@@ -1,10 +1,8 @@
 namespace BioEngine.BRC.Core.Entities.Blocks
 {
-    [Entity("twitterblock")]
+    [Entity("twitterblock","Twitter")]
     public class TwitterBlock : ContentBlock<TwitterBlockData>
     {
-        public override string? TypeTitle { get; set; } = "Twitter";
-
         public override string ToString()
         {
             return $"Twitter: {Data.TweetId} by {Data.TweetAuthor}";

@@ -8,7 +8,7 @@ using BioEngine.BRC.Core.Users;
 
 namespace BioEngine.BRC.Posts.Entities
 {
-    [Entity("postcontentitem")]
+    [Entity("postcontentitem", "Пост")]
     [Table("Posts")]
     public class Post : BaseEntity, IContentItem
     {

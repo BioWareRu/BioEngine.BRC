@@ -3,7 +3,7 @@ using BioEngine.BRC.Core.Publishing;
 
 namespace BioEngine.BRC.Twitter
 {
-    [Entity("twitterpublishrecord")]
+    [Entity("twitterpublishrecord", "Твит")]
     public class TwitterPublishRecord : BasePublishRecord
     {
         public long TweetId { get; set; }

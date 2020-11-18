@@ -28,7 +28,8 @@ namespace BioEngine.BRC.Core.Comments
 
         public Task<int> GetCommentsCountAsync(IContentItem entity)
         {
-            return GetDbSet().Where(c => c.ContentId == entity.Id && c.ContentType == entity.GetKey())
+            return GetDbSet()
+                .Where(c => c.ContentId == entity.Id && c.ContentType == entity.GetEntityDescriptor().Key)
                 .CountAsync();
         }
 
@@ -38,7 +39,7 @@ namespace BioEngine.BRC.Core.Comments
             IContentItem[] entities, Site site)
         {
             var result = new Dictionary<Guid, (int count, Uri? uri)>();
-            var groups = entities.GroupBy(e => e.GetKey()).ToList();
+            var groups = entities.GroupBy(e => e.GetEntityDescriptor().Key).ToList();
             foreach (var group in groups)
             {
                 var ids = group.Select(e => e.Id).ToArray();
@@ -76,7 +77,8 @@ namespace BioEngine.BRC.Core.Comments
             int count) where TContent : class, IContentItem
         {
             var comments = await GetDbSet().Where(c =>
-                    c.SiteIds.Contains(site.Id) && c.ContentType == EntityExtensions.GetKey<TContent>())
+                    c.SiteIds.Contains(site.Id) &&
+                    c.ContentType == EntityExtensions.GetEntityDescriptor<TContent>().Key)
                 .OrderByDescending(c => c.DateUpdated).Take(count).ToListAsync();
             var authors = await _userDataProvider.GetDataAsync(comments.Select(c => c.AuthorId).ToArray());
             var groups = comments.GroupBy(c => c.ContentType);
@@ -101,7 +103,7 @@ namespace BioEngine.BRC.Core.Comments
         {
             var ids = await GetDbSet()
                 .Where(c => c.DateUpdated >= DateTimeOffset.Now - period && c.SiteIds.Contains(site.Id) &&
-                            c.ContentType == EntityExtensions.GetKey<TContent>())
+                            c.ContentType == EntityExtensions.GetEntityDescriptor<TContent>().Key)
                 .GroupBy(c => c.ContentId).OrderByDescending(c => c.Count()).Select(c => c.Key)
                 .Take(count)
                 .ToListAsync();

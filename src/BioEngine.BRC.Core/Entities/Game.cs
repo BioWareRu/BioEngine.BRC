@@ -3,10 +3,9 @@ using BioEngine.BRC.Core.Routing;
 
 namespace BioEngine.BRC.Core.Entities
 {
-    [Entity("gamesection")]
+    [Entity("gamesection", "Игра")]
     public class Game : BrcSection<GameData>
     {
-        public override string? TypeTitle { get; set; } = "Игра"; 
         [NotMapped] public override string PublicRouteName { get; set; } = BrcDomainRoutes.GamePublic;
     }
 

@@ -2,20 +2,18 @@
 
 namespace BioEngine.BRC.Core.Entities.Blocks
 {
-    [Entity("pictureblock")]
+    [Entity("pictureblock", "Картинка")]
     public class PictureBlock : ContentBlock<PictureBlockData>
     {
-        public override string? TypeTitle { get; set; } = "Галерея";
-
         public override string ToString()
         {
-            return $"Картинка: {Data.Picture.FileName}";
+            return Data.Picture is null ? "Картинка не выбрана" : $"Картинка: {Data.Picture.FileName}";
         }
     }
 
     public class PictureBlockData : ContentBlockData
     {
-        public StorageItem Picture { get; set; } = new StorageItem();
-        public string Url { get; set; } = "";
+        public StorageItem? Picture { get; set; }
+        public string? Url { get; set; }
     }
 }

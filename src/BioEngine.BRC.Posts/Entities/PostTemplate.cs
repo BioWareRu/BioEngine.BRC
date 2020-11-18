@@ -8,7 +8,7 @@ using BioEngine.BRC.Core.Users;
 namespace BioEngine.BRC.Posts.Entities
 {
     [Table("PostTemplates")]
-    [Entity("posttemplate")]
+    [Entity("posttemplate", "Шаблон поста")]
     public class PostTemplate : BaseEntity
     {
         [Required] public string Title { get; set; }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BioEngine.BRC.Core.Entities
 {
-    [Entity("propertiesrecord")]
+    [Entity("propertiesrecord", "Свойство")]
     public class PropertiesRecord : BaseEntity
     {
         [Required] public string Key { get; set; } = "";

@@ -3,12 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BioEngine.BRC.Core.Entities
 {
-    [Entity("menu")]
+    [Entity("menu", "Меню")]
     public class Menu : BaseSiteEntity
     {
         public string Title { get; set; } = string.Empty;
-        [Column(TypeName = "jsonb")]
-        public List<MenuItem> Items { get; set; } = new List<MenuItem>();
+        [Column(TypeName = "jsonb")] public List<MenuItem> Items { get; set; } = new List<MenuItem>();
     }
 
     public class MenuItem

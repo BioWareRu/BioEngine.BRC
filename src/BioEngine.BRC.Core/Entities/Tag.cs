@@ -4,7 +4,7 @@ using FluentValidation;
 namespace BioEngine.BRC.Core.Entities
 {
     [Table("Tags")]
-    [Entity("tag")]
+    [Entity("tag", "Тэг")]
     public class Tag : BaseEntity
     {
         public string Title { get; set; } = string.Empty;

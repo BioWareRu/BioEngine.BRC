@@ -4,10 +4,9 @@ using BioEngine.BRC.Core.Routing;
 
 namespace BioEngine.BRC.Core.Entities
 {
-    [Entity("developersection")]
+    [Entity("developersection", "Разработчик")]
     public class Developer : BrcSection<DeveloperData>
     {
-        public override string? TypeTitle { get; set; } = "Разработчик";
         [NotMapped] public override string PublicRouteName { get; set; } = BrcDomainRoutes.DeveloperPublic;
     }
 

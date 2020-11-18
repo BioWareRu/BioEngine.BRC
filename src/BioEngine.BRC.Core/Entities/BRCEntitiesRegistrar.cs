@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Reflection;
 using BioEngine.BRC.Core.Entities.Abstractions;
 using BioEngine.BRC.Core.Validation;
 using FluentValidation;
@@ -15,15 +16,23 @@ namespace BioEngine.BRC.Core.Entities
 {
     public class BRCEntitiesRegistrar
     {
-        private readonly IServiceCollection _serviceCollection;
+        private static readonly ConcurrentDictionary<string, EntityDescriptor>
+            _blockTypes = new();
 
-        private static readonly ConcurrentDictionary<string, Type>
-            _blockTypes = new ConcurrentDictionary<string, Type>();
-
-        private static readonly ConcurrentDictionary<string, Type> _entities = new ConcurrentDictionary<string, Type>();
+        private static readonly ConcurrentDictionary<Type, EntityDescriptor> _entities = new();
 
         private static bool _requireArrayConversion;
         private static BRCEntitiesRegistrar? _instance;
+
+        private readonly List<Action<ModelBuilder>> _modelBuilderConfigurators = new();
+        private readonly IServiceCollection _serviceCollection;
+
+        private BRCEntitiesRegistrar(IServiceCollection serviceCollection)
+        {
+            _serviceCollection = serviceCollection;
+        }
+
+        public IEnumerable<EntityDescriptor> Blocks => _blockTypes.Values;
 
         public void RequireArrayConversion()
         {
@@ -33,11 +42,6 @@ namespace BioEngine.BRC.Core.Entities
         public bool IsArrayConversionRequired()
         {
             return _requireArrayConversion;
-        }
-
-        private BRCEntitiesRegistrar(IServiceCollection serviceCollection)
-        {
-            _serviceCollection = serviceCollection;
         }
 
         public static BRCEntitiesRegistrar Instance(IServiceCollection serviceCollection)
@@ -65,43 +69,55 @@ namespace BioEngine.BRC.Core.Entities
         {
             if (_blockTypes.ContainsKey(key))
             {
-                return Activator.CreateInstance(_blockTypes[key]) as ContentBlock;
+                return Activator.CreateInstance(_blockTypes[key].Type) as ContentBlock;
             }
 
             return null;
         }
 
         public void RegisterContentBlock<TBlock, TBlockData>()
-            where TBlock : ContentBlock<TBlockData> where TBlockData : ContentBlockData, new()
+            where TBlock : ContentBlock<TBlockData>, new() where TBlockData : ContentBlockData, new()
         {
             _modelBuilderConfigurators.Add(modelBuilder =>
             {
-                var key = EntityExtensions.GetKey<TBlock>();
-                // logger.LogInformation(
-                //     "Register content block type {type} - {entityType} ({dataType})", key,
-                //     typeof(TBlock),
-                //     typeof(TBlockData));
-                RegisterDiscriminator<ContentBlock, TBlock>(modelBuilder, key);
+                var descriptor = RegisterEntityDescriptor<TBlock>();
+                RegisterDiscriminator<ContentBlock, TBlock>(modelBuilder, descriptor.Key);
                 RegisterDataConversion<TBlock, TBlockData>(modelBuilder);
-                if (!_blockTypes.ContainsKey(key))
+                if (!_blockTypes.ContainsKey(descriptor.Key))
                 {
-                    _blockTypes.TryAdd(key, typeof(TBlock));
+                    _blockTypes.TryAdd(descriptor.Key, descriptor);
                 }
             });
+        }
+
+        private EntityDescriptor RegisterEntityDescriptor<TEntity>() where TEntity : class, IEntity
+        {
+            if (!_entities.ContainsKey(typeof(TEntity)))
+            {
+                var attr = typeof(TEntity).GetCustomAttribute<EntityAttribute>();
+                if (attr == null)
+                {
+                    throw new ArgumentException($"Entity type without type attribute: {typeof(TEntity)}");
+                }
+
+                var descriptor = new EntityDescriptor(attr.Key, typeof(TEntity), attr.Title);
+
+                _entities.TryAdd(typeof(TEntity), descriptor);
+            }
+
+            return _entities[typeof(TEntity)];
         }
 
         public void RegisterSection<TSection, TSectionData>()
             where TSection : Section<TSectionData> where TSectionData : ITypedData, new()
         {
             _serviceCollection.AddScoped<IValidator, SiteEntityValidator<TSection>>();
+            _serviceCollection.AddScoped<IValidator<TSection>, SiteEntityValidator<TSection>>();
             RegisterEntity<TSection>();
             _modelBuilderConfigurators.Add(modelBuilder =>
             {
-                var key = EntityExtensions.GetKey<TSection>();
-                // logger.LogInformation("Register section type {type} - {entityType} ({dataType})", key,
-                //     typeof(TSection),
-                //     typeof(TSectionData));
-                RegisterDiscriminator<Section, TSection>(modelBuilder, key);
+                var descriptor = RegisterEntityDescriptor<TSection>();
+                RegisterDiscriminator<Section, TSection>(modelBuilder, descriptor.Key);
                 RegisterDataConversion<TSection, TSectionData>(modelBuilder);
                 if (_requireArrayConversion)
                 {
@@ -113,12 +129,12 @@ namespace BioEngine.BRC.Core.Entities
         public void RegisterContentItem<TContentItem>()
             where TContentItem : class, IContentItem
         {
-            // logger.LogInformation("Register content item type {type} - {entityType}",
-            //     EntityExtensions.GetKey<TContentItem>(),
-            //     typeof(TContentItem));
             _serviceCollection.AddScoped<IValidator, SiteEntityValidator<TContentItem>>();
             _serviceCollection.AddScoped<IValidator, SectionEntityValidator<TContentItem>>();
             _serviceCollection.AddScoped<IValidator, ContentItemValidator<TContentItem>>();
+            _serviceCollection.AddScoped<IValidator<TContentItem>, SiteEntityValidator<TContentItem>>();
+            _serviceCollection.AddScoped<IValidator<TContentItem>, SectionEntityValidator<TContentItem>>();
+            _serviceCollection.AddScoped<IValidator<TContentItem>, ContentItemValidator<TContentItem>>();
             RegisterEntity<TContentItem>();
             _modelBuilderConfigurators.Add(modelBuilder =>
             {
@@ -149,15 +165,9 @@ namespace BioEngine.BRC.Core.Entities
             {
                 modelBuilder.Entity<TEntity>();
                 configure?.Invoke(modelBuilder.Entity<TEntity>());
-                var key = EntityExtensions.GetKey<TEntity>();
-                if (!_entities.ContainsKey(key))
-                {
-                    _entities.TryAdd(key, typeof(TEntity));
-                }
+                RegisterEntityDescriptor<TEntity>();
             });
         }
-
-        private readonly List<Action<ModelBuilder>> _modelBuilderConfigurators = new List<Action<ModelBuilder>>();
 
         public BRCEntitiesRegistrar ConfigureModelBuilder(Action<ModelBuilder> configure)
         {
@@ -169,6 +179,7 @@ namespace BioEngine.BRC.Core.Entities
             where TSiteEntity : class, ISiteEntity
         {
             _serviceCollection.AddScoped<IValidator, SiteEntityValidator<TSiteEntity>>();
+            _serviceCollection.AddScoped<IValidator<TSiteEntity>, SiteEntityValidator<TSiteEntity>>();
             RegisterEntity<TSiteEntity>();
             _modelBuilderConfigurators.Add(modelBuilder =>
             {
@@ -253,6 +264,36 @@ namespace BioEngine.BRC.Core.Entities
             {
                 modelBuilderConfigurator(modelBuilder);
             }
+        }
+
+        public EntityDescriptor GetEntityDescriptor(Type type)
+        {
+            if (_entities.ContainsKey(type))
+            {
+                return _entities[type];
+            }
+
+            throw new ArgumentException($"Unknown entity type {type}");
+        }
+
+        public EntityDescriptor GetEntityDescriptor<TEntity>() where TEntity : IEntity
+        {
+            return GetEntityDescriptor(typeof(TEntity));
+        }
+    }
+
+    public record EntityDescriptor(string Key, Type Type, string Title);
+
+    public static class EntityExtensions
+    {
+        public static EntityDescriptor GetEntityDescriptor(this IEntity entity)
+        {
+            return BRCEntitiesRegistrar.Instance().GetEntityDescriptor(entity.GetType());
+        }
+
+        public static EntityDescriptor GetEntityDescriptor<T>() where T : IEntity
+        {
+            return BRCEntitiesRegistrar.Instance().GetEntityDescriptor<T>();
         }
     }
 }

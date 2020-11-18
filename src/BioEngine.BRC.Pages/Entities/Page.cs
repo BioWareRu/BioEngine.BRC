@@ -7,7 +7,7 @@ using BioEngine.BRC.Core.Routing;
 
 namespace BioEngine.BRC.Pages.Entities
 {
-    [Entity("pagecontentitem")]
+    [Entity("pagecontentitem", "Страница")]
     [Table("Pages")]
     public class Page : BaseSiteEntity, IContentEntity
     {

@@ -1,10 +1,8 @@
 namespace BioEngine.BRC.Core.Entities.Blocks
 {
-    [Entity("iframeblock")]
+    [Entity("iframeblock", "Iframe")]
     public class IframeBlock : ContentBlock<IframeBlockData>
     {
-        public override string? TypeTitle { get; set; } = "Iframe";
-        
         public override string ToString()
         {
             return $"Frame: {Data.Src}";

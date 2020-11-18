@@ -1,6 +1,6 @@
 ﻿namespace BioEngine.BRC.Core.Entities
 {
-    [Entity("site")]
+    [Entity("site", "Сайт")]
     public class Site : BaseEntity
     {
         public string Url { get; set; } = string.Empty;

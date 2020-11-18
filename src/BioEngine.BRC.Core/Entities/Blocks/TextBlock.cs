@@ -1,10 +1,8 @@
 ﻿namespace BioEngine.BRC.Core.Entities.Blocks
 {
-    [Entity("textblock")]
+    [Entity("textblock", "Текст")]
     public class TextBlock : ContentBlock<TextBlockData>
     {
-        public override string? TypeTitle { get; set; } = "Пост";
-        
         public override string ToString()
         {
             return Data.Text;

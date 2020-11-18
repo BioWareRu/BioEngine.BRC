@@ -6,7 +6,7 @@ using BioEngine.BRC.IPB.Entities;
 
 namespace BioEngine.BRC.IPB.Auth
 {
-    [Entity("ipbuser")]
+    [Entity("ipbuser", "IPB Юзер")]
     public class User : IUser
     {
         public string Id { get; set; }

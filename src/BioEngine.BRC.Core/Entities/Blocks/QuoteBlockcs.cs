@@ -2,11 +2,9 @@
 
 namespace BioEngine.BRC.Core.Entities.Blocks
 {
-    [Entity("quoteblock")]
+    [Entity("quoteblock", "Цитата")]
     public class QuoteBlock : ContentBlock<QuoteBlockData>
     {
-        public override string? TypeTitle { get; set; } = "Цитата";
-
         public override string ToString()
         {
             return $"{Data.Author}: {Data.Text} ({Data.Link})";

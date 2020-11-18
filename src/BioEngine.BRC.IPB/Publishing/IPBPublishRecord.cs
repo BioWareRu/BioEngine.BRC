@@ -4,7 +4,7 @@ using BioEngine.BRC.Core.Publishing;
 
 namespace BioEngine.BRC.IPB.Publishing
 {
-    [Entity("ipbpublishrecord")]
+    [Entity("ipbpublishrecord", "Публикация на форуме")]
     public class IPBPublishRecord : BasePublishRecord
     {
         [Required] public int TopicId { get; set; }

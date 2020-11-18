@@ -21,7 +21,7 @@ namespace BioEngine.BRC.Core.Users
         }
     }
 
-    [Entity("testuser")]
+    [Entity("testuser", "Test user")]
     public class TestUser : IUser
     {
         public string Id { get; set; } = string.Empty;
