@@ -6,19 +6,18 @@
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>BioEngine.BRC.Admin</title>
     <base href="~/"/>
-    <link rel="stylesheet" href="_content/Radzen.Blazor/css/default.css">
-    <link rel="stylesheet" href="~/dist/styles.css"/>
+    <link rel="stylesheet" href="~/dist/vendor.css"/>
+    <link rel="stylesheet" href="_content/Radzen.Blazor/css/software-base.css"/>
+    <link rel="stylesheet" href="~/dist/main.css"/>
 </head>
 <body>
-<app>
-    <component type="typeof(App)" render-mode="ServerPrerendered"/>
-</app>
+<component type="typeof(App)" render-mode="ServerPrerendered"/>
 
 <div id="blazor-error-ui">
     <environment include="Staging,Production">
@@ -32,18 +31,9 @@
 </div>
 
 <script src="_framework/blazor.server.js"></script>
+<script src="~/dist/vendor.bundle.js"></script>
 <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
-<script src="_content/BlazorInputFile/inputfile.js"></script>
 <script src="~/dist/cke/ckeditor.js"></script>
-<script src="~/dist/index.js"></script>
-<environment include="Development">
-    <script> 
-        window.Blazor.defaultReconnectionHandler.onConnectionDown = function () {
-            setTimeout(function () {
-                location.reload();
-            }, 7000);
-        }
-    </script>
-</environment>
+<script src="~/dist/main.bundle.js"></script>
 </body>
 </html>
