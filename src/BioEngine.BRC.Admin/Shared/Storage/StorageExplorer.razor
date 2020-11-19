@@ -43,6 +43,25 @@
             <div class="col-4">
                 <RadzenButton Text=@("Создать папку") Click="@ShowFolderDialogAsync"/>
             </div>
+            <div class="col-4">
+               @if (SelectMode)
+               {
+                   var text = "Выберите файлы";
+                   var isEnabled = SelectedItems.Count > 0;
+                   if (isEnabled)
+                   {
+                       if (IsMultiple)
+                       {
+                           text = $"Выбрать файлы ({SelectedItems.Count})";
+                       }
+                       else
+                       {
+                           text = "Выбрать файл";
+                       }
+                   }
+                   <BSButton Color="Color.Success" IsDisabled="!isEnabled" OnClick="@SelectItems">@text</BSButton>
+               }
+            </div>
         </div>
     </div>
     <RadzenGrid AllowPaging="true" PageSize="10" Count="@Items.Count()" Data="@Items">
@@ -51,20 +70,12 @@
             {
                 <RadzenGridColumn TItem="IStorageNode" Width="50px" TextAlign="TextAlign.Center">
                     <Template Context="node">
-                    @if (node is StorageItem item)
-                    {
-                        if (IsMultiple)
+                        @if (node is StorageItem item)
                         {
-                            <input type="checkbox" checked="true"/>
+                            <input disabled="@(!CanSelectItem(item))" type="checkbox" checked="@SelectedItems.Contains(item)" @onchange="@(args => ChangeItemSelection(args, item))" />
                         }
-                        else
-                        {
-                            <RadzenButton Icon="done" Size="ButtonSize.Small" Click="@(() => SelectItem(item))"></RadzenButton>
-                        }
-                    }
                     </Template>
-                </RadzenGridColumn>
-            }
+                </RadzenGridColumn>            }
             <RadzenGridColumn TItem="IStorageNode" Width="100px" TextAlign="TextAlign.Center">
                 <Template Context="node">
                     @if (node is StorageFolder folder)
@@ -132,10 +143,14 @@ else
 
     [Parameter]
     public string Prefix { get; set; }
+
     [Parameter]
     public bool SelectMode { get; set; }
+
     [Parameter]
     public bool IsMultiple { get; set; }
+
+    private List<StorageItem> SelectedItems = new ();
 
     public async Task LoadDataAsync(string path)
     {
@@ -184,9 +199,44 @@ else
         }
     }
 
-    private void SelectItem(StorageItem item)
+    private void SelectItems()
     {
-        DialogService.Close(item);
+        DialogService.Close(SelectedItems.ToArray());
+    }
+
+    private bool CanSelectItem(IStorageNode item)
+    {
+        if (IsMultiple)
+        {
+            return true;
+        }
+
+        if (SelectedItems.Count == 0)
+        {
+            return true;
+        }
+
+        if (SelectedItems.Contains(item))
+        {
+            return true;
+        }
+
+        return false;
+    }
+    
+    private void ChangeItemSelection(ChangeEventArgs args, IStorageNode node)
+    {
+        if (node is StorageItem item)
+        {
+            if (args.Value is bool isSelected && isSelected)
+            {
+                SelectedItems.Add(item);
+            }
+            else
+            {
+                SelectedItems.Remove(item);
+            }
+        }
     }
 
 }

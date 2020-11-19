@@ -1,18 +1,64 @@
 ﻿@using BioEngine.BRC.Core.Entities.Blocks
-<div>
-    <CKEEditor @bind-Value="Block.Data.Text"></CKEEditor>
-    <ValidationMessage For="@(() => Block.Data.Text)"></ValidationMessage>
-</div>
+@using Sitko.Core.Storage
+@using InputType = BlazorStrap.InputType
+@using BioEngine.BRC.Core
+@inject IStorage<BRCStorageConfig> Storage
+@inject DialogService DialogService
+<BSFormRow>
+    <BSFormGroup Class="col-md-12">
+        <CKEEditor @bind-Value="Block.Data.Text"></CKEEditor>
+        <BSFormFeedback For="@(() => Block.Data.Text)"/>
+    </BSFormGroup>
+</BSFormRow>
 <hr/>
-<div>
-    <RadzenTextBox @bind-Value="Block.Data.Author" Placeholder="Автор" Style="width: 100%"/>
-    <ValidationMessage For="@(() => Block.Data.Author)"></ValidationMessage>
-    <RadzenTextBox @bind-Value="Block.Data.Link" Placeholder="Ссылка" Style="width: 100%"/>
-    <ValidationMessage For="@(() => Block.Data.Link)"></ValidationMessage>
-</div>
+<BSFormRow>
+    <BSFormGroup Class="col-md-4">
+        <BSLabel>Источник</BSLabel>
+        <BSInput InputType="InputType.Text" @bind-Value="@Block.Data.Author" ValidateOnChange="true"/>
+        <BSFormFeedback For="@(() => Block.Data.Author)"/>
+    </BSFormGroup>
+    <BSFormGroup Class="col-md-4">
+        <BSLabel>Ссылка</BSLabel>
+        <BSInput InputType="InputType.Text" @bind-Value="@Block.Data.Link" ValidateOnChange="true"/>
+        <BSFormFeedback For="@(() => Block.Data.Link)"/>
+    </BSFormGroup>
+    <BSFormGroup Class="col-md-4">
+        <BSLabel>Картинка к источнику</BSLabel>
+        <div>
+            @if (Block.Data.Picture is not null)
+            {
+                <a href="@(Storage.PublicUri(Block.Data.Picture).ToString())" target="_blank">
+                    <img src="@(Storage.PublicUri(Block.Data.Picture).ToString())" alt="@Block.Data.Picture.Name" style="max-width: 50px"/>
+                </a>
+                <br/>
+                <a href="#" @onclick="@(() => Block.Data.Picture = null)" @onclick:preventDefault><i class="fas fa-trash"></i> Удалить</a>
+            }
+            else
+            {
+                <BSButton OnClick="@ShowStorageDialogAsync">Выбрать картинку</BSButton>            }
+        </div>
+        <BSFormFeedback For="@(() => Block.Data.Picture)"/>
+    </BSFormGroup>
+</BSFormRow>
 
 @code
 {
     [Parameter]
     public QuoteBlock Block { get; set; }
+
+    public async Task ShowStorageDialogAsync()
+    {
+        var result = await DialogService.OpenAsync<StorageExplorerDialog>("Выбор файла", new Dictionary<string, object>
+        {
+            {"Prefix", "storage"},
+            {"IsMultiple", false}
+        }, new DialogOptions
+        {
+            Width = "60%"
+        });
+        if (result is StorageItem item)
+        {
+            Block.Data.Picture = item;
+        }
+    }
 }

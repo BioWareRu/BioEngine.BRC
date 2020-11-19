@@ -1,71 +1,33 @@
 ﻿@using System.ComponentModel.DataAnnotations
 @using BioEngine.BRC.Core.Entities.Blocks
+@using InputType = BlazorStrap.InputType
 @inject IJSRuntime JsRuntime
 
-<div>
-    <RadzenTextBox @bind-Value="TweetLink" Change="@(link => GetTweetData(link))" Style="width: 100%"/>
-    <ValidationMessage For="@(() => Block.Data.TweetId)"></ValidationMessage>
-</div>
-
-<div id="twitter-@Block.Id"></div>
+<BSFormRow>
+    <BSFormGroup Class="col-md-12">
+        <BSLabel>Ссылка</BSLabel>
+        <BSInput InputType="InputType.Url" Id="title" @bind-Value="@Block.Data.TweetLink" OnBlur="RenderTweetAsync" ValidateOnChange="true"/>
+        <BSFormFeedback For="@(() => Block.Data.TweetLink)"/>
+    </BSFormGroup>
+</BSFormRow>
+@if (!string.IsNullOrEmpty(Block.Data.TweetId))
+{
+    <div id="twitter-@Block.Id" class="tweet">Загрузка твита...</div>
+}
 
 @code
 {
     [Parameter]
     public TwitterBlock Block { get; set; }
 
-    [Required]
-    public string TweetLink { get; set; } = string.Empty;
-
-    protected override void OnInitialized()
+    private async Task RenderTweetAsync()
     {
-        base.OnInitialized();
-        if (!string.IsNullOrEmpty(Block.Data.TweetAuthor) && !string.IsNullOrEmpty(Block.Data.TweetId))
+        if (!string.IsNullOrEmpty(Block.Data.TweetId))
         {
-            TweetLink = GetUrl();
+            var arg = new {tweetId = Block.Data.TweetId, id = Block.Id, instance = DotNetObjectReference.Create(this)};
+            await JsRuntime.InvokeAsync<string>(
+                "BlazorTwttr.render",
+                arg);
         }
-    }
-
-    protected override void OnAfterRender(bool firstRender)
-    {
-        base.OnAfterRender(firstRender);
-        if (firstRender)
-        {
-            RenderTweet();
-        }
-    }
-
-    public void GetTweetData(string link)
-    {
-        TweetLink = link;
-        if (!string.IsNullOrEmpty(TweetLink))
-        {
-            var uri = new Uri(TweetLink);
-
-            if (uri.Segments.Length == 4)
-            {
-                var author = uri.Segments[1].Replace("/", "");
-                var tweetId = uri.Segments.Last();
-                if (Block.Data.TweetAuthor != author || Block.Data.TweetId != tweetId)
-                {
-                    Block.Data.TweetAuthor = author;
-                    Block.Data.TweetId = tweetId;
-                    RenderTweet();
-                }
-            }
-        }
-    }
-
-    private void RenderTweet()
-    {
-        var arg = new {tweetId = Block.Data.TweetId, id = Block.Id, instance = DotNetObjectReference.Create(this)};
-        JsRuntime.InvokeAsync<string>(
-            "BlazorTwttr.render",
-            arg);
-    }
-
-    private string GetUrl()
-    {
-        return "https://twitter.com/" + Block.Data.TweetAuthor + "/status/" + Block.Data.TweetId;
     }
 }

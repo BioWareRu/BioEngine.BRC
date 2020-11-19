@@ -3,8 +3,10 @@ using System.IO;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using BioEngine.BRC.Admin.Shared.Storage;
 using BioEngine.BRC.Core;
 using BioEngine.BRC.Core.Extensions;
+using Radzen;
 using Sitko.Core.Storage;
 using SixLabors.ImageSharp;
 
@@ -57,6 +59,21 @@ namespace BioEngine.BRC.Admin.Extensions
             }
 
             return parts.ToArray();
+        }
+
+        public static async Task<StorageItem[]> SelectStorageItemsAsync(this DialogService dialogService,
+            string prefix = "storage", bool isMultiple = false)
+        {
+            var result = await dialogService.OpenAsync<StorageExplorerDialog>(
+                isMultiple ? "Выбор файлов" : "Выбор файла",
+                new Dictionary<string, object> {{"Prefix", prefix}, {"IsMultiple", isMultiple}},
+                new DialogOptions {Width = "60%"});
+            if (result is StorageItem[] items)
+            {
+                return items;
+            }
+
+            return new StorageItem[0];
         }
     }
 }

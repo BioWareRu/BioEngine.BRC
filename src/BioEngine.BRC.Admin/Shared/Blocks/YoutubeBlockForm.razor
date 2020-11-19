@@ -1,15 +1,19 @@
 ﻿@using BioEngine.BRC.Core.Entities.Blocks
-<div>
-    <RadzenTextBox @bind-Value="YoutubeLink" Change="@(link => GetYoutubeId(link))" Placeholder="Ссылка" Style="width: 100%"/>
-    <ValidationMessage For="@(() => Block.Data.YoutubeId)"></ValidationMessage>
-</div>
-@if (!string.IsNullOrEmpty(YoutubeLink))
+@using InputType = BlazorStrap.InputType
+<BSFormRow>
+        <BSFormGroup Class="col-md-12">
+            <BSLabel>Ссылка</BSLabel>
+            <BSInput InputType="InputType.Url" Id="title" @bind-Value="@Block.Data.YoutubeLink" ValidateOnChange="true"/>
+            <BSFormFeedback For="@(() => Block.Data.YoutubeLink)"/>
+        </BSFormGroup>
+    </BSFormRow>
+@if (!string.IsNullOrEmpty(Block.Data.YoutubeId))
 {
     <div style="text-align: center">
         <iframe frameborder="0"
                 allowfullscreen=""
                 width="560" height="315"
-                src="@YoutubeLink">
+                src="@Block.Data.EmbedUrl">
         </iframe>
     </div>
 }
@@ -18,34 +22,4 @@
 {
     [Parameter]
     public YoutubeBlock Block { get; set; }
-
-    [Parameter]
-    public string YoutubeLink { get; set; } = string.Empty;
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (!string.IsNullOrEmpty(Block.Data.YoutubeId))
-        {
-            YoutubeLink = GetUrl();
-        }
-    }
-
-    private void GetYoutubeId(string link)
-    {
-        YoutubeLink = link;
-        if (!string.IsNullOrEmpty(YoutubeLink) && (YoutubeLink.Contains("http://") || YoutubeLink.Contains("https://")))
-        {
-            var uri = new Uri(YoutubeLink);
-
-            var queryParams = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
-
-            Block.Data.YoutubeId = queryParams.ContainsKey("v") ? queryParams["v"][0] : uri.Segments.Last();
-        }
-    }
-
-    private string GetUrl()
-    {
-        return "https://www.youtube.com/embed/" + Block.Data.YoutubeId;
-    }
 }

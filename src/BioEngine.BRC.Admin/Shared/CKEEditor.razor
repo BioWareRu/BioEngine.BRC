@@ -1,10 +1,12 @@
-﻿@inherits Microsoft.AspNetCore.Components.Forms.InputBase<string>
+﻿@inherits BSInput<string>
 @inject IJSRuntime JsRuntime
 
-<div @attributes="AdditionalAttributes" id="@EditorId" class="@CssClass"></div>
+<div @attributes="AdditionalAttributes" id="@EditorId" class="@CkeClassname"></div>
 
 @code {
     private string EditorId { get; } = $"cke_{Guid.NewGuid()}";
+
+    protected string CkeClassname => Classname.Replace("form-control", "");
 
     protected override bool TryParseValueFromString(string value, out string result,
         out string validationErrorMessage)

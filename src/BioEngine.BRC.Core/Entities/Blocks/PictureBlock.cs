@@ -1,4 +1,6 @@
-﻿using Sitko.Core.Storage;
+﻿using System;
+using FluentValidation;
+using Sitko.Core.Storage;
 
 namespace BioEngine.BRC.Core.Entities.Blocks
 {
@@ -15,5 +17,14 @@ namespace BioEngine.BRC.Core.Entities.Blocks
     {
         public StorageItem? Picture { get; set; }
         public string? Url { get; set; }
+    }
+
+    public class PictureBlockDataValidator : AbstractValidator<PictureBlockData>
+    {
+        public PictureBlockDataValidator()
+        {
+            RuleFor(p => p.Url).Must(uri => Uri.TryCreate(uri, UriKind.Absolute, out _))
+                .When(x => !string.IsNullOrEmpty(x.Url)).WithMessage("Значение должно быть ссылкой");
+        }
     }
 }

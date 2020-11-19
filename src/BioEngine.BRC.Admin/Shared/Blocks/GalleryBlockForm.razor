@@ -1,36 +1,51 @@
 ﻿@using Sitko.Core.Storage
 @using System.IO
+@using BioEngine.BRC.Admin.Extensions
 @using BioEngine.BRC.Core
 @using BioEngine.BRC.Core.Entities.Blocks
+@using InputType = BlazorStrap.InputType
 @inject IStorage<BRCStorageConfig> Storage
+@inject DialogService DialogService
 
-<InputFile accept="image/*" multiple OnChange="HandleSelection"/>
-<ValidationMessage For="@(() => Block.Data.Pictures)"></ValidationMessage>
-@if (Block.Data.Pictures.Length > 0)
-{
-    foreach (var picture in Block.Data.Pictures)
+<BSFormRow>
+    @foreach (var picture in Block.Data.Pictures)
     {
-        <img src="@Storage.PublicUri(picture)" alt="@picture.FileName"/>
-    }
-}
+        <BSFormGroup Class="col-md-1">
+            <div style="height: 100px; display: flex">
+                <img src="@(Storage.PublicUri(picture).ToString())" alt="@picture.Name" 
+                     style="max-width: 100px;width: 100%; object-fit: contain"/><br/>
+            </div>
+
+            <a href="#" @onclick="@(() => DeleteItem(picture))" @onclick:preventDefault><i class="fas fa-trash"></i> Удалить</a>
+        </BSFormGroup>    }
+    <BSFormGroup Class="col-md-1">
+        <BSButton OnClick="@ShowStorageDialogAsync">Выбрать картинку</BSButton>
+    </BSFormGroup>
+</BSFormRow>
 
 @code
 {
     [Parameter]
     public GalleryBlock Block { get; set; }
 
-    private int Progress { get; set; }
-    private string Info { get; set; }
-
-    async Task HandleSelection(InputFileChangeEventArgs args)
+    public async Task ShowStorageDialogAsync()
     {
-        var pictures = new List<StorageItem>();
-        foreach (var file in args.GetMultipleFiles())
+        var items = await DialogService.SelectStorageItemsAsync(isMultiple: true);
+        if (items.Length > 0)
         {
-            await using var stream = new MemoryStream();
-            await file.OpenReadStream().CopyToAsync(stream);
-            pictures.Add(await Storage.SaveFileAsync(stream, file.Name, "posts"));
+            var newList = new HashSet<StorageItem>(Block.Data.Pictures);
+            foreach (var item in items)
+            {
+                newList.Add(item);
+            }
+            Block.Data.Pictures = newList.ToArray();
         }
-        Block.Data.Pictures = pictures.ToArray();
+    }
+
+    public void DeleteItem(StorageItem item)
+    {
+        var newList = new HashSet<StorageItem>(Block.Data.Pictures);
+        newList.Remove(item);
+        Block.Data.Pictures = newList.ToArray();
     }
 }

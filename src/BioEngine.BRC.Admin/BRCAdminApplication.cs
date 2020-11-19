@@ -12,6 +12,9 @@ namespace BioEngine.BRC.Admin
 {
     public class BRCAdminApplication : BRCApplication
     {
+        protected override string ConsoleLogFormat =>
+            "[{Timestamp:HH:mm:ss} {Level:u3} {SourceContext}]{NewLine}\t{Message:lj}{NewLine}{Exception}";
+
         public BRCAdminApplication(string[] args) : base(args)
         {
             AddPostgresDb(true, typeof(BRCAdminApplication).Assembly)

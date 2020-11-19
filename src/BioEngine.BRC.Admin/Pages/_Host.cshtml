@@ -9,14 +9,17 @@
 <html lang="ru">
 <head>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>BioEngine.BRC.Admin</title>
     <base href="~/"/>
-    <link rel="stylesheet" href="~/dist/vendor.css"/>
+    <link href="~/dist/vendor.css" rel="stylesheet"/>
     <link rel="stylesheet" href="_content/Radzen.Blazor/css/software-base.css"/>
-    <link rel="stylesheet" href="~/dist/main.css"/>
+    <link href="~/dist/index.css" rel="stylesheet"/>
+    <link href="BioEngine.BRC.Admin.styles.css" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet"/>
 </head>
-<body>
+<body class="sb-nav-fixed">
 <component type="typeof(App)" render-mode="ServerPrerendered"/>
 
 <div id="blazor-error-ui">
@@ -30,10 +33,12 @@
     <a class="dismiss">🗙</a>
 </div>
 
+
 <script src="_framework/blazor.server.js"></script>
-<script src="~/dist/vendor.bundle.js"></script>
+<script src="~/dist/vendor.js"></script>
 <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
-<script src="~/dist/cke/ckeditor.js"></script>
-<script src="~/dist/main.bundle.js"></script>
+<script src="~/cke/ckeditor.js"></script>
+<script src="~/dist/index.js"></script>
+<script src="https://player.twitch.tv/js/embed/v1.js"></script>
 </body>
 </html>

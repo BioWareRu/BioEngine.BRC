@@ -1,9 +1,10 @@
 ﻿@using Sitko.Core.Storage
 @using BioEngine.BRC.Core
 @using BioEngine.BRC.Core.Entities.Blocks
+@using InputType = BlazorStrap.InputType
 
-<RadzenTextBox @bind-Value="Block.Data.ButtonText" Placeholder="Текст кнопки" Style="width: 100%"/>
-<ValidationMessage For="@(() => Block.Data.ButtonText)"></ValidationMessage>
+<BSInput InputType="InputType.Text" @bind-Value="@Block.Data.ButtonText" ValidateOnChange="true"/>
+<BSFormFeedback For="@(() => Block.Data.ButtonText)"/>
 
 @code
 {

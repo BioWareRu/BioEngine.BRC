@@ -1,7 +1,8 @@
 ﻿@using BioEngine.BRC.Core.Entities
 @using BioEngine.BRC.Core.Entities.Blocks
 
-<RadzenCard class="@BlockClass">
+<BSCard CardType="CardType.Card" Class="@BlockClass">
+    <BSCard CardType="CardType.Body">
     @switch (Block)
     {
         case TextBlock textBlock:
@@ -28,8 +29,12 @@
         case YoutubeBlock youtubeBlock:
             <YoutubeBlockForm Block="@youtubeBlock"></YoutubeBlockForm>
             break;
+        case TwitchBlock twitchBlock:
+            <TwitchBlockForm Block="@twitchBlock"></TwitchBlockForm>
+            break;
     }
-</RadzenCard>
+    </BSCard>
+</BSCard>
 
 @code {
 

@@ -2,6 +2,7 @@
 @using BioEngine.BRC.Posts.Repository
 @using BioEngine.BRC.Posts.Entities
 @inject PostsRepository PostsRepository
+<h1 class="mt-4">Посты</h1>
 
 <RadzenGrid Count="@Count" Data="@Posts" LoadData="@LoadData" AllowSorting="true" AllowFiltering="false" AllowPaging="true" PageSize="20" TItem="Post">
     <Columns>

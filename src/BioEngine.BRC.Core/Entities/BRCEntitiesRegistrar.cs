@@ -290,10 +290,20 @@ namespace BioEngine.BRC.Core.Entities
         {
             return BRCEntitiesRegistrar.Instance().GetEntityDescriptor(entity.GetType());
         }
-
+        
         public static EntityDescriptor GetEntityDescriptor<T>() where T : IEntity
         {
             return BRCEntitiesRegistrar.Instance().GetEntityDescriptor<T>();
+        }
+        
+        public static string GetTitle(this IEntity entity)
+        {
+            return entity.GetEntityDescriptor().Title;
+        }
+
+        public static string GetTitle<T>() where T : IEntity
+        {
+            return BRCEntitiesRegistrar.Instance().GetEntityDescriptor(typeof(T)).Title;
         }
     }
 }

@@ -1,7 +1,11 @@
 ﻿@using BioEngine.BRC.Core.Entities.Blocks
 
-<CKEEditor @bind-Value="Block.Data.Text"></CKEEditor>
-<ValidationMessage For="@(() => Block.Data.Text)"></ValidationMessage>
+<BSFormRow>
+    <BSFormGroup Class="col-md-12">
+        <CKEEditor @bind-Value="Block.Data.Text"></CKEEditor>
+        <BSFormFeedback For="@(() => Block.Data.Text)"/>
+    </BSFormGroup>
+</BSFormRow>
 
 @code {
 

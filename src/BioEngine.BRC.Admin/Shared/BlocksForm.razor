@@ -1,5 +1,6 @@
 ﻿@using BioEngine.BRC.Core.Entities.Abstractions
 @using BioEngine.BRC.Core.Entities
+@using BioEngine.BRC.Admin.Extensions
 @using System.Collections.ObjectModel
 @using BioEngine.BRC.Core.Entities.Blocks
 @inject IJSRuntime JsRuntime
@@ -11,25 +12,37 @@
     {
         <div style="display: flex; margin-bottom: 20px">
             <div style="width:30px; text-align: center">
-                <RadzenIcon style="color: #999;" Icon="@block.GetEntityDescriptor().Icon"></RadzenIcon>
+                <i class="@block.GetIcon()" style="color: #999;"></i>
             </div>
             <div style="flex: 1; padding: 0 10px;">
                 <BlockForm Block="block"></BlockForm>
             </div>
             <div style="width:30px; text-align: center; display: flex; flex-flow: column">
-                <RadzenButton Style="margin-bottom: 5px" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Secondary" Disabled="!CanMoveBlockUp(block)" Icon="arrow_drop_up" Click="@(() => MoveBlockUp(block))"></RadzenButton>
-                <RadzenButton Style="margin-bottom: 5px" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Secondary" Icon="delete" Click="@(() => DeleteBlockAsync(block))"></RadzenButton>
-                <RadzenButton Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Secondary" Disabled="!CanMoveBlockDown(block)" Icon="arrow_drop_down" Click="@(() => MoveBlockDown(block))"></RadzenButton>
+                <BSButton style="margin-bottom: 5px" Color="Color.Secondary" Size="Size.Small" IsDisabled="!CanMoveBlockUp(block)" OnClick="@(() => MoveBlockUp(block))">
+                    <i class="fas fa-arrow-up"></i>
+                </BSButton>
+                <BSButton style="margin-bottom: 5px" Color="Color.Secondary" Size="Size.Small" OnClick="@(() => DeleteBlockAsync(block))">
+                    <i class="fas fa-trash"></i>
+                </BSButton>
+                <BSButton Color="Color.Secondary" Size="Size.Small" IsDisabled="!CanMoveBlockDown(block)" OnClick="@(() => MoveBlockDown(block))">
+                    <i class="fas fa-arrow-down"></i>
+                </BSButton>
             </div>
         </div>
     }
-    <RadzenSplitButton Click="@(AddBlock)" Text="Добавить блок">
-        <ChildContent>
-            @foreach (var block in BRCEntitiesRegistrar.Instance().Blocks)
+    <div class="dropdown" style="margin-bottom: 20px">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Добавить блок
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            @foreach (var block in BRCEntitiesRegistrar.Instance().GetBlocks())
             {
-                <RadzenSplitButtonItem Text="@block.Title" Value="@block.Key" Icon="@block.Icon"/>            }
-        </ChildContent>
-    </RadzenSplitButton>
+                <a class="dropdown-item" href="#" @onclick="@(() => AddBlock(block.Key))" @onclick:preventDefault>
+                    <i class="@block.GetIcon()"></i> @block.Title
+                </a>
+            }
+        </div>
+    </div>
 </div>
 
 @code {
@@ -45,14 +58,9 @@
         Blocks = new ObservableCollection<ContentBlock>(Item.Blocks.OrderBy(b => b.Position));
     }
 
-    void AddBlock(RadzenSplitButtonItem item)
+    void AddBlock(string key)
     {
-        var type = EntityExtensions.GetEntityDescriptor<TextBlock>().Key;
-        if (item != null)
-        {
-            type = item.Value;
-        }
-        var block = BRCEntitiesRegistrar.Instance().CreateBlock(type);
+        var block = BRCEntitiesRegistrar.Instance().CreateBlock(key);
         Blocks.Add(block);
         FillPositions();
         StateHasChanged();

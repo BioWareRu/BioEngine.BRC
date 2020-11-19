@@ -1,5 +1,6 @@
 ﻿@using Sitko.Core.Storage
 @using System.IO
+@using BioEngine.BRC.Admin.Extensions
 @using BioEngine.BRC.Core
 @using BioEngine.BRC.Core.Entities.Blocks
 @inject IStorage<BRCStorageConfig> Storage
@@ -7,13 +8,15 @@
 
 @if (Block.Data.File == null)
 {
-    <RadzenButton Text=@("Выбрать файл") Click="@ShowStorageDialogAsync"/>
+    <BSButton OnClick="@ShowStorageDialogAsync">Выбрать файл</BSButton>
 }
 else
 {
     <div class="row" style="margin-bottom: 0">
-        <div class="col-11"><RadzenImage Path="@(Storage.PublicUri(Block.Data.File).ToString())" /></div>
-        <div class="col-1" style="text-align: right"><RadzenIcon Icon="delete" title="Удалить" @onclick="@(() => Block.Data.File = null)"></RadzenIcon></div>
+        <div class="col-10"><a href="@Storage.PublicUri(Block.Data.File)" target="_blank">@Block.Data.File.Name</a> (@Block.Data.File.HumanSize)</div>
+        <div class="col-2" style="text-align: right">
+            <BSButton OnClick="@(() => Block.Data.File = null)"><i class="fas fa-trash"></i> Удалить</BSButton>
+        </div>
     </div>
         
 }
@@ -26,14 +29,10 @@ else
 
     public async Task ShowStorageDialogAsync()
     {
-        var result = await DialogService.OpenAsync<StorageExplorerDialog>("Выбор файла", new Dictionary<string, object>
+        var items = await DialogService.SelectStorageItemsAsync();
+        if (items.Length > 0)
         {
-            {"Prefix", "storage"},
-            {"IsMultiple", false}
-        });
-        if (result is StorageItem item)
-        {
-            Block.Data.File = item;
+            Block.Data.File = items.First();
         }
     }
 }

@@ -1,5 +1,22 @@
-﻿require('./index.scss');
-import { Sortable, Plugins } from '@shopify/draggable';
+import './index.scss';
+
+(function ($) {
+    "use strict";
+
+    // Add active state to sidbar nav links
+    var path = window.location.href; // because the 'href' property of the DOM element is the absolute path
+    $("#layoutSidenav_nav .sb-sidenav a.nav-link").each(function () {
+        if (this.href === path) {
+            $(this).addClass("active");
+        }
+    });
+    // Toggle the side navigation
+    $(document).on("click", "#sidebarToggle", function (e) {
+        e.preventDefault();
+        $("body").toggleClass("sb-sidenav-toggled");
+    });
+})(jQuery);
+
 
 window["BlazorCKE"] = {
     init: function (params) {
@@ -47,18 +64,24 @@ window.BlazorTwttr = {
     }
 };
 
-window.BlazorSortable = function (params) {
-    const sortable = new Sortable(document.getElementById(params.id), {
-        draggable: params.element,
-        handle: params.handle,
-        sortAnimation: {
-            duration: 200,
-            easingFunction: 'ease-in-out',
-        },
-        plugins: [Plugins.SortAnimation]
-    });
-    sortable.on('sortable:sorted', function (evnt) {
-        console.log(evnt);
-        params.instance.invokeMethodAsync('updateIndex', evnt.data.newIndex, evnt.data.oldIndex);
-    });
+window.BlazorTwitch = {
+    render: function (params) {
+        console.log('render twitch', params);
+        const container = document.getElementById('twitch-' + params.id);
+        container.innerHTML = '';
+        const twitchParams = {
+            width: 854,
+            height: 480,
+            layout: 'video',
+            autoplay: false
+        };
+        if (params.video) {
+            twitchParams.video = params.video;
+        } else if (params.channel) {
+            twitchParams.channel = params.channel;
+        } else if (params.collection) {
+            twitchParams.collection = params.collection;
+        }
+        new Twitch.Player('twitch-' + params.id, twitchParams);
+    }
 };

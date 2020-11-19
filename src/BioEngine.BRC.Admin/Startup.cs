@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using BioEngine.BRC.Core.Publishing;
 using BioEngine.BRC.Core.Routing;
+using BlazorStrap;
 using Microsoft.AspNetCore.Routing;
 using Radzen;
 using Sitko.Core.App.Web;
@@ -44,6 +45,7 @@ namespace BioEngine.BRC.Admin
             services.AddScoped<ContextMenuService>();
             services.AddScoped<TooltipService>();
             services.AddScoped<FluentValidator>();
+            services.AddBootstrapCss();
         }
 
         protected override void ConfigureAfterRoutingMiddleware(IApplicationBuilder app)
