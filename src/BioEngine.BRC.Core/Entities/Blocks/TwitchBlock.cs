@@ -93,12 +93,13 @@ namespace BioEngine.BRC.Core.Entities.Blocks
             }
         }
     }
-    
+
     public class TwitchBlockDataValidator : AbstractValidator<TwitchBlockData>
     {
         public TwitchBlockDataValidator()
         {
-            RuleFor(d => d.TwitchLink).NotEmpty().WithMessage("Укажите ссылку на видео");
+            RuleFor(d => d.TwitchLink).NotEmpty().WithMessage("Укажите ссылку на видео")
+                .Must(uri => Uri.TryCreate(uri, UriKind.Absolute, out _)).WithMessage("Значение должно быть ссылкой");
         }
     }
 }

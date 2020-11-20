@@ -51,12 +51,13 @@ namespace BioEngine.BRC.Core.Entities.Blocks
             }
         }
     }
-    
+
     public class TwitterBlockDataValidator : AbstractValidator<TwitterBlockData>
     {
         public TwitterBlockDataValidator()
         {
-            RuleFor(d => d.TweetLink).NotEmpty().WithMessage("Укажите ссылку на твит");
+            RuleFor(d => d.TweetLink).NotEmpty().WithMessage("Укажите ссылку на твит")
+                .Must(uri => Uri.TryCreate(uri, UriKind.Absolute, out _)).WithMessage("Значение должно быть ссылкой");
         }
     }
 }
