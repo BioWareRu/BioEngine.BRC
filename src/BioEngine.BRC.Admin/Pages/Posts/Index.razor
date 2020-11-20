@@ -11,16 +11,20 @@
                 @{
                     var url = $"/Posts/{post.Id}";
                 }
-                <RadzenLink Path="@url" Text="@post.Title"/>
+                <a href="@url">@post.Title</a>
             </Template>
         </RadzenGridColumn>
-        <RadzenGridColumn TItem="Post" Property="DateAdded" Title="Дата"/>
+        <RadzenGridColumn TItem="Post" Property="DateAdded" Title="Дата">
+            <Template Context="post">
+                @post.DateAdded.ToString("dd.MM.yyyy hh:mm:ss")
+            </Template>
+        </RadzenGridColumn>
         <RadzenGridColumn TItem="Post" Property="SiteIds" Title="Сайты">
             <Template Context="post">
-                @*                 @foreach (var site in post.Sites) *@
-                @*                 { *@
-                @*                     <span class="label label-info">@site.Title</span> *@
-                @*                 } *@
+                @foreach (var site in post.Sites)
+                {
+                    <span class="badge badge-primary">@site.Title</span>
+                }
             </Template>
         </RadzenGridColumn>
         <RadzenGridColumn TItem="Post" Property="SectionIds" Title="Разделы">
@@ -42,14 +46,14 @@
         <RadzenGridColumn TItem="Post" Property="AuthorId" Title="Author">
             <Template Context="post">
                 <a target="_blank" href="@post.Author.ProfileUrl">
-                    <RadzenImage class="gravatar" Path="@post.Author.PhotoUrl"/> @post.Author.Name
+                    <img alt="@post.Author.Name" class="avatar" src="@post.Author.PhotoUrl"/> @post.Author.Name
                 </a>
             </Template>
         </RadzenGridColumn>
         <RadzenGridColumn TItem="Post" Title="" Sortable="false">
             <Template Context="post">
-                <RadzenLink Icon="content_copy" title="Сохранить как шаблон" />
-                <RadzenLink Icon="delete" title="Удалить" />
+                <i class="fas fa-copy" title="Сохранить как шаблон"></i>
+                <i class="fas fa-trash" title="Удалить"></i>
             </Template>
         </RadzenGridColumn>
     </Columns>
