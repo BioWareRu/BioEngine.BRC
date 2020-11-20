@@ -24,3 +24,9 @@ body{
 .twitter-tweet {
     margin: 0 auto;
 }
+
+.ui-datatable-data td .ui-cell-data {
+    overflow: auto;
+    white-space: normal;
+    text-overflow: initial;
+}
