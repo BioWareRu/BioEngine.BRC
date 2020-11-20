@@ -30,3 +30,10 @@ body{
     white-space: normal;
     text-overflow: initial;
 }
+
+.avatar {
+    width: 25px;
+    height: 25px;
+    object-fit: cover;
+    border-radius: 50%!important;
+}
