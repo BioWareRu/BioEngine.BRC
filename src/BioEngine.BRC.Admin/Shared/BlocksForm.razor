@@ -3,6 +3,7 @@
 @using BioEngine.BRC.Admin.Extensions
 @using System.Collections.ObjectModel
 @using BioEngine.BRC.Core.Entities.Blocks
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
 @inject IJSRuntime JsRuntime
 @inject ContextMenuService ContextMenuService
 @inject DialogService DialogService
@@ -10,39 +11,55 @@
 <div id="blocks-@Item.Id">
     @foreach (var block in Blocks)
     {
-        <div style="display: flex; margin-bottom: 20px">
+        var className = $"block-form block-{block.GetEntityDescriptor().Key}";
+        <div class="block-row" @key="block.Id">
             <div style="width:30px; text-align: center">
                 <i class="@block.GetIcon()" style="color: #999;"></i>
             </div>
             <div style="flex: 1; padding: 0 10px;">
-                <BlockForm Block="block"></BlockForm>
+                <div class="card @className">
+                    <div class="card-body">
+                        <BlockForm Block="block"></BlockForm>
+                    </div>
+                </div>
             </div>
-            <div style="width:30px; text-align: center; display: flex; flex-flow: column">
-                <BSButton style="margin-bottom: 5px" Color="Color.Secondary" Size="Size.Small" IsDisabled="!CanMoveBlockUp(block)" OnClick="@(() => MoveBlockUp(block))">
+            <div class="block-controls">
+                <BSButton Color="Color.Secondary" Size="Size.Small" IsDisabled="!CanMoveBlockUp(block)" OnClick="@(() => MoveBlockUp(block))">
                     <i class="fas fa-arrow-up"></i>
                 </BSButton>
-                <BSButton style="margin-bottom: 5px" Color="Color.Secondary" Size="Size.Small" OnClick="@(() => DeleteBlockAsync(block))">
+                <BSDropdown DropdownDirection="DropdownDirection.Left">
+                    <BSDropdownToggle Size="Size.Small" Color="Color.Secondary">
+                        <i class="fas fa-plus"></i>
+                    </BSDropdownToggle>
+                    <BSDropdownMenu>
+                        @foreach (var descriptor in BRCEntitiesRegistrar.Instance().GetBlocks())
+                        {
+                            <BSDropdownItem OnClick="@(() => AddBlock(descriptor.Key, block, false))">
+                                <i class="@descriptor.GetIcon()"></i> @descriptor.Title
+                            </BSDropdownItem>                        }
+                    </BSDropdownMenu>
+                </BSDropdown>
+                <BSButton Color="Color.Secondary" Size="Size.Small" OnClick="@(() => DeleteBlockAsync(block))">
                     <i class="fas fa-trash"></i>
                 </BSButton>
+                <BSDropdown DropdownDirection="DropdownDirection.Left">
+                    <BSDropdownToggle Size="Size.Small" Color="Color.Secondary">
+                        <i class="fas fa-plus"></i>
+                    </BSDropdownToggle>
+                    <BSDropdownMenu>
+                        @foreach (var descriptor in BRCEntitiesRegistrar.Instance().GetBlocks())
+                        {
+                            <BSDropdownItem OnClick="@(() => AddBlock(descriptor.Key, block))">
+                                <i class="@descriptor.GetIcon()"></i> @descriptor.Title
+                            </BSDropdownItem>                        }
+                    </BSDropdownMenu>
+                </BSDropdown>
                 <BSButton Color="Color.Secondary" Size="Size.Small" IsDisabled="!CanMoveBlockDown(block)" OnClick="@(() => MoveBlockDown(block))">
                     <i class="fas fa-arrow-down"></i>
                 </BSButton>
             </div>
         </div>
     }
-    <div class="dropdown" style="margin-bottom: 20px">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Добавить блок
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            @foreach (var block in BRCEntitiesRegistrar.Instance().GetBlocks())
-            {
-                <a class="dropdown-item" href="#" @onclick="@(() => AddBlock(block.Key))" @onclick:preventDefault>
-                    <i class="@block.GetIcon()"></i> @block.Title
-                </a>
-            }
-        </div>
-    </div>
 </div>
 
 @code {
@@ -58,12 +75,21 @@
         Blocks = new ObservableCollection<ContentBlock>(Item.Blocks.OrderBy(b => b.Position));
     }
 
-    void AddBlock(string key)
+    void AddBlock(string key, ContentBlock? neighbor = null, bool after = true)
     {
         var block = BRCEntitiesRegistrar.Instance().CreateBlock(key);
-        Blocks.Add(block);
-        FillPositions();
-        StateHasChanged();
+        if (block != null)
+        {
+            block.Id = Guid.NewGuid();
+            var position = 0;
+            if (neighbor != null)
+            {
+                position = after ? neighbor.Position + 1 : neighbor.Position;
+            }
+            Blocks.Insert(position, block);
+            FillPositions();
+    //StateHasChanged();
+        }
     }
 
     private bool CanMoveBlockUp(ContentBlock block)
@@ -118,7 +144,7 @@
             Blocks.Remove(block);
             if (!Blocks.Any())
             {
-                AddBlock(null);
+                AddBlock(EntityExtensions.GetEntityDescriptor<TextBlock>().Key);
             }
             FillPositions();
         }

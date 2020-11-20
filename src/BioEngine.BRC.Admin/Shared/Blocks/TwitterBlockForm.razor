@@ -20,6 +20,15 @@
     [Parameter]
     public TwitterBlock Block { get; set; }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            await RenderTweetAsync();
+        }
+    }
+    
     private async Task RenderTweetAsync()
     {
         if (!string.IsNullOrEmpty(Block.Data.TweetId))

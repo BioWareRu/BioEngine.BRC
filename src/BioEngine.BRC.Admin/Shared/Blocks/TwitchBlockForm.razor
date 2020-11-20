@@ -19,6 +19,15 @@
     [Parameter]
     public TwitchBlock Block { get; set; }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            await RenderVideoAsync();
+        }
+    }
+
     private async Task RenderVideoAsync()
     {
         if (!string.IsNullOrEmpty(Block.Data.TwitchLink))
