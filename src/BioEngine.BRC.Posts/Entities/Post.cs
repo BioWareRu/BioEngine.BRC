@@ -24,6 +24,7 @@ namespace BioEngine.BRC.Posts.Entities
         public Guid[] SectionIds { get; set; } = new Guid[0];
         public Guid[] TagIds { get; set; } = new Guid[0];
         public List<Section> Sections { get; set; }
+        public List<Site> Sites { get; set; }
         public List<Tag> Tags { get; set; }
     }
 }

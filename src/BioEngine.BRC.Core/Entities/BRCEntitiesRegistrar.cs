@@ -148,6 +148,7 @@ namespace BioEngine.BRC.Core.Entities
                 modelBuilder.Entity<TContentItem>().Property(i => i.Url).IsRequired();
                 modelBuilder.Entity<TContentItem>().Ignore(i => i.Blocks);
                 modelBuilder.Entity<TContentItem>().Ignore(i => i.Sections);
+                modelBuilder.Entity<TContentItem>().Ignore(i => i.Sites);
                 modelBuilder.Entity<TContentItem>().Ignore(i => i.Tags);
                 modelBuilder.Entity<TContentItem>().Ignore(i => i.PublicRouteName);
                 modelBuilder.Entity<TContentItem>().HasIndex(i => i.SiteIds);

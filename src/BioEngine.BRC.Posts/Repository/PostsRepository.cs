@@ -18,16 +18,18 @@ namespace BioEngine.BRC.Posts.Repository
     public class PostsRepository : ContentItemRepository<Post>
     {
         private readonly TagsRepository _tagsRepository;
+        private readonly SitesRepository _sitesRepository;
         private readonly IUserDataProvider _userDataProvider;
         private readonly ICurrentUserProvider _currentUserProvider;
 
 
         public PostsRepository(EFRepositoryContext<Post, Guid, BioContext> repositoryContext,
-            SectionsRepository sectionsRepository, TagsRepository tagsRepository,
+            SectionsRepository sectionsRepository, TagsRepository tagsRepository, SitesRepository sitesRepository,
             IUserDataProvider userDataProvider, ICurrentUserProvider currentUserProvider) : base(
             repositoryContext, sectionsRepository)
         {
             _tagsRepository = tagsRepository;
+            _sitesRepository = sitesRepository;
             _userDataProvider = userDataProvider;
             _currentUserProvider = currentUserProvider;
         }
@@ -46,9 +48,13 @@ namespace BioEngine.BRC.Posts.Repository
             var userIds = entities.Select(e => e.AuthorId).Distinct().ToArray();
             var users = await _userDataProvider.GetDataAsync(userIds);
 
+            var siteIds = entities.SelectMany(p => p.SiteIds).Distinct().ToArray();
+            var sites = await _sitesRepository.GetByIdsAsync(siteIds, cancellationToken);
+
             foreach (var entity in entities)
             {
                 entity.Sections = sections.Where(s => entity.SectionIds.Contains(s.Id)).ToList();
+                entity.Sites = sites.Where(s => entity.SiteIds.Contains(s.Id)).ToList();
                 entity.Tags = tags.Where(t => entity.TagIds.Contains(t.Id)).ToList();
                 entity.Author = users.FirstOrDefault(d => d.Id.Equals(entity.AuthorId));
             }
