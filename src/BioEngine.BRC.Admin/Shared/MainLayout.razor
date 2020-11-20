@@ -1,8 +1,7 @@
 ﻿@using BioEngine.BRC.Core.Users
-@using Microsoft.AspNetCore.Http
+@using BioEngine.BRC.Admin.Components
 @inherits LayoutComponentBase
 @inject ICurrentUserProvider CurrentUserProvider
-@inject IHttpContextAccessor HttpContextAccessor
 <RadzenDialog/>
 <RadzenNotification/>
 <RadzenContextMenu/>
@@ -31,60 +30,7 @@
 
 <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
-        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-            <div class="sb-sidenav-menu">
-                <div class="nav">
-                    <div class="sb-sidenav-menu-heading">Admin</div>
-                    <a class="nav-link" href="/">
-                        <div class="sb-nav-link-icon">
-                            <i class="fas fa-tachometer-alt"></i>
-                        </div>
-                        Dashboard
-                    </a>
-                    <div class="sb-sidenav-menu-heading">Контент</div>
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                        <div class="sb-nav-link-icon">
-                            <i class="fas fa-columns"></i>
-                        </div>
-                        Посты
-                        <div class="sb-sidenav-collapse-arrow">
-                            <i class="fas fa-angle-down"></i>
-                        </div>
-                    </a>
-                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="/Posts/Index">Список</a>
-                            <a class="nav-link" href="/Posts/Add">Добавить</a>
-                        </nav>
-                    </div>
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                        <div class="sb-nav-link-icon">
-                            <i class="fas fa-book-open"></i>
-                        </div>
-                        Страницы
-                        <div class="sb-sidenav-collapse-arrow">
-                            <i class="fas fa-angle-down"></i>
-                        </div>
-                    </a>
-                    <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="/Pages/Index">Список</a>
-                            <a class="nav-link" href="/Pages/Add">Добавить</a>
-                        </nav>
-                    </div>
-                    <div class="sb-sidenav-menu-heading">Разное</div>
-                    <a class="nav-link" href="/Storage/Index">
-                        <div class="sb-nav-link-icon">
-                            <i class="fas fa-hdd"></i>
-                        </div>
-                        Файлы
-                    </a>
-                </div>
-            </div>
-            <!--<div class="sb-sidenav-footer">
-
-            </div>-->
-        </nav>
+        <Menu Groups="MenuGroups"></Menu>
     </div>
     <div id="layoutSidenav_content">
         <main>
@@ -107,81 +53,22 @@
     </div>
 </div>
 
-
-@* <RadzenHeader> *@
-@*     <ChildContent> *@
-@*         <div class="row justify-content-start align-items-center"> *@
-@*             <div class="col-6 d-flex align-items-center"> *@
-@*                 <RadzenSidebarToggle Click="@(args => { sidebarExpanded = !sidebarExpanded; bodyExpanded = !bodyExpanded; })"> *@
-@*                 </RadzenSidebarToggle> *@
-@*                 <RadzenLabel Text="BRCGames"> *@
-@*                 </RadzenLabel> *@
-@*             </div> *@
-@*             <div class="col-6 d-flex align-items-center justify-content-end"> *@
-@*                 @if (CurrentUserProvider.CurrentUser != null) *@
-@*                 { *@
-@*                     <RadzenProfileMenu> *@
-@*                         <Template> *@
-@*                             <img src="@CurrentUserProvider.CurrentUser.PhotoUrl" width="25" height="25" class="rounded-circle" alt="@CurrentUserProvider.CurrentUser.Name"/> *@
-@*                         </Template> *@
-@*                         <ChildContent> *@
-@*                             <RadzenProfileMenuItem Text="Профиль" Path="@CurrentUserProvider.CurrentUser.ProfileUrl" Icon="account_circle"></RadzenProfileMenuItem> *@
-@*                         </ChildContent> *@
-@*                     </RadzenProfileMenu>                } *@
-@*             </div> *@
-@*         </div> *@
-@*     </ChildContent> *@
-@* </RadzenHeader> *@
-@* <div style="width:100%"> *@
-@*     <RadzenBody @ref="@body0" @bind-Expanded="@bodyExpanded"> *@
-@*         <ChildContent> *@
-@*             <RadzenContentContainer Name="main"> *@
-@*                 @Body *@
-@*             </RadzenContentContainer> *@
-@*         </ChildContent> *@
-@*     </RadzenBody> *@
-@* </div> *@
-@* <RadzenSidebar @ref="@sidebar0" @bind-Expanded="@sidebarExpanded"> *@
-@*     <ChildContent> *@
-@*         <RadzenPanelMenu> *@
-@*             <RadzenPanelMenuItem Text="Посты" Icon="text_snippet"> *@
-@*                 <RadzenPanelMenuItem Text="Список" Path="/Posts/Index" Icon="list"></RadzenPanelMenuItem> *@
-@*                 <RadzenPanelMenuItem Text="Добавить" Path="/Posts/Add" Icon="post_add"></RadzenPanelMenuItem> *@
-@*             </RadzenPanelMenuItem> *@
-@*             <RadzenPanelMenuItem Text="Файлы" Path="/Storage/Index" Icon="text_snippet"></RadzenPanelMenuItem> *@
-@*         </RadzenPanelMenu> *@
-@*     </ChildContent> *@
-@* </RadzenSidebar> *@
-@* <RadzenFooter> *@
-@*     <ChildContent> *@
-@*         @{ *@
-@*             var text = $"BRC Games © {DateTimeOffset.UtcNow.Year}"; *@
-@*         } *@
-@*         <RadzenLabel Text="@text"> *@
-@*         </RadzenLabel> *@
-@*     </ChildContent> *@
-@* </RadzenFooter> *@
-
 @code {
-    RadzenSidebar sidebar0;
-    RadzenBody body0;
-    bool sidebarExpanded = true;
-    bool bodyExpanded = false;
+    public MenuBuilderGroup[] MenuGroups;
 
     protected override void OnInitialized()
     {
-        if (HttpContextAccessor?.HttpContext?.Request != null && HttpContextAccessor.HttpContext.Request.Headers.ContainsKey("User-Agent"))
-        {
-            var userAgent = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].FirstOrDefault();
-            if (!string.IsNullOrEmpty(userAgent))
-            {
-                if (userAgent.Contains("iPhone") || userAgent.Contains("Android") || userAgent.Contains("Googlebot"))
-                {
-                    sidebarExpanded = false;
-                    bodyExpanded = true;
-                }
-            }
-        }
+        var menuBuilder = new MenuBuilder();
+        menuBuilder.AddGroup("Admin").AddItem("Dashboard", "fas fa-tachometer-alt", "/Dashboard");
+        var contentGroup = menuBuilder.AddGroup("Контент");
+        contentGroup.AddItem("Посты", "fas fa-columns")
+            .AddChild("Список", "/Posts/Index")
+            .AddChild("Добавить", "/Posts/Add");
+        contentGroup.AddItem("Страницы", "fas fa-book-open")
+            .AddChild("Список", "/Pages/Index")
+            .AddChild("Добавить", "/Pages/Add");
+        menuBuilder.AddGroup("Разное").AddItem("Файлы", "fas fa-hdd", "/Storage/Index");
+        MenuGroups = menuBuilder.Groups;
     }
 
 }
