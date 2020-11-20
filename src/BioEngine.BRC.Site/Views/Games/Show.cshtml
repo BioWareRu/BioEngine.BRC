@@ -1,0 +1,49 @@
+@using BioEngine.BRC.Core
+@using BioEngine.BRC.Core.Routing
+@using BioEngine.BRC.Site.ViewModels
+@using Microsoft.AspNetCore.Routing
+@using Sitko.Core.Storage
+@model BioEngine.BRC.Web.Model.EntityViewModel<BioEngine.BRC.Core.Entities.Game>
+@inject LinkGenerator LinkGenerator
+@inject IStorage<BRCStorageConfig> Storage
+@{
+    Layout = "~/Views/_Main.cshtml";
+}
+<div class="card mb-4">
+    @if (Model.Entity.Data.HeaderPicture != null)
+    {
+        <img class="card-img-top" src="@Storage.PublicUri(Model.Entity.Data.HeaderPicture)" alt="@Model.Entity.Title"/>
+    }
+    <section class="card-body">
+        <header>
+            <h1 class="card-title">
+                @Model.Entity.Title
+            </h1>
+        </header>
+    </section>
+</div>
+<section class="navbar navbar-dark p-2 mb-4">
+    <ul class="nav nav-pills darken-2">
+        <li class="nav-item">
+            <a class="nav-link active" href="@LinkGenerator.GeneratePublicUrl(Model.Entity)">Об игре</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="@LinkGenerator.GenerateUrl(BrcDomainRoutes.GamePosts, new {url = Model.Entity.Url})">Публикации</a>
+        </li>
+    </ul>
+</section>
+<article class="card mb-4 post">
+    <section class="card-body">
+        <partial name="Blocks/Blocks" model="@Model.ContentEntityViewModel()"/>
+    </section>
+    <footer class="card-footer">
+        <div class="row justify-content-between">
+            <div class="col-3">
+
+            </div>
+            <div class="col-5" style="text-align: right">
+                <partial name="Share" model="@(new ShareViewModel(Model.Entity.Title, LinkGenerator.GeneratePublicUrl(Model.Entity, Model.Site)))"/>
+            </div>
+        </div>
+    </footer>
+</article>

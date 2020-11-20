@@ -1,0 +1,53 @@
+@using BioEngine.BRC.Core
+@using BioEngine.BRC.Core.Extensions
+@using Sitko.Core.Storage
+@model BioEngine.BRC.Core.Web.Models.BlockViewModel<BioEngine.BRC.Core.Entities.Blocks.GalleryBlock, BioEngine.BRC.Core.Entities.Blocks.GalleryBlockData>
+@inject IStorage<BRCStorageConfig> Storage
+@{
+    var galleryId = $"gallery{Model.Block.Id}";
+}
+<!--Carousel Wrapper-->
+<div id="@galleryId" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel">
+    <!--Slides-->
+    <div class="carousel-inner" role="listbox">
+        @for (var index = 0; index < Model.Block.Data.Pictures.Length; index++)
+        {
+            var imgClass = "carousel-item";
+            var picture = Model.Block.Data.Pictures[index];
+            if (index == 0)
+            {
+                imgClass += " active";
+            }
+            var imgUrl = Storage.LargeThumbnailUri(picture);
+            <div class="@imgClass" style="background-image: url('@imgUrl')">
+                <a href="@Storage.PublicUri(picture)" target="_blank" class="carousel-item-inner"></a>
+            </div>
+        }
+        <!--Controls-->
+        <a class="carousel-control-prev" href="#@galleryId" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Предыдущая</span>
+        </a>
+        <a class="carousel-control-next" href="#@galleryId" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Следующая</span>
+        </a>
+        <!--/.Controls-->
+    </div>
+    <!--/.Slides-->
+
+    <ol class="carousel-indicators">
+        @for (var index = 0; index < Model.Block.Data.Pictures.Length; index++)
+        {
+            var imgClass = "";
+            var picture = Model.Block.Data.Pictures[index];
+            if (index == 0)
+            {
+                imgClass += " active";
+            }
+            <li data-target="#@galleryId" data-slide-to="@index" class="@imgClass" style="background-image: url('@Storage.SmallThumbnailUri(picture)')" title="@picture.FileName (@*@picture.PictureInfo.HorizontalResolution x @picture.PictureInfo.VerticalResolution // TODO: TITLE WITH ORIGINAL SIZE???*@)">
+            </li>
+        }
+    </ol>
+</div>
+<!--/.Carousel Wrapper-->

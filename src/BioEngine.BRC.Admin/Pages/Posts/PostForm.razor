@@ -1,0 +1,148 @@
+﻿@using BioEngine.BRC.Core.Repository
+@using BioEngine.BRC.Core.Entities
+@using BioEngine.BRC.Core.Entities.Blocks
+@using BioEngine.BRC.Core.Users
+@using BioEngine.BRC.Posts.Entities
+@using BioEngine.BRC.Posts.Repository
+@using InputType = BlazorStrap.InputType
+@using BioEngine.BRC.Admin.Extensions
+@inject PostsRepository PostsRepository
+@inject SectionsRepository SectionsRepository
+@inject TagsRepository TagsRepository
+@inject NotificationService NotificationService
+@inject NavigationManager NavigationManager
+@inject ICurrentUserProvider CurrentUserProvider
+
+@if (Post != null)
+{
+    <h1 class="mt-4">@(string.IsNullOrEmpty(Post.Title) ? "Новый пост" : Post.Title)</h1>
+
+    <BSForm Model="@Post">
+        <BlazorFluentValidator/>
+        <BSFormRow>
+            <BSFormGroup Class="col-md-6">
+                <BSLabel For="title">Заголовок</BSLabel>
+                <BSInput InputType="InputType.Text" Id="title" @bind-Value="@Post.Title" ValidateOnChange="true"/>
+                <BSFormFeedback For="@(() => Post.Title)"/>
+            </BSFormGroup>
+            <BSFormGroup Class="col-md-6">
+                <BSLabel For="url">Адрес</BSLabel>
+                <BSInput InputType="InputType.Text" Id="url" @bind-Value="@Post.Url" ValidateOnChange="true"/>
+                <BSFormFeedback For="@(() => Post.Url)"/>
+            </BSFormGroup>
+        </BSFormRow>
+        <BSFormRow>
+            <BSFormGroup Class="col-md-6">
+                <BSLabel For="sections">Разделы</BSLabel>
+                <RadzenDropDown
+                    class="form-control"
+                    AllowClear="true"
+                    Name="SectionIds"
+                    AllowFiltering="true"
+                    FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                    @bind-Value="_sectionIds"
+                    Change="@(args => { Post.SectionIds = args is IEnumerable<Guid> guids ? guids.ToArray() : new Guid[0]; StateHasChanged(); })"
+                    Multiple="true"
+                    Placeholder="Выберите раздел..."
+                    Data="@Sections"
+                    TextProperty="Title"
+                    ValueProperty="Id" Style="width: 100%;"/>
+                <BSFormFeedback For="@(() => Post.SectionIds)"/>
+            </BSFormGroup>
+            <BSFormGroup Class="col-md-6">
+                <BSLabel For="tags">Теги</BSLabel>
+                <RadzenDropDown
+                    AllowClear="true"
+                    Name="TagIds"
+                    AllowFiltering="true"
+                    FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                    @bind-Value="_tagIds"
+                    Change="@(args => { Post.TagIds = args is IEnumerable<Guid> guids ? guids.ToArray() : new Guid[0]; StateHasChanged(); })"
+                    Multiple="true"
+                    Placeholder="Выберите теги..."
+                    Data="@Tags"
+                    TextProperty="Title"
+                    ValueProperty="Id" class="form-control"/>
+                <BSFormFeedback For="@(() => Post.TagIds)"/>
+            </BSFormGroup>
+        </BSFormRow>
+
+        <BlocksForm Item="Post"></BlocksForm>
+        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Сохранить</button>
+    </BSForm>}
+
+@code {
+
+    [Parameter]
+    public Guid? PostId { get; set; }
+
+    private Post? Post { get; set; }
+    private IEnumerable<Section> Sections { get; set; } = new Section[0];
+    private IEnumerable<Tag> Tags { get; set; } = new Tag[0];
+    private IEnumerable<Guid> _sectionIds = new Guid[0];
+    private IEnumerable<Guid> _tagIds = new Guid[0];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        Post? post = null;
+        if (PostId != null)
+        {
+            post = await PostsRepository.GetByIdWithBlocksAsync(PostId.Value);
+        }
+        else
+        {
+            post = await PostsRepository.NewAsync();
+            post.AuthorId = CurrentUserProvider.CurrentUser!.Id;
+            var devMode = true;
+            if (devMode)
+            {
+                foreach (var descriptor in BRCEntitiesRegistrar.Instance().GetBlocks())
+                {
+                    var block = BRCEntitiesRegistrar.Instance().CreateBlock(descriptor.Key);
+                    if (block != null)
+                    {
+                        block.Position = post.Blocks.Count;
+                        post.Blocks.Add(block);
+                    }
+                }
+            }
+            else
+            {
+                post.Blocks.Add(new TextBlock());
+            }
+        }
+        if (post != null)
+        {
+            Post = post;
+            Sections = (await SectionsRepository.GetAllAsync()).items;
+            Tags = (await TagsRepository.GetAllAsync()).items;
+            _sectionIds = Post.SectionIds;
+            _tagIds = Post.TagIds;
+        }
+    }
+
+    async Task SubmitAsync(Post post)
+    {
+        var result = PostId == null ? await PostsRepository.AddWithBlocksAsync(post) : await PostsRepository.UpdateWithBlocksAsync(post);
+        if (result.IsSuccess)
+        {
+            NotificationService.Notify(NotificationSeverity.Success, "Сохранено");
+            if (PostId == null)
+            {
+                NavigationManager.NavigateTo($"/Posts/{result.Entity.Id}");
+            }
+        }
+        else
+        {
+            NotificationService.Notify(NotificationSeverity.Error, result.ErrorsString);
+        }
+        StateHasChanged();
+    }
+
+    void Cancel()
+    {
+    //
+    }
+
+}

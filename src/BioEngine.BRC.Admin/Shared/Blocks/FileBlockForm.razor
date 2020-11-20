@@ -1,0 +1,38 @@
+﻿@using Sitko.Core.Storage
+@using System.IO
+@using BioEngine.BRC.Admin.Extensions
+@using BioEngine.BRC.Core
+@using BioEngine.BRC.Core.Entities.Blocks
+@inject IStorage<BRCStorageConfig> Storage
+@inject DialogService DialogService
+
+@if (Block.Data.File == null)
+{
+    <BSButton OnClick="@ShowStorageDialogAsync">Выбрать файл</BSButton>
+}
+else
+{
+    <div class="row" style="margin-bottom: 0">
+        <div class="col-10"><a href="@Storage.PublicUri(Block.Data.File)" target="_blank">@Block.Data.File.Name</a> (@Block.Data.File.HumanSize)</div>
+        <div class="col-2" style="text-align: right">
+            <BSButton OnClick="@(() => Block.Data.File = null)"><i class="fas fa-trash"></i> Удалить</BSButton>
+        </div>
+    </div>
+        
+}
+<ValidationMessage For="@(() => Block.Data.File)"></ValidationMessage>
+
+@code
+{
+    [Parameter]
+    public FileBlock Block { get; set; }
+
+    public async Task ShowStorageDialogAsync()
+    {
+        var items = await DialogService.SelectStorageItemsAsync();
+        if (items.Length > 0)
+        {
+            Block.Data.File = items.First();
+        }
+    }
+}

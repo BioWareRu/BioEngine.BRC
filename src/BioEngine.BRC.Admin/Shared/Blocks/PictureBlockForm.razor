@@ -1,0 +1,45 @@
+﻿@using Sitko.Core.Storage
+@using BioEngine.BRC.Core
+@using BioEngine.BRC.Admin.Extensions
+@using BioEngine.BRC.Core.Entities.Blocks
+@using InputType = BlazorStrap.InputType
+@inject IStorage<BRCStorageConfig> Storage
+@inject DialogService DialogService
+
+@if (Block.Data.Picture == null)
+{
+    <BSButton OnClick="@ShowStorageDialogAsync">Выбрать картинку</BSButton>
+}
+else
+{
+    <BSFormRow>
+        <BSFormGroup Class="col-md-10">
+            <img src="@(Storage.PublicUri(Block.Data.Picture).ToString())" alt="@Block.Data.Picture.Name" style="max-height: 200px"/>
+        </BSFormGroup>
+        <BSFormGroup Class="col-md-2">
+            <BSButton OnClick="@(() => Block.Data.Picture = null)"><i class="fas fa-trash"></i> Удалить</BSButton>
+        </BSFormGroup>
+    </BSFormRow>
+    <BSFormRow>
+        <BSFormGroup Class="col-md-12">
+            <BSLabel>Ссылка</BSLabel>
+            <BSInput InputType="InputType.Url" Id="title" @bind-Value="@Block.Data.Url" ValidateOnChange="true"/>
+            <BSFormFeedback For="@(() => Block.Data.Url)"/>
+        </BSFormGroup>
+    </BSFormRow>
+}
+
+@code
+{
+    [Parameter]
+    public PictureBlock Block { get; set; }
+
+    public async Task ShowStorageDialogAsync()
+    {
+        var items = await DialogService.SelectStorageItemsAsync();
+        if (items.Length > 0)
+        {
+            Block.Data.Picture = items.First();
+        }
+    }
+}

@@ -1,0 +1,28 @@
+@using Microsoft.AspNetCore.Http
+@model BioEngine.BRC.Web.Model.ErrorsViewModel
+@{
+    Layout = "~/Views/_Main.cshtml";
+}
+<div class="card mb-4 post">
+    <div class="card-body">
+        <h2 class="card-title">
+            Ошибка
+        </h2>
+        @switch (Model.ErrorCode)
+        {
+            case StatusCodes.Status404NotFound:
+                <p>
+                    Страница не найдена. Возможно, она была удалена, а может её и вовсе никогда не было. Попробуйте воспользоваться поиском или
+                    просто вернуться на <a href="/">главную</a>.
+                </p>
+                break;
+            default:
+                <p>Произошла ошибка. Попробуйте обновить страницу или вернуться позже.</p>
+                @if (Model.ErrorCode == StatusCodes.Status500InternalServerError)
+                 {
+                     <p>Можете сообщить этот код разработчикам: @Context.TraceIdentifier</p>
+                 }
+                break;
+        }
+    </div>
+</div>

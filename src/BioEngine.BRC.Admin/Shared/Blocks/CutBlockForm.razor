@@ -1,0 +1,13 @@
+﻿@using Sitko.Core.Storage
+@using BioEngine.BRC.Core
+@using BioEngine.BRC.Core.Entities.Blocks
+@using InputType = BlazorStrap.InputType
+
+<BSInput InputType="InputType.Text" @bind-Value="@Block.Data.ButtonText" ValidateOnChange="true"/>
+<BSFormFeedback For="@(() => Block.Data.ButtonText)"/>
+
+@code
+{
+    [Parameter]
+    public CutBlock Block { get; set; }
+}

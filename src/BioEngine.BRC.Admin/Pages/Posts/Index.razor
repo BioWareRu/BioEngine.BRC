@@ -1,0 +1,92 @@
+﻿@page "/Posts/Index"
+@using BioEngine.BRC.Posts.Repository
+@using BioEngine.BRC.Posts.Entities
+@inject PostsRepository PostsRepository
+<h1 class="mt-4">Посты</h1>
+
+<RadzenGrid Count="@Count" Data="@Posts" LoadData="@LoadData" AllowSorting="true" AllowFiltering="false" AllowPaging="true" PageSize="20" TItem="Post">
+    <Columns>
+        <RadzenGridColumn TItem="Post" Property="Title" Title="Заголовк" Width="400px">
+            <Template Context="post">
+                @{
+                    var url = $"/Posts/{post.Id}";
+                }
+                <a href="@url">@post.Title</a>
+            </Template>
+        </RadzenGridColumn>
+        <RadzenGridColumn TItem="Post" Property="DateAdded" Title="Дата">
+            <Template Context="post">
+                @post.DateAdded.ToString("dd.MM.yyyy hh:mm:ss")
+            </Template>
+        </RadzenGridColumn>
+        <RadzenGridColumn TItem="Post" Property="SiteIds" Title="Сайты">
+            <Template Context="post">
+                @foreach (var site in post.Sites)
+                {
+                    <span class="badge badge-primary">@site.Title</span>
+                }
+            </Template>
+        </RadzenGridColumn>
+        <RadzenGridColumn TItem="Post" Property="SectionIds" Title="Разделы">
+            <Template Context="post">
+                @foreach (var postSection in post.Sections)
+                {
+                    <span class="badge badge-primary">@postSection.Title</span>
+                }
+            </Template>
+        </RadzenGridColumn>
+        <RadzenGridColumn TItem="Post" Property="TagsIds" Title="Теги">
+            <Template Context="post">
+                @foreach (var tag in post.Tags)
+                {
+                    <span class="badge badge-primary">@tag.Title</span>
+                }
+            </Template>
+        </RadzenGridColumn>
+        <RadzenGridColumn TItem="Post" Property="AuthorId" Title="Author">
+            <Template Context="post">
+                <a target="_blank" href="@post.Author.ProfileUrl">
+                    <img alt="@post.Author.Name" class="avatar" src="@post.Author.PhotoUrl"/> @post.Author.Name
+                </a>
+            </Template>
+        </RadzenGridColumn>
+        <RadzenGridColumn TItem="Post" Title="" Sortable="false">
+            <Template Context="post">
+                <i class="fas fa-copy" title="Сохранить как шаблон"></i>
+                <i class="fas fa-trash" title="Удалить"></i>
+            </Template>
+        </RadzenGridColumn>
+    </Columns>
+</RadzenGrid>
+
+@code{
+
+    public IEnumerable<Post> Posts;
+    public int Count;
+
+    async Task LoadData(LoadDataArgs args)
+    {
+        var orderBy = "-dateAdded";
+        if (!string.IsNullOrEmpty(args.OrderBy))
+        {
+            if (args.OrderBy.Contains("desc"))
+            {
+                orderBy = $"-{args.OrderBy.Replace(" desc", "").ToLowerInvariant()}";
+            }
+            else
+            {
+                orderBy = $"{args.OrderBy.Replace(" asc", "").ToLowerInvariant()}";
+            }
+        }
+        var results = await PostsRepository.GetAllAsync(query =>
+            query.Take(args.Top ?? 0)
+                .Skip(args.Skip ?? 10)
+                .OrderByString(orderBy)
+            );
+        Posts = results.items;
+        Count = results.itemsCount;
+
+        StateHasChanged();
+    }
+
+}

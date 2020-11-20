@@ -1,0 +1,17 @@
+@using BioEngine.BRC.Core
+@using Sitko.Core.Storage
+@model BioEngine.BRC.Core.Web.Models.BlockViewModel<BioEngine.BRC.Core.Entities.Blocks.FileBlock, BioEngine.BRC.Core.Entities.Blocks.FileBlockData>
+@inject IStorage<BRCStorageConfig> Storage
+<div class="row z-depth-1">
+    <div class="col-2">
+        <a href="@Storage.PublicUri(Model.Block.Data.File)" title="Скачать">
+            <i class="fas fa-download fa-4x"></i>
+        </a>
+    </div>
+    <div class="col-10">
+        <p>
+            @Model.Block.Data.File.FileName<br/>
+            @Model.Block.Data.File.HumanSize - @Model.ContentEntity.DateUpdated.DateTime.ToShortDateString()
+        </p>
+    </div>
+</div>

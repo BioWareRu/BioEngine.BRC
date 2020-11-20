@@ -1,0 +1,78 @@
+@using System.Globalization
+@using BioEngine.BRC.Core.Entities.Abstractions
+@using BioEngine.BRC.Core.Routing
+@using BioEngine.BRC.Site.ViewModels
+@using Microsoft.AspNetCore.Routing
+@model BioEngine.BRC.Posts.Web.PostViewModel
+@inject LinkGenerator LinkGenerator
+@{
+    var date = Model.Entity.IsPublished && Model.Entity.DatePublished != null ? Model.Entity.DatePublished.Value : Model.Entity.DateUpdated;
+    var dateString = date.DateTime.Year == DateTime.Now.Year ? date.DateTime.ToString("d MMMM") : date.DateTime.ToString("d MMMM yyyy");
+}
+<article class="card mb-4 post">
+    <section class="card-body">
+        <header>
+            <div class="author">
+                <a href="@Model.Entity.Author.ProfileUrl">
+                    <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="@Model.Entity.Author.PhotoUrl" alt="@Model.Entity.Author.Name" class="rounded-circle img-fluid lazyload"/> @Model.Entity.Author.Name</a>
+                <time datetime="@date.DateTime.ToString("s", CultureInfo.InvariantCulture)">@dateString в @date.DateTime.ToShortTimeString()</time>
+            </div>
+
+            <h2 class="card-title">
+                @{
+                    var title = Model.Entity.Title;
+                    if (!Model.Entity.IsPublished)
+                    {
+                        title += " (Неопубликовано)";
+                    }
+                }
+                @switch (Model.Mode)
+                {
+                    case ContentEntityViewMode.List:
+                        <a class="article-list__permalink" href="@LinkGenerator.GeneratePublicUrl(Model.Entity)">@title</a>
+                        break;
+                    case ContentEntityViewMode.Entity:
+                        @title
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            </h2>
+        </header>
+        <div class="sections">
+            @Html.Raw(string.Join(", ", Model.Entity.Sections.Where(s => s.SiteIds.Contains(Model.Site.Id)).Select(section => $"<a href=\"{LinkGenerator.GeneratePublicUrl(section)}\">{section.Title}</a>")))
+        </div>
+        <partial name="Blocks/Blocks" model="@Model.ContentEntityViewModel()"/>
+    </section>
+    <footer class="card-footer">
+        @if (Model.Entity.Tags.Any())
+        {
+            <div class="row tags">
+                <div class="col-12">
+                    Тэги:
+                    @* ReSharper disable once Mvc.ActionNotResolved *@
+                    @foreach (var tag in Model.Entity.Tags)
+                    {
+                        @Html.ActionLink(tag.Title, "ListByTag", "Posts", new {tagNames = tag.Title})
+                        if (tag != Model.Entity.Tags.Last())
+                        {
+                            <span>, </span>
+                        }
+                    }
+                </div>
+            </div>
+        }
+        <div class="row justify-content-between">
+            <div class="col-3">
+                @if (Model.CommentsUri != null)
+                {
+                    <a class="btn-sm btn-blue waves-effect waves-light" href="@Model.CommentsUri" title="Комментариев: @Model.CommentsCount">
+                        <i class="fas fa-comment-alt fa-fw fa-inverse"></i> @Model.CommentsCount</a>
+                }
+            </div>
+            <div class="col-5" style="text-align: right">
+                <partial name="Share" model="@(new ShareViewModel(Model.Entity.Title, LinkGenerator.GeneratePublicUrl(Model.Entity, Model.Site)))"/>
+            </div>
+        </div>
+    </footer>
+</article>

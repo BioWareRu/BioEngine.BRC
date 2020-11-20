@@ -1,0 +1,29 @@
+@using BioEngine.BRC.Core
+@using BioEngine.BRC.Core.Entities.Blocks
+@using Sitko.Core.Storage
+@model BioEngine.BRC.Ads.Web.AdViewModel
+@inject IStorage<BRCStorageConfig> Storage
+@if (Model != null)    
+{
+    <div class="card mb-4">
+        <!--Card content-->
+        <div class="card-body">
+            <h4 class="card-title">@Model.Ad.Title</h4>
+            @* ReSharper disable once Mvc.ActionNotResolved *@
+            @foreach (var block in Model.Ad.Blocks)
+            {
+                if (block is TextBlock textBlock)
+                {
+                    <p>@textBlock.Data.Text</p>
+                }
+                if (block is PictureBlock pictureBlock)
+                {
+                    <a href="@Url.Action("Redirect", "Ads", new {adId = Model.Ad.Id})" target="_blank">
+                        <img class="img-fluid" alt="@Model.Ad.Title" src="@Storage.PublicUri(pictureBlock.Data.Picture)" style="border:0;"/>
+                    </a>
+                }
+            }
+
+        </div>
+    </div>
+}

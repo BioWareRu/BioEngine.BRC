@@ -1,0 +1,51 @@
+﻿@using Sitko.Core.Storage
+@using System.IO
+@using BioEngine.BRC.Admin.Extensions
+@using BioEngine.BRC.Core
+@using BioEngine.BRC.Core.Entities.Blocks
+@using InputType = BlazorStrap.InputType
+@inject IStorage<BRCStorageConfig> Storage
+@inject DialogService DialogService
+
+<BSFormRow>
+    @foreach (var picture in Block.Data.Pictures)
+    {
+        <BSFormGroup Class="col-md-1">
+            <div style="height: 100px; display: flex">
+                <img src="@(Storage.PublicUri(picture).ToString())" alt="@picture.Name" 
+                     style="max-width: 100px;width: 100%; object-fit: contain"/><br/>
+            </div>
+
+            <a href="#" @onclick="@(() => DeleteItem(picture))" @onclick:preventDefault><i class="fas fa-trash"></i> Удалить</a>
+        </BSFormGroup>    }
+    <BSFormGroup Class="col-md-1">
+        <BSButton OnClick="@ShowStorageDialogAsync">Выбрать картинку</BSButton>
+    </BSFormGroup>
+</BSFormRow>
+
+@code
+{
+    [Parameter]
+    public GalleryBlock Block { get; set; }
+
+    public async Task ShowStorageDialogAsync()
+    {
+        var items = await DialogService.SelectStorageItemsAsync(isMultiple: true);
+        if (items.Length > 0)
+        {
+            var newList = new HashSet<StorageItem>(Block.Data.Pictures);
+            foreach (var item in items)
+            {
+                newList.Add(item);
+            }
+            Block.Data.Pictures = newList.ToArray();
+        }
+    }
+
+    public void DeleteItem(StorageItem item)
+    {
+        var newList = new HashSet<StorageItem>(Block.Data.Pictures);
+        newList.Remove(item);
+        Block.Data.Pictures = newList.ToArray();
+    }
+}

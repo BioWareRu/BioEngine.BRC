@@ -1,0 +1,15 @@
+﻿using BioEngine.BRC.Core.Entities.Abstractions;
+using FluentValidation;
+using JetBrains.Annotations;
+
+namespace BioEngine.BRC.Core.Validation
+{
+    [UsedImplicitly]
+    internal class SiteEntityValidator<T> : AbstractValidator<T> where T : ISiteEntity
+    {
+        public SiteEntityValidator()
+        {
+            RuleFor(e => e.SiteIds).NotEmpty();
+        }
+    }
+}

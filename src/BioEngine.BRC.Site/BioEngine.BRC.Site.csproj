@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BioEngine.BRC.Ads.Web\BioEngine.BRC.Ads.Web.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.Ads\BioEngine.BRC.Ads.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.Core\BioEngine.BRC.Core.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.IPB.Web\BioEngine.BRC.IPB.Web.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.Pages.Web\BioEngine.BRC.Pages.Web.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.Posts.Web\BioEngine.BRC.Posts.Web.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.Seo\BioEngine.BRC.Seo.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.Twitter\BioEngine.BRC.Twitter.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.Web\BioEngine.BRC.Web.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components" />
+  </ItemGroup>
+</Project>

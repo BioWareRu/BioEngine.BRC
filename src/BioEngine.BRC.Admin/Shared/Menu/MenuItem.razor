@@ -1,0 +1,61 @@
+@using BioEngine.BRC.Admin.Components
+@inject NavigationManager NavigationManager
+@{
+    var linkClass = "nav-link";
+}
+@if (Item.Children.Length > 0)
+{
+    var isExpanded = "true";
+    var collapseClass = "collapse";
+    if (!IsActive)
+    {
+        linkClass += " collapsed";
+        isExpanded = "false";
+    }
+    else
+    {
+        collapseClass += " show";
+    }
+    
+    <a class="@linkClass" href="#" data-toggle="collapse" data-target="#menu-@Item.Id" aria-expanded="@isExpanded" aria-controls="menu-@Item.Id">
+        <div class="sb-nav-link-icon">
+            <i class="fas fa-columns"></i>
+        </div>
+        @Item.Title
+        <div class="sb-sidenav-collapse-arrow">
+            <i class="fas fa-angle-down"></i>
+        </div>
+    </a>
+    <div class="@collapseClass" id="menu-@Item.Id" aria-labelledby="@Item.Title" data-parent="#sidenavAccordion">
+        <nav class="sb-sidenav-menu-nested nav">
+            @foreach (var child in Item.Children)
+            {
+                <MenuItem Item="child"></MenuItem>
+            }
+        </nav>
+    </div>
+}
+else
+{
+    if (IsActive)
+    {
+        linkClass += " active";
+    }
+    <a class="@linkClass" href="@Item.Link">
+        @if (!string.IsNullOrEmpty(Item.Icon))
+        {
+            <div class="sb-nav-link-icon">
+                <i class="@Item.Icon"></i>
+            </div>
+        }
+        @Item.Title
+    </a>
+}
+
+@code {
+
+    [Parameter]
+    public MenuBuilderItem Item { get; set; }
+
+    private bool IsActive => Item.IsActive(new Uri(NavigationManager.Uri).AbsolutePath);
+}

@@ -1,0 +1,41 @@
+﻿@using BioEngine.BRC.Core.Entities.Blocks
+@using InputType = BlazorStrap.InputType
+@inject IJSRuntime JsRuntime
+
+<BSFormRow>
+    <BSFormGroup Class="col-md-12">
+        <BSLabel>Ссылка</BSLabel>
+        <BSInput InputType="InputType.Url" Id="title" @bind-Value="@Block.Data.TwitchLink" OnBlur="RenderVideoAsync" ValidateOnChange="true"/>
+        <BSFormFeedback For="@(() => Block.Data.TwitchLink)"/>
+    </BSFormGroup>
+</BSFormRow>
+@if (!string.IsNullOrEmpty(Block.Data.TwitchLink))
+{
+    <div id="twitch-@Block.Id" class="twitch-video" style="text-align: center">Загрузка видео...</div>
+}
+
+@code
+{
+    [Parameter]
+    public TwitchBlock Block { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            await RenderVideoAsync();
+        }
+    }
+
+    private async Task RenderVideoAsync()
+    {
+        if (!string.IsNullOrEmpty(Block.Data.TwitchLink))
+        {
+            var arg = new {video = Block.Data.VideoId, channel = Block.Data.ChannelId, collection = Block.Data.CollectionId, id = Block.Id, instance = DotNetObjectReference.Create(this)};
+            await JsRuntime.InvokeAsync<string>(
+                "BlazorTwitch.render",
+                arg);
+        }
+    }
+}

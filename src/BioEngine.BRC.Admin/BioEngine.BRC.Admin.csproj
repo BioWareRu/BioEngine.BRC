@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>bw</UserSecretsId>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="BlazorStrap" Version="1.5.0-preview-01" />
+    <PackageReference Include="LiveSharp" Version="1.6.31" />
+    <PackageReference Include="Radzen.Blazor" Version="2.17.2" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BioEngine.BRC.Ads.Admin\BioEngine.BRC.Ads.Admin.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.Core\BioEngine.BRC.Core.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.Facebook\BioEngine.BRC.Facebook.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.IPB.Admin\BioEngine.BRC.IPB.Admin.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.Pages.Admin\BioEngine.BRC.Pages.Admin.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.Posts.Admin\BioEngine.BRC.Posts.Admin.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.Seo\BioEngine.BRC.Seo.csproj" />
+    <ProjectReference Include="..\BioEngine.BRC.Twitter\BioEngine.BRC.Twitter.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Web\coreui\src\assets\favicon\manifest.json" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\js\main.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\js\main.js.map" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\js\popovers.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\js\popovers.js.map" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\js\tooltips.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\js\tooltips.js.map" />
+  </ItemGroup>
+</Project>

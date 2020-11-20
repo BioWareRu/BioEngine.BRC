@@ -1,0 +1,15 @@
+﻿@using BioEngine.BRC.Core.Entities.Blocks
+
+<BSFormRow>
+    <BSFormGroup Class="col-md-12">
+        <CKEEditor @bind-Value="Block.Data.Text"></CKEEditor>
+        <BSFormFeedback For="@(() => Block.Data.Text)"/>
+    </BSFormGroup>
+</BSFormRow>
+
+@code {
+
+    [Parameter]
+    public TextBlock Block { get; set; }
+
+}

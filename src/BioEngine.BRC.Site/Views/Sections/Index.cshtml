@@ -1,0 +1,32 @@
+@using BioEngine.BRC.Core.Routing
+@using Microsoft.AspNetCore.Routing
+@model BioEngine.BRC.Web.Model.PageViewModel<Dictionary<char, List<BioEngine.BRC.Core.Entities.Section>>>
+@inject LinkGenerator LinkGenerator
+@{
+    Layout = "~/Views/_Main.cshtml";
+}
+
+<article class="card mb-4 post">
+    <section class="card-body">
+        <header>
+            <h1>@Model.Title</h1>
+        </header>
+
+        <div class="row">
+            @foreach (var letterList in Model.Data)
+            {
+                <div class="col-lg-4 col-md-12 mb-3">
+                    <h2>@letterList.Key</h2>
+                    <ul>
+                        @foreach (var sectionItem in letterList.Value)
+                        {
+                            <li>
+                                <a href="@LinkGenerator.GeneratePublicUrl(sectionItem)">@sectionItem.Title</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+    </section>
+</article>

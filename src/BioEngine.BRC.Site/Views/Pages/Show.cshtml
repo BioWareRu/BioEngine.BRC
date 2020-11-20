@@ -1,0 +1,40 @@
+@using BioEngine.BRC.Core.Entities.Abstractions
+@using BioEngine.BRC.Core.Routing
+@using BioEngine.BRC.Site.ViewModels
+@using Microsoft.AspNetCore.Routing
+@model BioEngine.BRC.Web.Model.EntityViewModel<BioEngine.BRC.Pages.Entities.Page>
+@inject LinkGenerator LinkGenerator
+@{
+    Layout = "~/Views/_Main.cshtml";
+}
+<article class="card mb-4 post">
+    <section class="card-body">
+        <header>
+            <h2 class="card-title">
+
+                @switch (Model.Mode)
+                {
+                    case ContentEntityViewMode.List:
+                        <a class="article-list__permalink" href="@LinkGenerator.GeneratePublicUrl(Model.Entity)">@Model.Entity.Title</a>
+                        break;
+                    case ContentEntityViewMode.Entity:
+                        @Model.Entity.Title
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            </h2>
+        </header>
+        <partial name="Blocks/Blocks" model="@Model.ContentEntityViewModel()"/>
+    </section>
+    <footer class="card-footer">
+        <div class="row justify-content-between">
+            <div class="col-3">
+
+            </div>
+            <div class="col-5" style="text-align: right">
+                <partial name="Share" model="@(new ShareViewModel(Model.Entity.Title, LinkGenerator.GeneratePublicUrl(Model.Entity, Model.Site)))"/>
+            </div>
+        </div>
+    </footer>
+</article>

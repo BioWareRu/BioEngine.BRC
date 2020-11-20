@@ -1,0 +1,25 @@
+﻿@using BioEngine.BRC.Core.Entities.Blocks
+@using InputType = BlazorStrap.InputType
+<BSFormRow>
+        <BSFormGroup Class="col-md-12">
+            <BSLabel>Ссылка</BSLabel>
+            <BSInput InputType="InputType.Url" Id="title" @bind-Value="@Block.Data.YoutubeLink" ValidateOnChange="true"/>
+            <BSFormFeedback For="@(() => Block.Data.YoutubeLink)"/>
+        </BSFormGroup>
+    </BSFormRow>
+@if (!string.IsNullOrEmpty(Block.Data.YoutubeId))
+{
+    <div style="text-align: center">
+        <iframe frameborder="0"
+                allowfullscreen=""
+                width="560" height="315"
+                src="@Block.Data.EmbedUrl">
+        </iframe>
+    </div>
+}
+
+@code
+{
+    [Parameter]
+    public YoutubeBlock Block { get; set; }
+}

@@ -1,0 +1,217 @@
+﻿@inject IApplication Application
+@using BioEngine.BRC.Ads.Web
+@using BioEngine.BRC.Seo
+@using BioEngine.BRC.Site.Patreon
+@using BioEngine.BRC.Twitter
+@using Sitko.Core.App
+@model BioEngine.BRC.Web.Model.PageViewModel
+@{
+    var meta = await Model.GetMetaAsync();
+    var twitterProperties = await Model.GetSitePropertiesAsync<TwitterSitePropertiesSet>();
+    var seoProperties = await Model.GetSitePropertiesAsync<SeoSitePropertiesSet>();
+}
+<!DOCTYPE html>
+<html>
+<head lang="ru">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+
+    <title>@meta.Title</title>
+    <meta name="description" content="@Html.Raw(meta.Description)"/>
+    <meta name="keywords" content="@Html.Raw(meta.Keywords)"/>
+
+    @* ReSharper disable Html.PathError *@
+    <!-- Favicon -->
+    @* ReSharper disable once Mvc.ActionNotResolved *@
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="@Url.Action("Index", "Rss")"/>
+    <link rel="apple-touch-icon" sizes="57x57" href="/img/apple-touch-icon-57x57.png"/>
+    <link rel="apple-touch-icon" sizes="60x60" href="/img/apple-touch-icon-60x60.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="/img/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon-76x76.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="/img/apple-touch-icon-114x114.png"/>
+    <link rel="apple-touch-icon" sizes="120x120" href="/img/apple-touch-icon-120x120.png"/>
+    <link rel="apple-touch-icon" sizes="144x144" href="/img/apple-touch-icon-144x144.png"/>
+    <link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32"/>
+    <link rel="icon" type="image/png" href="/img/favicon-96x96.png" sizes="96x96"/>
+    <link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16"/>
+    <link rel="manifest" href="/manifest.json"/>
+    <meta name="msapplication-TileColor" content="#da532c"/>
+    <meta name="msapplication-TileImage" content="/img/mstile-144x144.png"/>
+    <meta name="theme-color" content="#ffffff"/>
+    @* ReSharper restore Html.PathError *@
+    <!-- Facebook Markup -->
+    <meta property="og:title" content="@Html.Raw(meta.Title)"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:image" content="@Html.Raw(meta.ImageUrl)"/>
+    <meta property="og:url" content="@Html.Raw(meta.CurrentUrl)"/>
+    <meta property="og:description" content="@Html.Raw(meta.Description)"/>
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@Html.Raw(meta.Title)"/>
+    <meta name="twitter:description" content="@Html.Raw(meta.Description)"/>
+    <meta property="twitter:image:src" content="@Html.Raw(meta.ImageUrl)"/>
+    @if (twitterProperties != null && twitterProperties.IsEnabled && !string.IsNullOrEmpty(twitterProperties.Handle))
+    {
+        <meta name="twitter:site" content="@twitterProperties.Handle"/>
+    }
+    <!-- G+ -->
+    <meta itemprop="name" content="@Html.Raw(meta.Title)"/>
+    <meta itemprop="description" content="@Html.Raw(meta.Description)"/>
+    <meta itemprop="image" content="@Html.Raw(meta.ImageUrl)"/>
+
+    <meta name="robots" content="index, follow"/>
+    <link rel="canonical" href="@Html.Raw(meta.CurrentUrl)"/>
+    @* ReSharper disable Html.PathError *@
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <link href="/dist/styles.css?v=@Application.Version" rel="stylesheet">
+    @* ReSharper restore Html.PathError *@
+    @RenderSection("styles", required: false)
+    @if (!string.IsNullOrEmpty(seoProperties.TagManagerId))
+    {
+        <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','@seoProperties.TagManagerId');</script>
+        <!-- End Google Tag Manager -->
+    }
+</head>
+<body>
+@if (!string.IsNullOrEmpty(seoProperties.TagManagerId))
+{
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=@seoProperties.TagManagerId"
+                height="0" width="0" style="display:none;visibility:hidden">
+        </iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+}
+<!--Main Navigation-->
+<header>
+
+    <!-- Navbar -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark darken-2 scrolling-navbar">
+        <div class="container">
+
+            <!-- Brand -->
+            <partial name="_logo"/>
+
+            <!-- Collapse -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Links -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                <!-- Left -->
+                <vc:menu/>
+
+                <!-- Right -->
+                <partial name="_headerRight"/>
+            </div>
+
+        </div>
+    </nav>
+    <!-- Navbar -->
+
+</header>
+<!--Main Navigation-->
+
+<!--Main layout-->
+<main class="mt-5 pt-5">
+    <div class="container">
+
+        <!--Section: Post-->
+        <section class="mt-4">
+
+            <!--Grid row-->
+            <div class="row">
+
+                <!--Grid column-->
+                <div class="col-md-9 mb-4">
+
+                    @RenderBody()
+
+                </div>
+                <!--Grid column-->
+
+                <!--Grid column-->
+                <div class="col-md-3 mb-4">
+
+                    <partial name="UserBlock"/>
+
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            @* ReSharper disable once Mvc.ActionNotResolved *@
+                            <form method="get" action="@Url.Action("Index", "Search")" class="form-inline md-form form-sm mt-0 mb-0">
+                                <i class="fas fa-search" aria-hidden="true"></i>
+                                <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Поиск" aria-label="Поиск" name="query">
+                            </form>
+                        </div>
+                    </div>
+
+                    @await Component.InvokeAsync(typeof(AdViewComponent))
+
+                    <!--Card-->
+                    @await Component.InvokeAsync(typeof(PatreonWidgetViewComponent))
+                    <!--/.Card-->
+
+                    @await Component.InvokeAsync(typeof(AdViewComponent))
+
+                    @await Component.InvokeAsync(typeof(AdViewComponent))
+
+                </div>
+                <!--Grid column-->
+
+            </div>
+            <!--Grid row-->
+
+        </section>
+        <!--Section: Post-->
+
+    </div>
+</main>
+<!--Main layout-->
+
+<!--Footer-->
+<footer class="page-footer text-center font-small mdb-color darken-2 mt-4">
+
+    <!--Call to action-->
+    <div class="pt-4">
+        <p>При любом публичном использовании материалов сайта ссылка на <a href="@Model.Site.Url">@Model.Site.Title</a> обязательна. Полное копирование допускается не иначе как с письменного разрешения администрации.</p>
+    </div>
+    <!--/.Call to action-->
+
+    <hr class="my-4">
+
+    <!-- Social icons -->
+    <div class="pb-4">
+        <partial name="_footerSocials"/>
+    </div>
+    <!-- Social icons -->
+
+    <!-- Social icons -->
+    <div class="pb-4">
+        <a href="https://brcgames.ru/">Сеть сайтов BRCGames</a>
+    </div>
+    <!-- Social icons -->
+
+    <!--Copyright-->
+    <div class="footer-copyright py-3">
+        © 2005 &ndash; @DateTime.Now.Year <a href="@Model.Site.Url" target="_blank"> @Model.Site.Title </a>
+    </div>
+    <!--/.Copyright-->
+
+</footer>
+<!--/.Footer-->
+@* ReSharper disable Html.PathError *@
+<script src="/dist/bundle.js?v=@Application.Version"></script>
+@* ReSharper restore Html.PathError *@
+@RenderSection("scripts", required: false)
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+@using BioEngine.BRC.Admin.Components
+
+<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+    <div class="sb-sidenav-menu">
+        <div class="nav">
+            @foreach (var group in Groups)
+            {
+                <div class="sb-sidenav-menu-heading">@group.Title</div>
+                foreach (var item in group.Items)
+                {
+                    <MenuItem Item="item"></MenuItem>
+                }
+            }
+        </div>
+    </div>
+</nav>
+
+@code {
+
+    [Parameter]
+    public MenuBuilderGroup[] Groups { get; set; }
+
+}

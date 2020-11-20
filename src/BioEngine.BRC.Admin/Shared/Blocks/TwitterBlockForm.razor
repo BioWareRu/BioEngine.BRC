@@ -1,0 +1,42 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using BioEngine.BRC.Core.Entities.Blocks
+@using InputType = BlazorStrap.InputType
+@inject IJSRuntime JsRuntime
+
+<BSFormRow>
+    <BSFormGroup Class="col-md-12">
+        <BSLabel>Ссылка</BSLabel>
+        <BSInput InputType="InputType.Url" Id="title" @bind-Value="@Block.Data.TweetLink" OnBlur="RenderTweetAsync" ValidateOnChange="true"/>
+        <BSFormFeedback For="@(() => Block.Data.TweetLink)"/>
+    </BSFormGroup>
+</BSFormRow>
+@if (!string.IsNullOrEmpty(Block.Data.TweetId))
+{
+    <div id="twitter-@Block.Id" class="tweet">Загрузка твита...</div>
+}
+
+@code
+{
+    [Parameter]
+    public TwitterBlock Block { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            await RenderTweetAsync();
+        }
+    }
+    
+    private async Task RenderTweetAsync()
+    {
+        if (!string.IsNullOrEmpty(Block.Data.TweetId))
+        {
+            var arg = new {tweetId = Block.Data.TweetId, id = Block.Id, instance = DotNetObjectReference.Create(this)};
+            await JsRuntime.InvokeAsync<string>(
+                "BlazorTwttr.render",
+                arg);
+        }
+    }
+}
